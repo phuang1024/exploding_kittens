@@ -1,4 +1,6 @@
 /**
+ * Logging functions.
+ * Prints to stdout colored text.
  */
 public class Logger {
     public static final String RESET = "\033[0m";
