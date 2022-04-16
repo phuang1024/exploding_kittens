@@ -15,7 +15,12 @@ public class Main {
         HTTPRequest req = new HTTPRequest("GET", "/explode/kitten", headers,
             "hi sohan\nhi krish");
 
-        System.out.println(req);
+        try {
+            HTTPRequest req2 = new HTTPRequest(req.toString());
+            System.out.println(req);
+            System.out.println(req2);
+        } catch (HTTPParseException exc) {
+        }
     }
 
     public static void main(String[] args) {
