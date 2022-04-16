@@ -1,4 +1,5 @@
-import java.io.*;
+import java.io.Writer;
+import java.util.Map;
 
 
 /**
@@ -50,7 +51,7 @@ public class HTTPRequest {
      */
     public String toString()
     {
-        String str;
+        String str = "";
         str += method.toUpperCase() + " ";
         str += path + " ";
         str += "HTTP/1.1" + NEWLINE;
