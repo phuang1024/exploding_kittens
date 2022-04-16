@@ -47,6 +47,13 @@ public class HTTPRequest {
     }
 
     /**
+     * Parse request from raw data.
+     */
+    public HTTPRequest(String data) throws HTTPParseException
+    {
+    }
+
+    /**
      * String representation of HTTP request.
      */
     public String toString()
