@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.Socket;
 
+
 /**
  * This class handles a client server side.
  */
