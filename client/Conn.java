@@ -8,6 +8,7 @@ import java.util.*;
  */
 public class Conn {
     public static final String IP = "127.0.0.1";
+    //public static final String IP = "54.176.105.157";  // AWS
     public static final int PORT = 8016;
 
     private Socket conn;
