@@ -106,6 +106,8 @@ public class HTTPConv {
             str += key + ": " + headers.get(key);
             str += NEWLINE;
         }
+        if (!headers.containsKey("body-length"))
+            str += "Body-Length: " + body.length() + NEWLINE;
         str += NEWLINE;
 
         str += body;
