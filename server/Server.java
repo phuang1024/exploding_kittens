@@ -36,17 +36,14 @@ public class Server extends Thread {
             try {
                 conn = server.accept();
                 addr = conn.getInetAddress().toString();
-                Scanner in = new Scanner(new BufferedReader(new InputStreamReader(
-                    conn.getInputStream())));
+                Scanner in = new Scanner(conn.getInputStream());
+                Writer out = new OutputStreamWriter(conn.getOutputStream());
 
                 req = new HTTPRequest(in);
-
-                Writer out = new BufferedWriter(new OutputStreamWriter(
-                    conn.getOutputStream()));
                 client = new Client(req, out);
                 requests.add(client);
 
-                Logger.info(addr + " sent req, path=" + req.path);
+                Logger.info(addr + " sent request, path=" + req.path);
 
             } catch (IOException exc) {
                 Logger.warn(addr + " " + exc);

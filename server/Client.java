@@ -20,6 +20,7 @@ public class Client {
      */
     public void send(HTTPResponse resp) throws IOException {
         out.write(resp.toString());
+        out.write("\n");
         out.flush();
     }
 }
