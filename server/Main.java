@@ -13,8 +13,10 @@ public class Main {
 
         try {
             Server server = new Server(PORT);
-            server.start();
-            System.out.println("AOIJFASIOFJ");
+            server.start();  // Runs in a different thread.
+
+            Manager man = new Manager(server);
+            man.start();  // Blocks this thread.
         }
         catch (IOException exc) {
             Logger.error(exc.toString());

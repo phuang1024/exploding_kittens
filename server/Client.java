@@ -7,15 +7,19 @@ import java.net.Socket;
  * a response.
  */
 public class Client {
-    public HTTPRequest req;
-    public Writer out;
+    public HTTPRequest request;
+    private Writer out;
 
-    public Client(HTTPRequest req, Writer out) {
-        this.req = req;
+    public Client(HTTPRequest request, Writer out) {
+        this.request = request;
         this.out = out;
     }
 
-    public void sendResponse(HTTPResponse resp) throws IOException {
+    /**
+     * Send HTTP response to client.
+     */
+    public void send(HTTPResponse resp) throws IOException {
         out.write(resp.toString());
+        out.flush();
     }
 }
