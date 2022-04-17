@@ -35,7 +35,7 @@ public class Server {
 
             try {
                 conn = server.accept();
-                addr = client.getInetAddress().toString();
+                addr = conn.getInetAddress().toString();
                 Scanner in = new Scanner(new BufferedReader(new InputStreamReader(
                     conn.getInputStream())));
 

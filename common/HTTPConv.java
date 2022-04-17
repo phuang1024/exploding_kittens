@@ -42,6 +42,10 @@ public class HTTPConv {
         this.body = body;
     }
 
+    public void putHeader(String name, String value) {
+        headers.put(name.toLowerCase(), value);
+    }
+
     /**
      * Parse from raw data and store internally.
      * Please give data starting from the headers.
@@ -58,15 +62,13 @@ public class HTTPConv {
                 break;
             parseHeader(line);
         }
+        if (!headers.containsKey("body-length"))
+            throw new HTTPParseException("No header Body-Length.");
 
         // Parse body
-        while (true) {
-            if (!in.hasNextLine())
-                break;
-            String line = in.nextLine();
-            body += line;
-            body += NEWLINE;
-        }
+        int len = Integer.parseInt(headers.get("body-length"));
+        while (body.length() < len)
+            body += in.next();
     }
 
     /**
@@ -75,7 +77,6 @@ public class HTTPConv {
      */
     public void parseHeader(String data) throws HTTPParseException
     {
-        System.out.println(data);
         int i = 0;
         while (true) {
             if (i >= data.length())
@@ -87,7 +88,7 @@ public class HTTPConv {
 
         String name = data.substring(0, i).trim();
         String value = data.substring(i+1).trim();
-        headers.put(name, value);
+        putHeader(name, value);
     }
 
     /**

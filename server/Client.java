@@ -15,7 +15,7 @@ public class Client {
         this.out = out;
     }
 
-    public void sendResponse(HTTPResponse resp) {
+    public void sendResponse(HTTPResponse resp) throws IOException {
         out.write(resp.toString());
     }
 }
