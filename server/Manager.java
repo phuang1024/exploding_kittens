@@ -8,7 +8,7 @@ import java.util.*;
  * Responds to the requests from clients.
  */
 public class Manager {
-    Server server;
+    private Server server;
 
     /**
      * Initialize.
@@ -30,8 +30,13 @@ public class Manager {
 
             Client client = server.requests.remove();
             HTTPRequest req = client.request;
-            HTTPResponse resp = new HTTPResponse(200, "OK",
-                req.headers, req.body);
+            HTTPResponse resp =
+                new HTTPResponse(404, "Not Found", null, "");
+            String path = req.path.trim();
+
+            if (path.equals("/")) {
+                resp = new HTTPResponse(200, "OK", null, "");
+            }
 
             try {
                 client.send(resp);

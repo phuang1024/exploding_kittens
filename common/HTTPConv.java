@@ -69,7 +69,7 @@ public class HTTPConv {
         while (body.length() < len && tries < 100000) {
             tries++;
             try {
-                body += in.next();
+                body += in.next();  // TODO sometimes doesnt work
             } catch (NoSuchElementException exc) {
                 continue;
             }
@@ -102,12 +102,14 @@ public class HTTPConv {
     public String toString()
     {
         String str = "";
-        for (String key: headers.keySet()) {
-            str += key + ": " + headers.get(key);
-            str += NEWLINE;
+
+        if (headers != null) {
+            for (String key: headers.keySet())
+                str += key + ": " + headers.get(key) + NEWLINE;
         }
-        if (!headers.containsKey("body-length"))
+        if (headers == null || !headers.containsKey("body-length")) {
             str += "Body-Length: " + body.length() + NEWLINE;
+        }
         str += NEWLINE;
 
         str += body;
