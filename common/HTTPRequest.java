@@ -32,9 +32,8 @@ public class HTTPRequest extends HTTPConv {
     /**
      * Initialize from raw data.
      */
-    public HTTPRequest(String data) throws HTTPParseException
+    public HTTPRequest(Scanner in) throws HTTPParseException
     {
-        Scanner in = new Scanner(data);
         method = in.next();
         path = in.next();
         in.nextLine();  // Protocol version

@@ -75,6 +75,7 @@ public class HTTPConv {
      */
     public void parseHeader(String data) throws HTTPParseException
     {
+        System.out.println(data);
         int i = 0;
         while (true) {
             if (i >= data.length())

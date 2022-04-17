@@ -3,16 +3,19 @@ import java.net.Socket;
 
 
 /**
- * This class handles a client server side.
+ * Represents client that sent a request and is waiting for
+ * a response.
  */
 public class Client {
-    private Socket conn;
-    private Reader in;
-    private Writer out;
+    public HTTPRequest req;
+    public Writer out;
 
-    public Client(Socket conn) throws IOException {
-        this.conn = conn;
-        in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        out = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+    public Client(HTTPRequest req, Writer out) {
+        this.req = req;
+        this.out = out;
+    }
+
+    public void sendResponse(HTTPResponse resp) {
+        out.write(resp.toString());
     }
 }
