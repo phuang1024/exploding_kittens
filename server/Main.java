@@ -14,6 +14,7 @@ public class Main {
         try {
             Server server = new Server(PORT);
             server.start();
+            System.out.println("AOIJFASIOFJ");
         }
         catch (IOException exc) {
             Logger.error(exc.toString());

@@ -1,7 +1,5 @@
 import java.io.Writer;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 
 /**
@@ -67,8 +65,15 @@ public class HTTPConv {
 
         // Parse body
         int len = Integer.parseInt(headers.get("body-length"));
-        while (body.length() < len)
-            body += in.next();
+        int tries = 0;
+        while (body.length() < len && tries < 100000) {
+            tries++;
+            try {
+                body += in.next();
+            } catch (NoSuchElementException exc) {
+                continue;
+            }
+        }
     }
 
     /**

@@ -6,7 +6,7 @@ import java.util.*;
 /**
  * Handles networking and accepting clients.
  */
-public class Server {
+public class Server extends Thread {
     private ServerSocket server;
     private int port;
 
@@ -23,7 +23,7 @@ public class Server {
      * Run this in a different thread.
      * Adds request to this.requests when a client sends one.
      */
-    public void start() {
+    public void run() {
         Logger.info("Started socket on port " + server.getLocalPort()
             + ", ip " + server.getInetAddress());
 
