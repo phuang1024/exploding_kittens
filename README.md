@@ -1,6 +1,6 @@
 # Exploding Kittens
 
-APCS final project.
+APCS final project "Exploding Kittens"
 
 ## Documents
 
