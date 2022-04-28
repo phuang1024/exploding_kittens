@@ -27,4 +27,17 @@ public class Card {
     public static boolean is(int card, int types) {
         return (card & types) > 0;
     }
+
+    /**
+     * Test card.
+     */
+    public static void main(String[] args) {
+        int card = DEFUSE;
+        System.out.println("Card is DEFUSE (" + card + ")");
+
+        System.out.println("Card is ATTACK? " + is(card, ATTACK));
+        System.out.println("Card is DEFUSE? " + is(card, DEFUSE));
+        System.out.println("Card is A | D? " + is(card, ATTACK | DEFUSE));
+        System.out.println("Card is SKIP | A? " + is(card, SKIP | ATTACK));
+    }
 }
