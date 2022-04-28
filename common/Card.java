@@ -1,4 +1,10 @@
+/**
+ * This class has static attributes and methods that represent types of cards.
+ */
 public class Card {
+    /**
+     * Card IDs with only one bit set.
+     */
     public static final Integer
         EXPLODING_KITTEN = 1 << 0,
         DEFUSE = 1 << 1,
@@ -12,4 +18,13 @@ public class Card {
         HAIRY_POTATO_CAT = 1 << 9,
         RAINBOW_RALPHING_CAT = 1 << 10,
         TACOCAT = 1 << 11;
+
+    /**
+     * Check if a given card is one of the given types.
+     * Use bitwise or to use multiple types.
+     * e.g. Card.is(myCard, Card.DEFUSE | Card.ATTACK);
+     */
+    public static boolean is(int card, int types) {
+        return (card & types) > 0;
+    }
 }

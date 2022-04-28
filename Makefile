@@ -1,4 +1,4 @@
-CLASSPATH = ../common:.
+CLASSPATH = ../common:../network:.
 
 .PHONY: help common server client clean
 
