@@ -8,8 +8,7 @@ public class Deck {
      */
     public Deck()
     {
-        pile = new LinkedList<Integer>();
-        addCards(3, 
+        this(3, 
             6, 
             4, 
             4, 
@@ -58,9 +57,23 @@ public class Deck {
 
     public void shuffle()
     {
-        LinkedList<Integer> copy = pile;
+        LinkedList<Integer> copy = new LinkedList<Integer>(pile);
         pile.clear();
-        
+
+        while (copy.size() > 0)
+        {
+            int index = (int)(Math.random()*copy.size());
+            pile.add(copy.get(index));
+            copy.remove(index);
+        }
+    }
+
+    /**
+     * returns a visual string representation of deck
+     */
+    public String toString()
+    {
+        return pile.toString();
     }
 
     // Constructor Helper Methods
@@ -97,6 +110,7 @@ public class Deck {
         int numFavor, 
         int numCat)
     {
+        System.out.println("addCards : " + numExplodingKitten);
         addCards(Card.EXPLODING_KITTEN, numExplodingKitten);
         addCards(Card.DEFUSE, numDefuse);
         addCards(Card.ATTACK, numAttack);
@@ -109,5 +123,17 @@ public class Deck {
         addCards(Card.HAIRY_POTATO_CAT, numCat);
         addCards(Card.RAINBOW_RALPHING_CAT, numCat);
         addCards(Card.TACOCAT, numCat);
+    }
+    
+    // for testing
+
+    public static void main(String[] args)
+    {
+        Deck deck = new Deck();
+        System.out.println(deck.toString());
+
+        deck.shuffle();
+        System.out.println("\n" + "shuffled:" + deck.toString());
+        
     }
 }
