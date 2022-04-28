@@ -1,60 +1,15 @@
 public class Card {
-
-    private static Integer ID;
-
-    public Card (Integer ID)
-    {
-        this.ID = ID;
-    }
-    public Card(String cardName)
-    {
-        switch (cardName)
-        {
-            case "ExplodingKitten" : ID = 1;
-                break;
-            case "EK" : ID = 1;
-                break;
-            case "Defuse" : ID = 2;
-                break;
-            case "Attack" : ID = 3;
-                break;
-            case "Skip" : ID = 4;
-                break;
-            case "Draw From the Bottom" : ID = 5;
-                break;
-            case "DFtB" : ID = 5;
-                break;
-            case "Nope" : ID = 6;
-                break;
-            case "See the Future" : ID = 7;
-                break;
-            case "StF" : ID = 7;
-                break;
-            case "Alter the Future" : ID = 8;
-                break;
-            case "AtF" : ID = 8;
-                break;
-            case "Favor" : ID = 9;
-                break;
-            case "Shuffle" : ID = 10;
-                break;
-            case "Bearded" : ID = 11;
-                break;
-            case "Catermelon" : ID = 12;
-                break;
-            case "Feral" : ID = 13;
-                break;
-            case "Hairy Potato" : ID = 14;
-                break;
-            case "Rainbow-Ralphing" : ID = 15;
-                break;
-            case "Tacocat" : ID = 16;
-                break;
-
-        }
-    }
-    public Integer getID()
-    {
-        return ID;
-    }
+    public static final Integer
+        EXPLODING_KITTEN = 1 << 0,
+        DEFUSE = 1 << 1,
+        ATTACK = 1 << 2,
+        SKIP = 1 << 3,
+        SEE_THE_FUTURE = 1 << 4,
+        SHUFFLE = 1 << 5,
+        FAVOR = 1 << 6,
+        BEARD_CAT = 1 << 7,
+        CATTERMELON = 1 << 8,
+        HAIRY_POTATO_CAT = 1 << 9,
+        RAINBOW_RALPHING_CAT = 1 << 10,
+        TACOCAT = 1 << 11;
 }
