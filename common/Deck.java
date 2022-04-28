@@ -50,9 +50,20 @@ public class Deck {
             numCat);
     }
 
-    public Integer getTopCard()
+    
+    public Integer drawCard()
     {
-        return pile.peekFirst();
+        return pile.removeFirst();
+    }
+
+    public void insertBombAt(int index)
+    {
+        pile.add(index, Card.EXPLODING_KITTEN);
+    }
+
+    public Integer viewCard(int index)
+    {
+        return pile.get(index);
     }
 
     public void shuffle()
@@ -68,6 +79,11 @@ public class Deck {
         }
     }
 
+    public Integer[] getTop3()
+    {
+        //TODO: finish
+    }
+
     /**
      * returns a visual string representation of deck
      */
@@ -75,8 +91,10 @@ public class Deck {
     {
         return pile.toString();
     }
-
+    
+    //
     // Constructor Helper Methods
+    //
 
     /**
      * 
@@ -125,8 +143,9 @@ public class Deck {
         addCards(Card.TACOCAT, numCat);
     }
     
+    //
     // for testing
-
+    //
     public static void main(String[] args)
     {
         Deck deck = new Deck();
