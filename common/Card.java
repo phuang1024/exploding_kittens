@@ -1,4 +1,10 @@
+/**
+ * This class has static attributes and methods that represent types of cards.
+ */
 public class Card {
+    /**
+     * Card IDs with only one bit set.
+     */
     public static final Integer
         EXPLODING_KITTEN = 1 << 0,
         DEFUSE = 1 << 1,
