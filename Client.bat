@@ -1,3 +1,3 @@
 cd client
-javac -cp ../common;. *.java
-java -cp ../common;. Main
+javac -cp ../common;../network;. *.java
+java -cp ../common;../network;. Main
