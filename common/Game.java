@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+import java.util.*;
+
 
 /**
  * Processes game logic
@@ -30,7 +31,7 @@ public class Game {
      * @return the last card played
      */
     public int lastPlayed() {
-        return discardPile.peek();
+        return (int)discardPile.peek();
     }
 
     /**
