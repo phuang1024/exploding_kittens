@@ -81,7 +81,7 @@ public class Game {
 
     //Game Logic methods
 
-    private playCard(int cardId)
+    private void playCard(int cardId)
     {
         discardPile.push(cardId);
         //TODO: finish method
