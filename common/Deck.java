@@ -51,23 +51,19 @@ public class Deck {
     }
 
     
-    public Integer drawCard()
-    {
+    public Integer drawCard() {
         return pile.removeFirst();
     }
 
-    public void insertBombAt(int index)
-    {
+    public void insertBombAt(int index) {
         pile.add(index, Card.EXPLODING_KITTEN);
     }
 
-    public Integer viewCard(int index)
-    {
+    public Integer viewCard(int index) {
         return pile.get(index);
     }
 
-    public void shuffle()
-    {
+    public void shuffle() {
         LinkedList<Integer> copy = new LinkedList<Integer>(pile);
         pile.clear();
 
