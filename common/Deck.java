@@ -145,5 +145,10 @@ public class Deck {
         deck.shuffle();
         System.out.println("\n" + "shuffled:" + deck.toString());
         
+        deck.insertBombAt(3);
+        System.out.println("\n" + deck.toString());
+
+        System.out.println("Card at index 3: " + deck.viewCard(3));
+        System.out.println("Card at index 4: " + deck.viewCard(4));
     }
 }

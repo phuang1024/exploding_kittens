@@ -12,8 +12,6 @@ public class Player {
         hand = new ArrayList<Integer>();
     }
 
-
-
     public String getID()
     {
         return ID;
