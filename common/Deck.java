@@ -79,11 +79,6 @@ public class Deck {
         }
     }
 
-    public Integer[] getTop3()
-    {
-        //TODO: finish
-    }
-
     /**
      * returns a visual string representation of deck
      */
