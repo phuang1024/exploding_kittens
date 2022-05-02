@@ -25,28 +25,66 @@ public class Game {
         discardPile = new Stack();
         this.id = id;
     }
-    public Integer lastPlayed() {
+
+    /**
+     * @return the last card played
+     */
+    public int lastPlayed() {
         return discardPile.peek();
     }
 
+    /**
+     * 
+     * @param playerId of player to be returned
+     * @return player with given id
+     */
     public Player getPlayer(int playerId)
     {
         return pList.get(playerId);
     }
+
+    /**
+     * 
+     * @return an arraylist of players in the game
+     */
     public ArrayList<Player> getPlayers()
     {
         return pList;
     }
+
+    /**
+     * 
+     * @return the deck
+     */
     public Deck getDeck()
     {
         return deck;
     }
+
+    /**
+     * 
+     * @return the discard pile
+     */
     public Stack getDiscardPile()
     {
         return discardPile;
     }
+
+    /**
+     * 
+     * @return game id
+     */
     public String getId()
     {
         return id;
+    }
+
+    //Game Logic methods
+
+    private playCard(int cardId)
+    {
+        discardPile.push(cardId);
+
+        switch cardId
     }
 }
