@@ -50,19 +50,34 @@ public class Deck {
             numCat);
     }
 
-    
+    /**
+     * 
+     * @return returns the top card of the deck and removes it
+     */
     public Integer drawCard() {
         return pile.removeFirst();
     }
 
+    /**
+     * inserts an exploding kitten into the deck
+     * @param index at which bomb is added
+     */
     public void insertBombAt(int index) {
         pile.add(index, Card.EXPLODING_KITTEN);
     }
 
+    /**
+     * 
+     * @param index of the card to be returned
+     * @return card of given index
+     */
     public Integer viewCard(int index) {
         return pile.get(index);
     }
 
+    /**
+     * shuffles the deck
+     */
     public void shuffle() {
         LinkedList<Integer> copy = new LinkedList<Integer>(pile);
         pile.clear();
@@ -145,5 +160,10 @@ public class Deck {
         deck.shuffle();
         System.out.println("\n" + "shuffled:" + deck.toString());
         
+        deck.insertBombAt(3);
+        System.out.println("\n" + deck.toString());
+
+        System.out.println("Card at index 3: " + deck.viewCard(3));
+        System.out.println("Card at index 4: " + deck.viewCard(4));
     }
 }

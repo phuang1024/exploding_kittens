@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Server
+        run: |
+          cd common
+          javac *.java
+
+      - name: Network
+        run: |
+          cd network
+          javac *.java
+
+      - name: Server
+        run: |
+          cd server
+          javac -cp ../common:../network:. *.java
+
+      - name: Client
+        run: |
+          cd client
+          javac -cp ../common:../network:. *.java
