@@ -4,7 +4,7 @@ import java.util.ArrayList;
  * stores information for a player within the game
  */
 public class Player {
-    private String ID;
+    private String id;
     private String playerName;
     private ArrayList<Integer> hand;
 
@@ -13,9 +13,9 @@ public class Player {
      * @param ID of player
      * @param name of player
      */
-    public Player(String ID, String name)
+    public Player(String id, String name)
     {
-        this.ID = ID;
+        this.id = id;
         playerName = name;
         hand = new ArrayList<Integer>();
     }
@@ -26,7 +26,7 @@ public class Player {
      */
     public String getID()
     {
-        return ID;
+        return id;
     }
 
     /**
@@ -44,7 +44,7 @@ public class Player {
      */
     public void setID(String id)
     {
-        ID = id;
+        this.id = id;
     }
 
     /**
