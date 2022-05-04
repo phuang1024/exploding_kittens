@@ -30,18 +30,12 @@ public class Main {
             Logger.info("Server IP=" + Conn.IP + ", port=" + Conn.PORT);
             Logger.info("Lag: " + testLag() + "ms");
 
-            Scanner in = new Scanner(System.in);
-            while (true) {
-                System.out.print("Enter message: ");
-                String line = in.nextLine();
+            HTTPRequest req = new HTTPRequest("GET", "/new-id", null, "");
+            Conn conn = new Conn(req);
+            conn.send();
+            HTTPResponse resp = conn.recv();
 
-                HTTPRequest req = new HTTPRequest("GET", "/test",
-                    new HashMap<String, String>(), line);
-                Conn conn = new Conn(req);
-                conn.send();
-                HTTPResponse resp = conn.recv();
-                System.out.println("Server responded (" + resp.status + "): " + resp.body.trim());
-            }
+            Logger.info("Your ID: " + resp.headers.get("id"));
         }
         catch (IOException exc) {
             Logger.error(exc.toString());
