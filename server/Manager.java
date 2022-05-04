@@ -31,11 +31,9 @@ public class Manager {
             } catch (InterruptedException exc) {
             }
 
-            long time = System.currentTimeMillis();
-
             // Cleanup of stuff
             for (String key: toJoin.keySet()) {
-                long diff = time - toJoin.get(key);
+                long diff = System.currentTimeMillis() - toJoin.get(key);
                 if (diff > ID_TIME) {
                     toJoin.remove(key);
                     Logger.warn("Removed stale ID " + key);
@@ -62,7 +60,14 @@ public class Manager {
                 String id = Random.randstr(ID_LEN);
                 headers.put("id", id);
 
-                toJoin.put(id, time);
+                toJoin.put(id, System.currentTimeMillis());
+            }
+            else if (path.equals("/join-game")) {
+                if (joinGame(req)) {
+                    // TODO send some response
+                } else {
+                    status = 400;
+                }
             }
             else {
                 status = 404;
@@ -75,5 +80,24 @@ public class Manager {
                 Logger.warn(exc.toString());
             }
         }
+    }
+
+    /**
+     * Handler for /join-game.
+     * Returns true if the client's request is valid.
+     * Whether the client joins a game does not affect the return value.
+     */
+    private boolean joinGame(HTTPRequest req) {
+        if (!req.headers.containsKey("id"))
+            return false;
+
+        String id = req.headers.get("id");
+        if (!toJoin.containsKey(id))
+            return false;
+
+        // TODO join stuff
+        toJoin.put(id, System.currentTimeMillis());
+
+        return true;
     }
 }
