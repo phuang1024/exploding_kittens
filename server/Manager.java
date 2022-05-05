@@ -61,16 +61,13 @@ public class Manager {
             }
             else if (path.equals("/join-game")) {
                 String id = req.headers.get("id");
-
-                if (joinGame(req)) {
-                    if (joined.containsKey(id)) {
-                        headers.put("join-success", "yes");
-                        joined.remove(id);
-                    } else {
-                        headers.put("join-success", "no");
-                    }
+                if (joined.containsKey(id)) {
+                    headers.put("join-success", "yes");
+                    headers.put("game-id", joined.get(id));
+                    joined.remove(id);
                 } else {
-                    status = 400;
+                    headers.put("join-success", "no");
+                    toJoin.put(id, System.currentTimeMillis());
                 }
             }
             else {

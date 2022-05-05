@@ -13,8 +13,10 @@ public class Main {
             Logger.info("Lag: " + testLag() + "ms");
 
             String id = getId();
+            String gameId;
             Logger.info("Your ID: " + id);
 
+            Logger.info("Waiting to join game.");
             while (true) {
                 try {
                     Thread.sleep(2000);
@@ -26,10 +28,17 @@ public class Main {
                 HTTPRequest req = new HTTPRequest("GET", "/join-game", headers, "");
                 Conn conn = new Conn(req);
                 conn.send();
-                HTTPResponse resp = conn.recv();
 
-                Logger.info("" + resp.status);
+                HTTPResponse resp = conn.recv();
+                System.out.println(resp.status + resp.headers.get("join-success"));
+                if (resp.status == 200 && 
+                    resp.headers.get("join-success").equals("yes"))
+                {
+                    gameId = resp.headers.get("game-id");
+                    break;
+                }
             }
+            Logger.info("Joined game " + gameId);
         }
         catch (IOException exc) {
             Logger.error(exc.toString());
