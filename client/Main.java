@@ -30,7 +30,6 @@ public class Main {
                 conn.send();
 
                 HTTPResponse resp = conn.recv();
-                System.out.println(resp.status + resp.headers.get("join-success"));
                 if (resp.status == 200 && 
                     resp.headers.get("join-success").equals("yes"))
                 {
