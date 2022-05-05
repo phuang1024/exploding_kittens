@@ -5,7 +5,7 @@ public class Card {
     /**
      * Card IDs with only one bit set.
      */
-    public static final Integer
+    public static final int
         EXPLODING_KITTEN = 1 << 0,
         DEFUSE = 1 << 1,
         ATTACK = 1 << 2,
