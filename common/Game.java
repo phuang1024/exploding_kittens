@@ -150,14 +150,28 @@ public class Game {
         }
     }
 
-    //Private helpers
+    public void shuffleCards()
+    {
+        deck.shuffle();
+    }
+
+    public void reOrderPlayers(Player p0, Player p1, Player p2, Player p3)
+    {
+        pList.clear();
+        pList.add(p0);
+        pList.add(p1);
+        pList.add(p2);
+        pList.add(p3);
+    }
+
+    // helpers
 
     /**
      * 
      * @param playerId of player to be returned
      * @return player with given id
      */
-    private Player getPlayer(int playerId)
+    public Player getPlayer(int playerId)
     {
         return pList.get(playerId);
     }
@@ -172,6 +186,22 @@ public class Game {
         Player p3 = new Player("333", "Drew");
 
         Game g1 = new Game(p0, p1, p2, p3, "1234");
+        
+        for (Player p : g1.getPlayers())
+        {
+            p.addCard(Card.DEFUSE);
+            p.addCard(Card.BEARD_CAT);
+            p.addCard(Card.CATTERMELON);
+            p.addCard(Card.FAVOR);
+        }
+
         System.out.println(g1);
+
+        ArrayList<Player> pList = g1.getPlayers();
+        g1.reOrderPlayers(pList.get(3), pList.get(2), pList.get(1), pList.get(0));
+        System.out.println("\n" + "\n" + "\n" + "**Reversing player order " + "\n" + g1);
+
+        g1.shuffleCards();
+        System.out.println("\n" + "\n" + "\n" + "**Shuffling cards " + "\n" + g1);
     }
 }
