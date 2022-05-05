@@ -134,7 +134,6 @@ public class Deck {
         int numFavor, 
         int numCat)
     {
-        System.out.println("addCards : " + numExplodingKitten);
         addCards(Card.EXPLODING_KITTEN, numExplodingKitten);
         addCards(Card.DEFUSE, numDefuse);
         addCards(Card.ATTACK, numAttack);
