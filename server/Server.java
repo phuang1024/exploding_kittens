@@ -43,13 +43,14 @@ public class Server extends Thread {
                 client = new Client(req, out);
                 requests.add(client);
 
-                Logger.info(addr + " sent request, path=" + req.path);
-
-            } catch (IOException exc) {
+                Logger.debug(addr + " sent request, path=" + req.path);
+            }
+            catch (IOException exc) {
                 Logger.warn(addr + " " + exc);
                 continue;
 
-            } catch (HTTPParseException exc) {
+            }
+            catch (HTTPParseException exc) {
                 Logger.warn(addr + " " + exc);
                 continue;
             }

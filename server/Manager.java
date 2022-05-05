@@ -9,10 +9,12 @@ import java.util.*;
  */
 public class Manager {
     public static final int ID_LEN = 10;
-    public static final long ID_TIME = 10000;  // Max time for stale IDs
+    public static final long ID_MAX_TIME = 3000;  // Max time for stale IDs
 
     private Server server;
     private Map<String, Long> toJoin;  // IDs de clientes sin juego y tiempo de juntar
+    private Map<String, String> joined;  // Joined but they don't know yet. Map of ID to game ID.
+    private Map<String, Game> games;  // Mapping of game ID to game.
 
     /**
      * Initialize.
@@ -21,6 +23,8 @@ public class Manager {
     public Manager(Server server) {
         this.server = server;
         toJoin = new HashMap<String, Long>();
+        joined = new HashMap<String, String>();
+        games = new HashMap<String, Game>();
     }
 
     public void start() {
@@ -31,14 +35,7 @@ public class Manager {
             } catch (InterruptedException exc) {
             }
 
-            // Cleanup of stuff
-            for (String key: toJoin.keySet()) {
-                long diff = System.currentTimeMillis() - toJoin.get(key);
-                if (diff > ID_TIME) {
-                    toJoin.remove(key);
-                    Logger.warn("Removed stale ID " + key);
-                }
-            }
+            process();
 
             // ...
             if (server.requests.isEmpty())
@@ -63,10 +60,14 @@ public class Manager {
                 toJoin.put(id, System.currentTimeMillis());
             }
             else if (path.equals("/join-game")) {
-                if (joinGame(req)) {
-                    // TODO send some response
+                String id = req.headers.get("id");
+                if (joined.containsKey(id)) {
+                    headers.put("join-success", "yes");
+                    headers.put("game-id", joined.get(id));
+                    joined.remove(id);
                 } else {
-                    status = 400;
+                    headers.put("join-success", "no");
+                    toJoin.put(id, System.currentTimeMillis());
                 }
             }
             else {
@@ -83,6 +84,44 @@ public class Manager {
     }
 
     /**
+     * Handle internal stuff, e.g. four players to a game.
+     */
+    private void process() {
+        // Remove stale IDs.
+        for (String key: toJoin.keySet()) {
+            long diff = System.currentTimeMillis() - toJoin.get(key);
+            if (diff > ID_MAX_TIME) {
+                toJoin.remove(key);
+                Logger.warn("Removed stale ID " + key);
+            }
+        }
+
+        // If four players in toJoin, make new game.
+        while (toJoin.size() >= 4) {
+            String gameId = Random.randstr(ID_LEN);
+            String[] ids = new String[4];
+
+            Iterator<String> iter = toJoin.keySet().iterator();
+            for (int i = 0; i < 4; i++)
+                ids[i] = iter.next();
+            for (int i = 0; i < 4; i++)
+                toJoin.remove(ids[i]);
+
+            for (int i = 0; i < 4; i++)
+                joined.put(ids[i], gameId);
+
+            Player p1 = new Player(ids[0], "p1"),
+                   p2 = new Player(ids[1], "p2"),
+                   p3 = new Player(ids[2], "p3"),
+                   p4 = new Player(ids[3], "p4");
+            Game game = new Game(p1, p2, p3, p4, gameId);
+            games.put(gameId, game);
+
+            Logger.info("New game, id="+gameId);
+        }
+    }
+
+    /**
      * Handler for /join-game.
      * Returns true if the client's request is valid.
      * Whether the client joins a game does not affect the return value.
@@ -95,9 +134,7 @@ public class Manager {
         if (!toJoin.containsKey(id))
             return false;
 
-        // TODO join stuff
         toJoin.put(id, System.currentTimeMillis());
-
         return true;
     }
 }

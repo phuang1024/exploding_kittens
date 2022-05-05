@@ -7,6 +7,7 @@ public class Logger {
     public static final String BLUE = "\033[36m";
     public static final String YELLOW = "\033[33m";
     public static final String RED = "\033[31m";
+    public static final String GRAY = "\033[2m\033[37m";
 
     /**
      * Log message with ANSI code prefix color.
@@ -37,5 +38,12 @@ public class Logger {
      */
     public static void error(String msg) {
         log(msg, RED);
+    }
+
+    /**
+     * Log debug (gray).
+     */
+    public static void debug(String msg) {
+        log(msg, GRAY);
     }
 }
