@@ -38,63 +38,8 @@ public class Game {
         return (int)discardPile.peek();
     }
 
-    public int getPlayerNum(String Id)
-    {
-        for (int i = 0; i < pList.size(); i++)
-        {
-            if (pList.get(i).getId().equals(Id))
-            {
-                return i;
-            }
-        }
-        return -1;
-    }
 
-    public String getPlayerName(String Id)
-    {
-        return pList.get(getPlayerNum(Id)).getName();
-    }
 
-    public ArrayList<Integer> getHand( int playerId)
-    {
-        return getPlayer(playerId).getHand();
-    }
-
-    /**
-     * 
-     * @return an arraylist of players in the game
-     */
-    public ArrayList<Player> getPlayers()
-    {
-        return pList;
-    }
-
-    /**
-     * 
-     * @return the deck
-     */
-    public Deck getDeck()
-    {
-        return deck;
-    }
-
-    /**
-     * 
-     * @return the discard pile
-     */
-    public Stack<Integer> getDiscardPile()
-    {
-        return discardPile;
-    }
-
-    /**
-     * 
-     * @return game id
-     */
-    public String getId()
-    {
-        return id;
-    }
 
     public String toString()
     {
@@ -166,6 +111,10 @@ public class Game {
 
     // helpers
 
+    
+
+    //Accessors
+
     /**
      * 
      * @param playerId of player to be returned
@@ -174,6 +123,64 @@ public class Game {
     public Player getPlayer(int playerId)
     {
         return pList.get(playerId);
+    }
+
+    /**
+     * 
+     * @return game id
+     */
+    public String getId()
+    {
+        return id;
+    }
+
+    /**
+     * 
+     * @return the discard pile
+     */
+    public Stack<Integer> getDiscardPile()
+    {
+        return discardPile;
+    }
+
+    /**
+     * 
+     * @return the deck
+     */
+    public Deck getDeck()
+    {
+        return deck;
+    }
+
+    /**
+     * 
+     * @return an arraylist of players in the game
+     */
+    public ArrayList<Player> getPlayers()
+    {
+        return pList;
+    }
+
+    public int getPlayerNum(String Id)
+    {
+        for (int i = 0; i < pList.size(); i++)
+        {
+            if (pList.get(i).getId().equals(Id))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public String getPlayerName(String Id)
+    {
+        return pList.get(getPlayerNum(Id)).getName();
+    }
+
+    public ArrayList<Integer> getHand( int playerId)
+    {
+        return getPlayer(playerId).getHand();
     }
 
     //Main
