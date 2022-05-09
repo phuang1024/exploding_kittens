@@ -1,7 +1,5 @@
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.*;
 import java.io.*;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
@@ -28,7 +26,7 @@ public class GameWindow
         try 
         {
             //Gets the image
-            BufferedImage buffImg = ImageIO.read(new File("images/GameBackground-Resized.jpg"));
+            BufferedImage buffImg = ImageIO.read(new File("images/GameBackground.jpg"));
             ImageIcon backgroundImgIcon = new ImageIcon(buffImg);
             //Resizes the image
             Image image = backgroundImgIcon.getImage();
@@ -47,17 +45,20 @@ public class GameWindow
         //Creates a sample image one top
         //addImage("images/index.jpg", new Dimension(200,100), new Point(100, 200));
 
-        addImage("images/CardBack.jpg", new Dimension(100,140), new Point(140, 240)); 
-        addImage("images/CardBack.jpg", new Dimension(100,140), new Point(590, 100)); 
-        addImage("images/CardBack.jpg", new Dimension(100,140), new Point(1040, 240)); 
+        // Adds the opponents' card images to the field
+        addImage("images/CardBack.jpg", new Dimension(100,140), new Point(100, 320)); 
+        addImage("images/CardBack.jpg", new Dimension(100,140), new Point(200, 80)); 
+        addImage("images/CardBack.jpg", new Dimension(100,140), new Point(1080, 320)); 
 
-        addCardCounter(new Dimension(100,100), new Point(300, 260));
-        addCardCounter(new Dimension(100,100), new Point(750, 120));
-        addCardCounter(new Dimension(100,100), new Point(960, 260));
+        //Adds the card counters
+        addCardCounter(new Dimension(100,100), new Point(260, 340));
+        addCardCounter(new Dimension(100,100), new Point(360, 100));
+        addCardCounter(new Dimension(100,100), new Point(1000, 340));
 
-        addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(280, 280)); 
-        addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(730, 140)); 
-        addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(940, 280)); 
+        //Adds the white backgrounds to the card counters
+        addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(240, 360)); 
+        addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(340, 120)); 
+        addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(980, 360)); 
 
         playerCardCounts = new JLabel[4];
 
