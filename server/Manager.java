@@ -5,7 +5,26 @@ import java.util.*;
 /**
  * Manages everything.
  * Has a list of games in progress.
- * Responds to the requests from clients.
+ * Handles to the requests from clients (the server receives them
+ * and adds to a queue).
+ *
+ * Available paths:
+ *
+ * /
+ *   Testing path, does nothing.
+ *
+ * /new-id
+ *   Request a new client ID.
+ *   Out headers:
+ *     id: New client ID.
+ *
+ * /join-game
+ *   Request to join a game.
+ *   In headers:
+ *     id: Your client ID.
+ *   Out headers:
+ *     join-success: "yes" if successfully joined.
+ *     game-id: Your game ID if you successfully joined.
  */
 public class Manager {
     public static final int ID_LEN = 10;
