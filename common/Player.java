@@ -4,59 +4,28 @@ import java.util.ArrayList;
  * stores information for a player within the game
  */
 public class Player {
-    private String id;
-    private String playerName;
+    private String id; //for backend reference
+    private String playerName; //only for GUI
+    private int playerNum;
     private ArrayList<Integer> hand;
+    private boolean inGame;
 
+    //Constructors
     /**
      * constructs a player with attributes
      * @param ID of player
      * @param name of player
      */
-    public Player(String id, String name)
+    public Player(String id, String name, int num)
     {
         this.id = id;
         playerName = name;
+        playerNum = num;
+        inGAme = true;
         hand = new ArrayList<Integer>();
     }
-
-    /**
-     * 
-     * @return player id
-     */
-    public String getId()
-    {
-        return id;
-    }
-
-    /**
-     * 
-     * @return player name
-     */
-    public String getName()
-    {
-        return playerName;
-    }
-
-    public ArrayList<Integer> getHand()
-    {
-        return hand;
-    }
-
-    public String toString()
-    {
-        return "Name: " + playerName + "  id: " + id + "  hand: " + hand.toString();
-    }
-
-    /**
-     * 
-     * @param id being set as player's id
-     */
-    public void setID(String id)
-    {
-        this.id = id;
-    }
-
+    
+    //Setters
     /**
      * 
      * @param name being set as player name
@@ -65,7 +34,22 @@ public class Player {
     {
         playerName = name;
     }
-
+    public void setNum(int num)
+    {
+        playerNum = num;
+    }
+    public void removeFromGame()
+    {
+        inGame = false;
+    }
+    /**
+     * 
+     * @param id being set as player's id
+     */
+    public void setId(String id)
+    {
+        this.id = id;
+    }
     public void addCards(ArrayList<Integer> cardList)
     {
         for (Integer i : cardList)
@@ -73,18 +57,74 @@ public class Player {
             addCard(i);
         }
     }
-
     public void addCard(Integer i)
     {
         hand.add(i);
     }
-    
     public boolean removeCard(Integer i)
     {
         return hand.remove(i);
     }
 
+    //Getters
+    /**
+     * 
+     * @return player id
+     */
+    public String getId()
+    {
+        return id;
+    }
+    public boolean inGame()
+    {
+        return inGame;
+    }
+    /**
+     * 
+     * @return player name
+     */
+    public String getName()
+    {
+        return playerName;
+    }
+    public int getNum()
+    {
+        return playerNum;
+    }
+    public ArrayList<Integer> getHand()
+    {
+        return hand;
+    }
 
+    //Methods
+    public boolean playCard(Integer i)
+    {
+        //TODO: finish
+        return true; //TODO: fix
+    }
+    public int drawCard()
+    {
+        //TODO: Finish
+        //int card = Game.drawCard();
+        return 0; //TODO: fix
+    }
+    public boolean hasDefuse()
+    {
+        for (int i : hand)
+        {
+            if (i == Card.DEFUSE)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //Testing
+    public String toString()
+    {
+        return "Name: " + playerName + "  id: " + id + "  hand: " + hand.toString();
+    }
     public static void main(String[] args)
     {
         Player p1 = new Player("1234", "John");

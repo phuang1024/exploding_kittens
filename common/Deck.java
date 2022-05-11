@@ -3,6 +3,7 @@ import java.util.LinkedList;
 public class Deck {
     private LinkedList<Integer> pile;
 
+    //Constructors
     /**
      * constructs a standard 4 player game deck
      */
@@ -50,6 +51,7 @@ public class Deck {
             numCat);
     }
 
+    //Methods
     /**
      * 
      * @return returns the top card of the deck and removes it
@@ -98,9 +100,7 @@ public class Deck {
         return pile.toString();
     }
     
-    //
-    // Constructor Helper Methods
-    //
+    //Constructor Helpers
 
     /**
      * 
@@ -148,9 +148,7 @@ public class Deck {
         addCards(Card.TACOCAT, numCat);
     }
     
-    //
-    // for testing
-    //
+    //Testers
     public static void main(String[] args)
     {
         Deck deck = new Deck();
