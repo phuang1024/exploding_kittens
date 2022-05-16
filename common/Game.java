@@ -10,6 +10,7 @@ public class Game {
     private Deck deck;
     private Stack<Integer> discardPile;
     private String id;
+    private String whosePlaying;
 
     /**
      * constructs a Game object with the following parameters:
@@ -37,9 +38,6 @@ public class Game {
     public int lastPlayed() {
         return (int)discardPile.peek();
     }
-
-
-
 
     public String toString()
     {
@@ -100,6 +98,22 @@ public class Game {
         deck.shuffle();
     }
 
+    public int drawCard()
+    {
+        int card = deck.drawCard();
+    }
+
+    public void removePlayer(String Id)
+    {
+        pList.get(id).removeFromGame();
+        plist.set(id, null);
+    }
+
+    public String getTurnId()
+    {
+        return whosePlaying;
+    }
+
     public void reOrderPlayers(Player p0, Player p1, Player p2, Player p3)
     {
         pList.clear();
@@ -120,9 +134,16 @@ public class Game {
      * @param playerId of player to be returned
      * @return player with given id
      */
-    public Player getPlayer(int playerId)
+    public Player getPlayer(String playerId)
     {
-        return pList.get(playerId);
+        for (int i = 0; i < pList.size(); i++)
+        {
+            if (pList.get(i).getId().equals(playerId))
+            {
+                return pList.get(i);
+            }
+        }
+        return null;
     }
 
     /**

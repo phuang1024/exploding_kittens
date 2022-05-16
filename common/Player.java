@@ -21,7 +21,7 @@ public class Player {
         this.id = id;
         playerName = name;
         playerNum = num;
-        inGAme = true;
+        inGame = true;
         hand = new ArrayList<Integer>();
     }
     
@@ -102,11 +102,30 @@ public class Player {
         //TODO: finish
         return true; //TODO: fix
     }
+    /**
+     * 
+     * @return -1 if blew up
+     * @return 0 if defused exploding kitten
+     * @return card
+     */
     public int drawCard()
     {
-        //TODO: Finish
-        //int card = Game.drawCard();
-        return 0; //TODO: fix
+        int card = Game.drawCard();
+        if (card == Card.EXPLODING_KITTEN)
+        {
+            if (hand.contains(Card.DEFUSE))
+            {
+                this.playCard(Card.DEFUSE);
+                return 0;
+            }
+            else
+            {
+                Game.removeFromGame(id); 
+                return -1;   
+            }
+        }
+        hand.add(card);
+        return card;
     }
     public boolean hasDefuse()
     {
