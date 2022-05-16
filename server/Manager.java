@@ -25,6 +25,31 @@ import java.util.*;
  *   Out headers:
  *     join-success: "yes" if successfully joined.
  *     game-id: Your game ID if you successfully joined.
+ *
+ * /status
+ *   Get current game status.
+ *   In headers:
+ *     id: Your client ID.
+ *     game-id: Game ID.
+ *   Out headers:
+ *     your-turn: "yes" if your turn.
+ *
+ * /hand
+ *   Get your current hand.
+ *   In headers:
+ *     id: Your client ID.
+ *     game-id: Game ID.
+ *   Out headers:
+ *     hand: Space separated string of card int IDs.
+ *
+ * /play
+ *   Play a card.
+ *   In headers:
+ *     id: Your client ID.
+ *     game-id: Game ID.
+ *     card: String repr of card ID played.
+ *   Out headers:
+ *     success: "yes" if play successful.
  */
 public class Manager {
     public static final int ID_LEN = 10;
@@ -88,6 +113,24 @@ public class Manager {
                     headers.put("join-success", "no");
                     toJoin.put(id, System.currentTimeMillis());
                 }
+            }
+            else if (path.equals("/status")) {
+                String id = req.headers.get("id"), game_id = req.headers.get("game-id");
+                boolean turn = id.equals(games.get(game_id).getTurnId());
+                headers.put("your-turn", turn ? "yes" : "no");
+            }
+            else if (path.equals("/hand")) {
+                String id = req.headers.get("id"), game_id = req.headers.get("game-id");
+                List<Integer> hand = games.get(game_id).getHand(id);
+                String ret = "";
+                for (Integer card: hand)
+                    ret += card + " ";
+                headers.put("hand", ret.trim());
+            }
+            else if (path.equals("/play")) {
+                String id = req.headers.get("id"), game_id = req.headers.get("game-id");
+                int card = Integer.parseInt(req.headers.get("card"));
+                headers.put("success", "yes");
             }
             else {
                 status = 404;
