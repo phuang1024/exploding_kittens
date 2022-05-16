@@ -46,4 +46,23 @@ public class Conn {
         HTTPResponse resp = new HTTPResponse(in);
         return resp;
     }
+
+    public static List<Integer> getHand(String id, String game_id) {
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("id", id);
+        headers.put("game-id", game_id);
+        HTTPRequest req = new HTTPRequest("GET", "/hand", headers, "");
+        conn = new Conn(req);
+        conn.send();
+
+        HTTPResponse resp = conn.recv();
+        String hand = resp.headers.get("hand");
+        String[] parts = hand.split(" ");
+
+        List<Integer> cards = new ArrayList<Integer>();
+        for (String p: parts)
+            cards.add(Integer.parseInt(p));
+
+        return cards;
+    }
 }
