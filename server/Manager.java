@@ -172,10 +172,10 @@ public class Manager {
             for (int i = 0; i < 4; i++)
                 joined.put(ids[i], gameId);
 
-            Player p1 = new Player(ids[0], "p1"),
-                   p2 = new Player(ids[1], "p2"),
-                   p3 = new Player(ids[2], "p3"),
-                   p4 = new Player(ids[3], "p4");
+            Player p1 = new Player(ids[0]),
+                   p2 = new Player(ids[1]),
+                   p3 = new Player(ids[2]),
+                   p4 = new Player(ids[3]);
             Game game = new Game(p1, p2, p3, p4, gameId);
             games.put(gameId, game);
 
