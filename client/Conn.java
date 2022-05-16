@@ -47,12 +47,13 @@ public class Conn {
         return resp;
     }
 
-    public static List<Integer> getHand(String id, String game_id) {
+    public static List<Integer> getHand(String id, String game_id)
+            throws IOException, HTTPParseException {
         Map<String, String> headers = new HashMap<String, String>();
         headers.put("id", id);
         headers.put("game-id", game_id);
         HTTPRequest req = new HTTPRequest("GET", "/hand", headers, "");
-        conn = new Conn(req);
+        Conn conn = new Conn(req);
         conn.send();
 
         HTTPResponse resp = conn.recv();
