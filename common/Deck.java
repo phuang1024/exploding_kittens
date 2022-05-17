@@ -9,7 +9,8 @@ public class Deck {
      */
     public Deck()
     {
-        this(3, 
+        this(game,
+            3, 
             6, 
             4, 
             4, 

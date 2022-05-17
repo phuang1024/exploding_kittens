@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Player {
     private String id; //for backend reference
     private String playerName; //only for GUI
-    private int playerNum;
+    private Game Game;
     private ArrayList<Integer> hand;
     private boolean inGame;
 
@@ -16,13 +16,13 @@ public class Player {
      * @param ID of player
      * @param name of player
      */
-    public Player(String id, String name, int num)
+    public Player(String id, String name)
     {
         this.id = id;
         playerName = name;
-        playerNum = num;
         inGame = true;
         hand = new ArrayList<Integer>();
+        Game = null;
     }
     
     //Setters
@@ -34,9 +34,9 @@ public class Player {
     {
         playerName = name;
     }
-    public void setNum(int num)
+    public void setGame(Game game)
     {
-        playerNum = num;
+        Game = game;
     }
     public void removeFromGame()
     {
@@ -87,46 +87,42 @@ public class Player {
     {
         return playerName;
     }
-    public int getNum()
-    {
-        return playerNum;
-    }
     public ArrayList<Integer> getHand()
     {
         return hand;
     }
 
     //Methods
-    public boolean playCard(Integer i)
-    {
-        //TODO: finish
-        return true; //TODO: fix
-    }
-    /**
-     * 
-     * @return -1 if blew up
-     * @return 0 if defused exploding kitten
-     * @return card
-     */
-    public int drawCard()
-    {
-        int card = Game.drawCard();
-        if (card == Card.EXPLODING_KITTEN)
-        {
-            if (hand.contains(Card.DEFUSE))
-            {
-                this.playCard(Card.DEFUSE);
-                return 0;
-            }
-            else
-            {
-                Game.removeFromGame(id); 
-                return -1;   
-            }
-        }
-        hand.add(card);
-        return card;
-    }
+    // public boolean playCard(Integer i)
+    // {
+    //     //TODO: finish
+    //     return true; //TODO: fix
+    // }
+    // /**
+    //  * 
+    //  * @return -1 if blew up
+    //  * @return 0 if defused exploding kitten
+    //  * @return card
+    //  */
+    // public int drawCard()
+    // {
+    //     int card = Game.drawCard();
+    //     if (card == Card.EXPLODING_KITTEN)
+    //     {
+    //         if (hand.contains(Card.DEFUSE))
+    //         {
+    //             this.playCard(Card.DEFUSE);
+    //             return 0;
+    //         }
+    //         else
+    //         {
+    //             Game.removeFromGame(id); 
+    //             return -1;   
+    //         }
+    //     }
+    //     hand.add(card);
+    //     return card;
+    // }
     public boolean hasDefuse()
     {
         for (int i : hand)
