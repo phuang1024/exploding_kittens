@@ -5,9 +5,9 @@ import java.util.ArrayList;
  */
 public class Player {
     private String id; //for backend reference
-    private String playerName; //only for GUI
-    private Game Game;
     private ArrayList<Integer> hand;
+    private Game game;
+    private boolean inGame;
 
     //Constructors
     /**
@@ -15,27 +15,16 @@ public class Player {
      * @param ID of player
      * @param name of player
      */
-    public Player(String id, String name)
+    public Player(String id)
     {
         this.id = id;
-        playerName = name;
-        inGame = true;
         hand = new ArrayList<Integer>();
-        Game = null;
+        inGame = true;
     }
     
-    //Setters
-    /**
-     * 
-     * @param name being set as player name
-     */
-    public void setName(String name)
-    {
-        playerName = name;
-    }
     public void setGame(Game game)
     {
-        Game = game;
+        game = game;
     }
     public void removeFromGame()
     {
@@ -77,17 +66,9 @@ public class Player {
     {
         return id;
     }
-    public boolean inGame()
+    public boolean getInGame()
     {
         return inGame;
-    }
-    /**
-     * 
-     * @return player name
-     */
-    public String getName()
-    {
-        return playerName;
     }
     public ArrayList<Integer> getHand()
     {

@@ -88,7 +88,7 @@ public class Game {
 
     public String getTurnId()
     {
-        return whosePlaying;
+        return whosePlaying.getId();
     }
 
     public void reOrderPlayers(Player p0, Player p1, Player p2, Player p3)
@@ -171,18 +171,6 @@ public class Game {
             }
         }
         return -1;
-    }
-
-    public String getPlayerName(String Id)
-    {
-        try
-        {
-            return pList.get(getPlayerNum(Id)).getName();
-        }
-        catch (NullPointerException ex)
-        {
-            return null;
-        }
     }
 
     public ArrayList<Integer> getHand(String playerId)
