@@ -6,11 +6,11 @@ import java.util.*;
  */
 public class Game {
 
-    private ArrayList<Player> pList;
-    private Deck deck;
-    private Stack<Integer> discardPile;
-    private String id;
-    private String whosePlaying;
+    private ArrayList<Player> pList;    //holds references to each player in the game
+    private Deck deck;                  //deck
+    private Stack<Integer> discardPile; //Cards already played
+    private String id;                  //Game id
+    private Player whosePlaying;        //Stores id of who is playing
 
     /**
      * constructs a Game object with the following parameters:
@@ -30,29 +30,16 @@ public class Game {
         deck = new Deck();
         discardPile = new Stack<Integer>();
         this.id = id;
+        whosePlaying = p0;
     }
 
     /**
-     * @return the last card played
+     * @return the last card played222
      */
     public int lastPlayed() {
         return (int)discardPile.peek();
     }
 
-    public String toString()
-    {
-        String gameInfo = "Game ID: " + id + "\n" + "\n";
-
-        for (int i = 0; i < pList.size(); i++)
-        {
-            gameInfo += "p" + i + ": " + pList.get(i).toString() + "\n";
-        }
-
-        gameInfo += "\n" + "Deck (bottom to top): " + deck;
-        gameInfo += "\n" + "Discard Pile (bottom to top):" + discardPile;
-
-        return gameInfo;
-    }
     //Game Logic methods
 
     /**
@@ -61,7 +48,7 @@ public class Game {
      * @param playerId id of player playing card
      * @param receiverId id of card being played towards (if applicable)
      */
-    private void playCard(int cardId, int playerId, int receiverId)
+    public void playCard(int cardId, int playerId, int receiverId)
     {
         discardPile.push(cardId);
 
@@ -93,11 +80,6 @@ public class Game {
         }
     }
 
-    public void shuffleCards()
-    {
-        deck.shuffle();
-    }
-
     public int drawCard()
     {
         int card = deck.drawCard();
@@ -106,7 +88,7 @@ public class Game {
 
     public String getTurnId()
     {
-        return whosePlaying;
+        return whosePlaying.getId();
     }
 
     public void reOrderPlayers(Player p0, Player p1, Player p2, Player p3)
@@ -119,8 +101,10 @@ public class Game {
     }
 
     // helpers
-
-    
+    private void shuffleCards()
+    {
+        deck.shuffle();
+    }
 
     //Accessors
 
@@ -168,13 +152,55 @@ public class Game {
         return deck;
     }
 
-    public ArrayList<Integer> getHand( String playerId)
+    /**
+     * 
+     * @return an arraylist of players in the game
+     */
+    public ArrayList<Player> getPlayers()
     {
-        return getPlayer(playerId).getHand();
+        return pList;
     }
 
-    //Main
+    public int getPlayerNum(String Id)
+    {
+        for (int i = 0; i < pList.size(); i++)
+        {
+            if (pList.get(i).getId().equals(Id))
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
 
+    public ArrayList<Integer> getHand(String playerId)
+    {
+        try
+        {
+            return getPlayer(playerId).getHand();
+        }
+        catch (NullPointerException ex)
+        {
+            return null;
+        }
+    }
+
+    //Testing
+
+    public String toString()
+    {
+        String gameInfo = "Game ID: " + id + "\n" + "\n";
+
+        for (int i = 0; i < pList.size(); i++)
+        {
+            gameInfo += "p" + i + ": " + pList.get(i).toString() + "\n";
+        }
+
+        gameInfo += "\n" + "Deck (bottom to top): " + deck;
+        gameInfo += "\n" + "Discard Pile (bottom to top):" + discardPile;
+
+        return gameInfo;
+    }
     public static void main(String[] args)
     {
         Player p0 = new Player("000");

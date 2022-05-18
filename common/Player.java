@@ -4,8 +4,10 @@ import java.util.ArrayList;
  * stores information for a player within the game
  */
 public class Player {
-    private String id;
+    private String id; //for backend reference
     private ArrayList<Integer> hand;
+    private Game game;
+    private boolean inGame;
 
     //Constructors
     /**
@@ -17,8 +19,17 @@ public class Player {
     {
         this.id = id;
         hand = new ArrayList<Integer>();
+        inGame = true;
     }
     
+    public void setGame(Game game)
+    {
+        game = game;
+    }
+    public void removeFromGame()
+    {
+        inGame = false;
+    }
     /**
      * 
      * @param id being set as player's id
@@ -55,47 +66,46 @@ public class Player {
     {
         return id;
     }
-
+    public boolean getInGame()
+    {
+        return inGame;
+    }
     public ArrayList<Integer> getHand()
     {
         return hand;
     }
 
     //Methods
-    public boolean playCard(Integer i)
-    {
-        //TODO: finish
-        return true; //TODO: fix
-    }
-
-    /**
-     * 
-     * @return -1 if blew up
-     * @return 0 if defused exploding kitten
-     * @return card
-     */
-    /*
-    public int drawCard()
-    {
-        int card = Game.drawCard();
-        if (card == Card.EXPLODING_KITTEN)
-        {
-            if (hand.contains(Card.DEFUSE))
-            {
-                this.playCard(Card.DEFUSE);
-                return 0;
-            }
-            else
-            {
-                Game.removeFromGame(id); 
-                return -1;   
-            }
-        }
-        hand.add(card);
-        return card;
-    }
-    */
-
+    // public boolean playCard(Integer i)
+    // {
+    //     //TODO: finish
+    //     return true; //TODO: fix
+    // }
+    // /**
+    //  * 
+    //  * @return -1 if blew up
+    //  * @return 0 if defused exploding kitten
+    //  * @return card
+    //  */
+    // public int drawCard()
+    // {
+    //     int card = Game.drawCard();
+    //     if (card == Card.EXPLODING_KITTEN)
+    //     {
+    //         if (hand.contains(Card.DEFUSE))
+    //         {
+    //             this.playCard(Card.DEFUSE);
+    //             return 0;
+    //         }
+    //         else
+    //         {
+    //             Game.removeFromGame(id); 
+    //             return -1;   
+    //         }
+    //     }
+    //     hand.add(card);
+    //     return card;
+    // }
     public boolean hasDefuse()
     {
         for (int i : hand)
