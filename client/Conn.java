@@ -70,7 +70,7 @@ public class Conn {
     /**
      * Requests new id from the server.
      */
-    private static String getId() throws IOException, HTTPParseException {
+    public static String getId() throws IOException, HTTPParseException {
         HTTPRequest req = new HTTPRequest("GET", "/new-id", null, "");
         Conn conn = new Conn(req);
         conn.send();
@@ -79,7 +79,7 @@ public class Conn {
         return id;
     }
 
-    private static String joinGame(String id) throws IOException, HTTPParseException {
+    public static String joinGame(String id) throws IOException, HTTPParseException {
         String gameId;
         while (true) {
             try {

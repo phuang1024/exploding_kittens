@@ -11,6 +11,8 @@ public class Main {
         try {
             Logger.info("Server IP=" + Conn.IP + ", port=" + Conn.PORT);
             Logger.info("Lag: " + testLag() + "ms");
+
+            new QueueWindow();
         }
         catch (IOException exc) {
             Logger.error(exc.toString());
