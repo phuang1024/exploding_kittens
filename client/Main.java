@@ -11,33 +11,6 @@ public class Main {
         try {
             Logger.info("Server IP=" + Conn.IP + ", port=" + Conn.PORT);
             Logger.info("Lag: " + testLag() + "ms");
-
-            String id = getId();
-            String gameId;
-            Logger.info("Your ID: " + id);
-
-            Logger.info("Waiting to join game.");
-            while (true) {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException exc) {
-                }
-
-                Map<String, String> headers = new HashMap<String, String>();
-                headers.put("id", id);
-                HTTPRequest req = new HTTPRequest("GET", "/join-game", headers, "");
-                Conn conn = new Conn(req);
-                conn.send();
-
-                HTTPResponse resp = conn.recv();
-                if (resp.status == 200 && 
-                    resp.headers.get("join-success").equals("yes"))
-                {
-                    gameId = resp.headers.get("game-id");
-                    break;
-                }
-            }
-            Logger.info("Joined game " + gameId);
         }
         catch (IOException exc) {
             Logger.error(exc.toString());
@@ -63,17 +36,5 @@ public class Main {
         }
 
         return totalElapse / PINGS;
-    }
-
-    /**
-     * Requests new id from the server.
-     */
-    private static String getId() throws IOException, HTTPParseException {
-        HTTPRequest req = new HTTPRequest("GET", "/new-id", null, "");
-        Conn conn = new Conn(req);
-        conn.send();
-        HTTPResponse resp = conn.recv();
-        String id = resp.headers.get("id");
-        return id;
     }
 }

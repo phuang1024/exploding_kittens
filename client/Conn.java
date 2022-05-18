@@ -46,4 +46,62 @@ public class Conn {
         HTTPResponse resp = new HTTPResponse(in);
         return resp;
     }
+
+    public static List<Integer> getHand(String id, String game_id)
+            throws IOException, HTTPParseException {
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("id", id);
+        headers.put("game-id", game_id);
+        HTTPRequest req = new HTTPRequest("GET", "/hand", headers, "");
+        Conn conn = new Conn(req);
+        conn.send();
+
+        HTTPResponse resp = conn.recv();
+        String hand = resp.headers.get("hand");
+        String[] parts = hand.split(" ");
+
+        List<Integer> cards = new ArrayList<Integer>();
+        for (String p: parts)
+            cards.add(Integer.parseInt(p));
+
+        return cards;
+    }
+
+    /**
+     * Requests new id from the server.
+     */
+    private static String getId() throws IOException, HTTPParseException {
+        HTTPRequest req = new HTTPRequest("GET", "/new-id", null, "");
+        Conn conn = new Conn(req);
+        conn.send();
+        HTTPResponse resp = conn.recv();
+        String id = resp.headers.get("id");
+        return id;
+    }
+
+    private static String joinGame(String id) throws IOException, HTTPParseException {
+        String gameId;
+        while (true) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException exc) {
+            }
+
+            Map<String, String> headers = new HashMap<String, String>();
+            headers.put("id", id);
+            HTTPRequest req = new HTTPRequest("GET", "/join-game", headers, "");
+            Conn conn = new Conn(req);
+            conn.send();
+
+            HTTPResponse resp = conn.recv();
+            if (resp.status == 200 && 
+                resp.headers.get("join-success").equals("yes"))
+            {
+                gameId = resp.headers.get("game-id");
+                break;
+            }
+        }
+
+        return gameId;
+    }
 }

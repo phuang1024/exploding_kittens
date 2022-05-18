@@ -10,7 +10,7 @@ public class Game {
     private Deck deck;                  //deck
     private Stack<Integer> discardPile; //Cards already played
     private String id;                  //Game id
-    private String whosePlaying;        //Stores id of who is playing
+    private Player whosePlaying;        //Stores id of who is playing
 
     /**
      * constructs a Game object with the following parameters:
@@ -30,6 +30,7 @@ public class Game {
         deck = new Deck();
         discardPile = new Stack<Integer>();
         this.id = id;
+        whosePlaying = p0;
     }
 
     /**
@@ -83,12 +84,6 @@ public class Game {
     {
         int card = deck.drawCard();
         return card;
-    }
-
-    public void removePlayer(String Id)
-    {
-        pList.get(id).removeFromGame();
-        plist.set(id, null);
     }
 
     public String getTurnId()
@@ -220,13 +215,14 @@ public class Game {
     }
     public static void main(String[] args)
     {
-        Player p0 = new Player("000", "Andrew");
-        Player p1 = new Player("111", "Bob");
-        Player p2 = new Player("222", "Carl");
-        Player p3 = new Player("333", "Drew");
+        Player p0 = new Player("000");
+        Player p1 = new Player("111");
+        Player p2 = new Player("222");
+        Player p3 = new Player("333");
 
         Game g1 = new Game(p0, p1, p2, p3, "1234");
         
+        /*
         for (Player p : g1.getPlayers())
         {
             p.addCard(Card.DEFUSE);
@@ -243,5 +239,6 @@ public class Game {
 
         g1.shuffleCards();
         System.out.println("\n" + "\n" + "\n" + "**Shuffling cards " + "\n" + g1);
+        */
     }
 }

@@ -8,7 +8,6 @@ public class Player {
     private String playerName; //only for GUI
     private Game Game;
     private ArrayList<Integer> hand;
-    private boolean inGame;
 
     //Constructors
     /**
@@ -50,6 +49,7 @@ public class Player {
     {
         this.id = id;
     }
+
     public void addCards(ArrayList<Integer> cardList)
     {
         for (Integer i : cardList)
@@ -57,10 +57,12 @@ public class Player {
             addCard(i);
         }
     }
+
     public void addCard(Integer i)
     {
         hand.add(i);
     }
+
     public boolean removeCard(Integer i)
     {
         return hand.remove(i);
@@ -138,16 +140,16 @@ public class Player {
     //Testing
     public String toString()
     {
-        return "Name: " + playerName + "  id: " + id + "  hand: " + hand.toString();
+        return "id: " + id + "  hand: " + hand.toString();
     }
     public static void main(String[] args)
     {
-        Player p1 = new Player("1234", "John");
+        Player p1 = new Player("1234");
         p1.addCard(Card.DEFUSE);
         p1.addCard(Card.BEARD_CAT);
         p1.addCard(Card.CATTERMELON);
         p1.addCard(Card.FAVOR);
-        
+
         System.out.println(p1);
     }
 }
