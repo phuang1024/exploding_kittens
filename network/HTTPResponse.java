@@ -20,6 +20,10 @@ public class HTTPResponse extends HTTPConv {
 
     /**
      * Initialize HTTPResponse.
+     * @param status  Status code.
+     * @param String  Reason of status.
+     * @param headers  Headers.
+     * @param body  Body.
      */
     public HTTPResponse(int status, String reason, Map<String, String> headers,
             String body)
@@ -31,6 +35,7 @@ public class HTTPResponse extends HTTPConv {
 
     /**
      * Initialize from raw data.
+     * @param in  Input data.
      */
     public HTTPResponse(Scanner in) throws HTTPParseException
     {
@@ -42,6 +47,9 @@ public class HTTPResponse extends HTTPConv {
         super.parse(in);
     }
 
+    /**
+     * Response as raw HTTP data.
+     */
     public String toString() {
         String str = "HTTP/1.1 " + status + " " + reason + "\n";
         str += super.toString();

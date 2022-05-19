@@ -132,7 +132,9 @@ public class Manager {
                 List<Integer> cards = new ArrayList<Integer>();
                 for (String part: req.headers.get("cards").trim().split(" "))
                     cards.add(Integer.parseInt(part));
-                Integer[] cardArray = cards.toArray(new Integer[0]);
+                int[] cardArray = new int[cards.size()];
+                for (int i = 0; i < cards.size(); i++)
+                    cardArray[i] = cards.get(i);
 
                 Game game = games.get(game_id);
                 game.playCard(cardArray);

@@ -24,7 +24,7 @@ public class Player {
     
     public void setGame(Game game)
     {
-        game = game;
+        this.game = game;
     }
     public void removeFromGame()
     {
@@ -66,7 +66,7 @@ public class Player {
     {
         return id;
     }
-    public boolean getInGame()
+    public boolean isInGame()
     {
         return inGame;
     }
