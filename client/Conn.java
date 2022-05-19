@@ -121,4 +121,20 @@ public class Conn {
 
         return cards
     }
+
+    public static void playCards(String id, String game_id, List<Integer> cards)
+            throws IOException, HTTPParseException {
+        String cardStr = "";
+        for (Integer card: cards)
+            cardStr += card + " ";
+
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("id", id);
+        headers.put("game-id", game_id);
+        headers.put("cards", cardStr.trim());
+        HTTPRequest req = new HTTPRequest("GET", "/hand", headers, "");
+        Conn conn = new Conn(req);
+        conn.send();
+        conn.recv();
+    }
 }
