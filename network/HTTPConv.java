@@ -33,6 +33,8 @@ public class HTTPConv {
 
     /**
      * Initialize with given values.
+     * @param headers  Map of header key to value.
+     * @param body  Body data.
      */
     public HTTPConv(Map<String, String> headers, String body)
     {
@@ -40,6 +42,11 @@ public class HTTPConv {
         this.body = body;
     }
 
+    /**
+     * Add a header.
+     * @param name  Header name or key.
+     * @param value  Header value.
+     */
     public void putHeader(String name, String value) {
         headers.put(name.toLowerCase(), value);
     }
@@ -47,6 +54,7 @@ public class HTTPConv {
     /**
      * Parse from raw data and store internally.
      * Please give data starting from the headers.
+     * @param in  Input scanner.
      */
     public void parse(Scanner in) throws HTTPParseException
     {
@@ -78,7 +86,7 @@ public class HTTPConv {
 
     /**
      * Parse raw header and store internally.
-     * e.g. "Host: asdf"
+     * @param data  Raw header data. e.g. "Host: asdf"
      */
     public void parseHeader(String data) throws HTTPParseException
     {

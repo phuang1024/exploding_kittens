@@ -20,6 +20,10 @@ public class HTTPRequest extends HTTPConv {
 
     /**
      * Initialize HTTPRequest.
+     * @param method  Method e.g. GET
+     * @param path  HTTP path
+     * @param headers  Headers.
+     * @param body  Body.
      */
     public HTTPRequest(String method, String path, Map<String, String> headers,
             String body)
@@ -31,6 +35,7 @@ public class HTTPRequest extends HTTPConv {
 
     /**
      * Initialize from raw data.
+     * @param in  Input data.
      */
     public HTTPRequest(Scanner in) throws HTTPParseException
     {
@@ -41,6 +46,9 @@ public class HTTPRequest extends HTTPConv {
         super.parse(in);
     }
 
+    /**
+     * Request as raw HTTP data.
+     */
     public String toString() {
         String str = method + " " + path + " HTTP/1.1\n";
         str += super.toString();
