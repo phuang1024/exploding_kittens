@@ -108,6 +108,7 @@ public class Game {
                 return 0;
             }
         }
+        whosePlaying.addCard(card);
         return card;
     }
 
