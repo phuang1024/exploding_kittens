@@ -47,7 +47,7 @@ import java.util.*;
  *   In headers:
  *     id: Your client ID.
  *     game-id: Game ID.
- *     card: String repr of card ID played.
+ *     cards: String of card IDs, space separated.
  *   Out headers:
  *     success: "yes" if play successful.
  */
@@ -129,7 +129,14 @@ public class Manager {
             }
             else if (path.equals("/play")) {
                 String id = req.headers.get("id"), game_id = req.headers.get("game-id");
-                int card = Integer.parseInt(req.headers.get("card"));
+                List<Integer> cards = new ArrayList<Integer>();
+                for (String part: req.headers.get("cards").trim().split(" "))
+                    cards.add(Integer.parseInt(part));
+                Integer[] cardArray = cards.toArray(new Integer[0]);
+
+                Game game = games.get(game_id);
+                game.playCard(cardArray);
+
                 headers.put("success", "yes");
             }
             else {
