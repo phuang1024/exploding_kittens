@@ -42,6 +42,12 @@ public class Game {
 
     //Game Logic methods
 
+    public int playCard(int[] cards)
+    {
+        int cardId = cards[0];
+        return playCard(cardId);
+    }
+    
     /**
      * 
      * @param cardId card being played
@@ -50,9 +56,8 @@ public class Game {
      * @return 2 favor/cat card
      * @return failed to call any card
      */
-    public int playCard(int[] cards)
+    public int playCard(int cardId)
     {
-        int cardId = cards[0];
         discardPile.push(cardId);
         whosePlaying.removeCard(cardId);
 
@@ -273,6 +278,10 @@ public class Game {
             p.addCard(Card.FAVOR);
         }
 
+        System.out.println(g1);
+
+        System.out.println("************p0 playing favor");
+        g1.playCard(Card.FAVOR);
         System.out.println(g1);
 
         // ArrayList<Player> pList = g1.getPlayers();
