@@ -105,22 +105,6 @@ public class Conn {
         return gameId;
     }
 
-    public static List<Integer> getHand(String id, String game_id)
-            throws IOException, HTTPParseException {
-        Map<String, String> headers = new HashMap<String, String>();
-        headers.put("id", id);
-        headers.put("game-id", game_id);
-        HTTPRequest req = new HTTPRequest("GET", "/hand", headers, "");
-        Conn conn = new Conn(req);
-        conn.send();
-
-        HTTPResponse resp = conn.recv();
-        List<Integer> cards = new ArrayList<Integer>();
-        for (String part: req.headers.get("hand").trim().split(" "))
-            cards.add(Integer.parseInt(part));
-
-        return cards
-    }
 
     public static void playCards(String id, String game_id, List<Integer> cards)
             throws IOException, HTTPParseException {
