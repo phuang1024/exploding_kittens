@@ -66,7 +66,7 @@ public class Player {
     {
         return id;
     }
-    public boolean getInGame()
+    public boolean isInGame()
     {
         return inGame;
     }

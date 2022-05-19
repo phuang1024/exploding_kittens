@@ -45,44 +45,69 @@ public class Game {
     /**
      * 
      * @param cardId card being played
-     * @param playerId id of player playing card
-     * @param receiverId id of card being played towards (if applicable)
+     * @return 0 skipped
+     * @return 1 shuffled
+     * @return 2 favor/cat card
+     * @return failed to call any card
      */
-    public void playCard(int cardId, int playerId, int receiverId)
+    public int playCard(int[] cards)
     {
+        int cardId = cards[0];
         discardPile.push(cardId);
+        whosePlaying.removeCard(cardId);
 
         switch (cardId) {
-            case Card.EXPLODING_KITTEN:
-                break;
-            case Card.DEFUSE:
-                break;
-            case Card.ATTACK:
-                break;
+            // case Card.ATTACK:
+            //     break;
             case Card.SKIP:
-                break;
-            case Card.SEE_THE_FUTURE:
-                break;
+                whosePlaying = nextPlayer();
+                return 0;
+            // case Card.SEE_THE_FUTURE:
+            //     nextPlayer();
+            //     return 1;
             case Card.SHUFFLE:
-                break;
-            case Card.FAVOR:
-                break;
+                shuffleCards();
+                whosePlaying = nextPlayer();
+                return 1;
             case Card.BEARD_CAT:
-                break;
             case Card.CATTERMELON:
-                break;
             case Card.HAIRY_POTATO_CAT:
-                break;
             case Card.RAINBOW_RALPHING_CAT:
-                break;
             case Card.TACOCAT:
-                break;
+            case Card.FAVOR:
+                ArrayList<Integer> hand = nextPlayer().getHand();
+                int rand = (int)(hand.size()*Math.random());
+                whosePlaying.addCard(hand.get(rand));
+                nextPlayer().removeCard(hand.get(rand));
+                whosePlaying = nextPlayer();
+                return 2;
         }
+        return 3;
     }
 
+    /**
+     * 
+     * @return -1 defused ek successfully
+     * @return 0 blew up
+     * @return other = card id
+     */
     public int drawCard()
     {
         int card = deck.drawCard();
+        if (card == Card.EXPLODING_KITTEN)
+        {
+            if (whosePlaying.hasDefuse())
+            {
+                whosePlaying.removeCard(Card.DEFUSE);
+                whosePlaying = nextPlayer();
+                return -1;
+            }
+            else
+            {
+                whosePlaying.removeFromGame();
+                return 0;
+            }
+        }
         return card;
     }
 
@@ -104,6 +129,31 @@ public class Game {
     private void shuffleCards()
     {
         deck.shuffle();
+    }
+
+    private Player nextPlayer()
+    {
+        int num = getPlayerNum(whosePlaying.getId());
+        if (num == 3)
+        {
+            num = 0;
+        }
+        else
+        {
+            num++;
+        }
+        while (!pList.get(num).isInGame())
+        {
+            if (num == 3)
+            {
+                num = 0;
+            }
+            else
+            {
+                num = 0;
+            }
+        }
+        return pList.get(num);
     }
 
     //Accessors
@@ -193,6 +243,10 @@ public class Game {
 
         for (int i = 0; i < pList.size(); i++)
         {
+            if (pList.get(i).equals(whosePlaying))
+            {
+                gameInfo+= "**Current Player**";
+            }
             gameInfo += "p" + i + ": " + pList.get(i).toString() + "\n";
         }
 
@@ -210,7 +264,6 @@ public class Game {
 
         Game g1 = new Game(p0, p1, p2, p3, "1234");
         
-        /*
         for (Player p : g1.getPlayers())
         {
             p.addCard(Card.DEFUSE);
@@ -221,12 +274,11 @@ public class Game {
 
         System.out.println(g1);
 
-        ArrayList<Player> pList = g1.getPlayers();
-        g1.reOrderPlayers(pList.get(3), pList.get(2), pList.get(1), pList.get(0));
-        System.out.println("\n" + "\n" + "\n" + "**Reversing player order " + "\n" + g1);
+        // ArrayList<Player> pList = g1.getPlayers();
+        // g1.reOrderPlayers(pList.get(3), pList.get(2), pList.get(1), pList.get(0));
+        // System.out.println("\n" + "\n" + "\n" + "**Reversing player order " + "\n" + g1);
 
-        g1.shuffleCards();
-        System.out.println("\n" + "\n" + "\n" + "**Shuffling cards " + "\n" + g1);
-        */
+        // g1.shuffleCards();
+        // System.out.println("\n" + "\n" + "\n" + "**Shuffling cards " + "\n" + g1);
     }
 }
