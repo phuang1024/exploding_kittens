@@ -1,6 +1,6 @@
 CLASSPATH = ../common:../network:.
 
-.PHONY: help common server client clean
+.PHONY: help common server client clean docs
 
 help:
 	@echo "Makefile help:"
@@ -11,6 +11,8 @@ help:
 
 common:
 	cd ./common; \
+	javac *.java
+	cd ./network; \
 	javac *.java
 
 server: common
@@ -25,3 +27,7 @@ client: common
 
 clean:
 	find -name "*.class" -delete
+
+docs:
+	javadoc -d ./docs-client ./common/*.java ./network/*.java ./client/*.java
+	javadoc -d ./docs-server ./common/*.java ./network/*.java ./server/*.java
