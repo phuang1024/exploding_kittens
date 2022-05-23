@@ -33,6 +33,9 @@ import java.util.*;
  *     game-id: Game ID.
  *   Out headers:
  *     your-turn: "yes" if your turn.
+ *     card-counts: Space separated integer count of cards of each player.
+ *       Starts from you and goes clockwise.
+ *     deck-cards: Number of cards in the deck.
  *
  * /hand
  *   Get your current hand.
@@ -116,8 +119,12 @@ public class Manager {
             }
             else if (path.equals("/status")) {
                 String id = req.headers.get("id"), game_id = req.headers.get("game-id");
-                boolean turn = id.equals(games.get(game_id).getTurnId());
+                Game game = games.get(game_id);
+
+                boolean turn = id.equals(game.getTurnId());
                 headers.put("your-turn", turn ? "yes" : "no");
+
+                headers.put("deck-cards", ""+game.getDeck().cardCount());
             }
             else if (path.equals("/hand")) {
                 String id = req.headers.get("id"), game_id = req.headers.get("game-id");
