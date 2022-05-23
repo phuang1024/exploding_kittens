@@ -145,7 +145,8 @@ public class Manager {
                 int playing = game.getPlayerNum(game.getWhosePlaying().getId());
                 headers.put("active-player-number", ""+playing);
 
-                headers.put("top-card", ""+game.getDiscardPile().peek());
+                Stack pile = game.getDiscardPile();
+                headers.put("top-card", "" + (pile.empty() ? -1 : pile.peek()));
             }
             else if (path.equals("/hand")) {
                 String id = req.headers.get("id"), game_id = req.headers.get("game-id");
