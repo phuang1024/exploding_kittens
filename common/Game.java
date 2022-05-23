@@ -320,6 +320,10 @@ public class Game {
         }
     }
 
+    public Player getWhosePlaying() {
+        return whosePlaying;
+    }
+
     //Testing
 
     public String toString()

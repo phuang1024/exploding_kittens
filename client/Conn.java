@@ -7,8 +7,8 @@ import java.util.*;
  * Represents one request-response connection.
  */
 public class Conn {
-    public static final String IP = "127.0.0.1";
-    //public static final String IP = "54.176.105.157";  // AWS
+    //public static final String IP = "127.0.0.1";
+    public static final String IP = "54.176.105.157";  // AWS
     public static final int PORT = 8016;
 
     private Socket conn;
@@ -105,7 +105,6 @@ public class Conn {
         return gameId;
     }
 
-
     public static void playCards(String id, String game_id, List<Integer> cards)
             throws IOException, HTTPParseException {
         String cardStr = "";
@@ -120,5 +119,26 @@ public class Conn {
         Conn conn = new Conn(req);
         conn.send();
         conn.recv();
+    }
+
+    public static GameInfo getStatus(String id, String game_id) 
+            throws IOException, HTTPParseException {
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("id", id);
+        headers.put("game-id", game_id);
+        Conn conn = new Conn(new HTTPRequest("GET", "/status", headers, ""));
+        conn.send();
+
+        HTTPResponse resp = conn.recv();
+        GameInfo info;
+
+        info.deckCardCount = Integer.parseInt(resp.headers.get("deck-cards"));
+
+        String[] parts = resp.headers.get("card-counts").split(" ")
+        for (int i = 0; i < 4; i++)
+            info.playerCardCount[i] = parts[i];
+
+        info.activePlayerNumber = Integer.parseInt(resp.headers.get("active-player-number"));
+        info.topCard = Integer.parseInt(resp.headers.get("top-card"));
     }
 }

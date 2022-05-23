@@ -36,6 +36,8 @@ import java.util.*;
  *     card-counts: Space separated integer count of cards of each player.
  *       Starts from you and goes clockwise.
  *     deck-cards: Number of cards in the deck.
+ *     active-player-number: Number (0, 1, 2, 3) of active player.
+ *     top-card: Top card of discard pile.
  *
  * /hand
  *   Get your current hand.
@@ -124,7 +126,26 @@ public class Manager {
                 boolean turn = id.equals(game.getTurnId());
                 headers.put("your-turn", turn ? "yes" : "no");
 
+                List<Player> players = game.getPlayers();
+                int i = 0;
+                for (; i < 4; i++) {
+                    if (players.get(i).getId().equals(id))
+                        break;
+                }
+                String card_counts = "";
+                for (int fuck = 0; fuck < 4; fuck++) {
+                    int count = players.get(i).getHand().size();
+                    card_counts += count + " ";
+                    i = (i+1) % 4;
+                }
+                headers.put("card-counts", card_counts.trim());
+
                 headers.put("deck-cards", ""+game.getDeck().cardCount());
+
+                int playing = game.getPlayerNum(game.getWhosePlaying().getId());
+                headers.put("active-player-number", ""+playing);
+
+                headers.put("top-card", ""+game.getDiscardPile().peek());
             }
             else if (path.equals("/hand")) {
                 String id = req.headers.get("id"), game_id = req.headers.get("game-id");

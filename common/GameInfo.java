@@ -4,14 +4,10 @@ public class GameInfo
 {
     int deckCardCount;
     int[] playerCardCount;
-    ArrayList<Integer>[] playerHands;
     int activePlayerNumber;
-    String activePlayerId;
-    int topCardOfDeck;
+    int topCard;
 
-    public GameInfo(Game game)
-    {
-        
+    public GameInfo() {
+       playerCardCount = new int[4];
     }
-
 }
