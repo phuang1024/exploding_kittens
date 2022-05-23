@@ -21,7 +21,7 @@ public class GameWindow
     private JFrame frame;
 
     //The componenets of the frame
-    private MyJPanel opponenets;
+    private MyJPanel components;
     private MyJPanel playerCards;
 
     private ArrayList<CardButton> hand = new ArrayList<CardButton>();
@@ -47,7 +47,7 @@ public class GameWindow
         frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         frame.setResizable(false);
 
-        addOpponentInfo();
+        addComponents();
         addBackground();
 
         
@@ -82,7 +82,7 @@ public class GameWindow
         btn.setSize(150, 30);
         btn.setLocation(660, 480);
         btn.setVisible(true);
-        opponenets.add(btn);
+        components.add(btn);
     }
 
     private void addEndTurnButton()
@@ -92,7 +92,7 @@ public class GameWindow
         btn.setSize(150, 30);
         btn.setLocation(455, 480);
         btn.setVisible(true);
-        opponenets.add(btn);
+        components.add(btn);
     }
 
     public void updateScreen() //TODO
@@ -100,12 +100,19 @@ public class GameWindow
         
     }
 
-    private void createActivePlayerTracker()
+    private void createActivePlayerTracker() //TODO
     {
-
+        JLabel count = new JLabel("0");
+        count.setSize(160,50);
+        //count.setLocation(location);
+        count.setForeground(Color.BLACK);
+        count.setFont(new Font("Dialog", Font.PLAIN, 30));
+        count.setVisible(true);
+        components.add(count);
+        return;
     }
 
-    private void updateScreen(int [] playerCardCounts, int centerCard, int [] playerHand)
+    private void updateScreen(int [] playerCardCounts, int centerCard, int [] playerHand, int currentPlayer)
     {
         //Updates the opponenets' card counts
         for (int i = 0; i < 4; i++)
@@ -175,13 +182,13 @@ public class GameWindow
         }
     }
 
-    private void addOpponentInfo()
+    private void addComponents()
     {
-        if (opponenets == null)
+        if (components == null)
         {
-            opponenets = new MyJPanel();
-            opponenets.setLayout(null);
-            frame.add(opponenets);
+            components = new MyJPanel();
+            components.setLayout(null);
+            frame.add(components);
         }
         // Adds the opponents' card images to the field
         addImage("images/test.png", new Dimension(100,140), new Point(100, 320)); 
@@ -201,10 +208,14 @@ public class GameWindow
         addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(340, 120)); 
         addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(980, 360));
 
+        //Adds the white box of the active player tracker
+        createActivePlayerTracker(); 
+        addImage("images/WhiteSquare.png", new Dimension(160,60), new Point(1120, 0));
+
         addPlayCardButton();
         addEndTurnButton();
 
-        opponenets.setVisible(true);
+        components.setVisible(true);
     }
 
     private JLabel addCardCounter(Dimension size, Point location)
@@ -215,7 +226,7 @@ public class GameWindow
         count.setForeground(Color.BLACK);
         count.setFont(new Font("Dialog", Font.PLAIN, 30));
         count.setVisible(true);
-        opponenets.add(count);
+        components.add(count);
         return count;
     }
 
@@ -235,7 +246,7 @@ public class GameWindow
             labelImg.setSize(size);
             labelImg.setLocation(location);
             labelImg.setVisible(true);
-            opponenets.add(labelImg);
+            components.add(labelImg);
         }
         catch (IOException e)
         {
@@ -254,7 +265,7 @@ public class GameWindow
             Image image = backgroundImgIcon.getImage();
             Image newimg = image.getScaledInstance(WINDOW_WIDTH, WINDOW_HEIGHT,
                     java.awt.Image.SCALE_SMOOTH);
-            opponenets.setBackgroundImg(newimg);
+            components.setBackgroundImg(newimg);
         }
         catch (IOException e)
         {
@@ -343,7 +354,13 @@ public class GameWindow
                 playerCards.remove(c);
                 played.add(c.getCardNum());
             }
-            Conn.playCards(playerID, gameID, played);
+            try{
+                Conn.playCards(playerID, gameID, played);
+            }
+            catch(Exception ex)
+            {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -351,7 +368,14 @@ public class GameWindow
     {
         public void actionPerformed(ActionEvent e)
         {
-            Conn.playCards(playerID, gameID, new ArrayList<Integer>());
+            try
+            {
+                Conn.playCards(playerID, gameID, new ArrayList<Integer>());
+            }
+            catch (Exception f)
+            {
+                f.printStackTrace();
+            }
         }
     }
 
