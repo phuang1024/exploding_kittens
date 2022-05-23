@@ -11,6 +11,9 @@ public class Game {
     private Stack<Integer> discardPile; //Cards already played
     private String id;                  //Game id
     private Player whosePlaying;        //Stores id of who is playing
+    private int attackCounter;          //current attackCounter;
+    private boolean attackPlayed;       //if current player is the one who played the last attack card
+
 
     /**
      * constructs a Game object with the following parameters:
@@ -31,10 +34,12 @@ public class Game {
         discardPile = new Stack<Integer>();
         this.id = id;
         whosePlaying = p0;
+        attackCounter = 0;
+        attackPlayed = false;
     }
 
     /**
-     * @return the last card played222
+     * @return the last card played
      */
     public int lastPlayed() {
         return (int)discardPile.peek();
@@ -42,18 +47,27 @@ public class Game {
 
     //Game Logic methods
 
+    /**
+     * 
+     * @param cards being played
+     * @return 0 skip card was executed
+     * @return 1 deck was shuffled
+     * @return 2 favor/cat card was played
+     * @return failed to call any card
+     */
     public int playCard(int[] cards)
     {
         int cardId = cards[0];
         return playCard(cardId);
     }
-    
+
     /**
      * 
      * @param cardId card being played
      * @return 0 skipped
      * @return 1 shuffled
      * @return 2 favor/cat card
+     * @return 3 attack card played
      * @return failed to call any card
      */
     public int playCard(int cardId)
@@ -62,17 +76,19 @@ public class Game {
         whosePlaying.removeCard(cardId);
 
         switch (cardId) {
-            // case Card.ATTACK:
-            //     break;
+            case Card.ATTACK:
+                attackCounter++;
+                attackPlayed = true;
+                endTurn();
+                return 3;
             case Card.SKIP:
-                whosePlaying = nextPlayer();
+                endTurn();
                 return 0;
             // case Card.SEE_THE_FUTURE:
             //     nextPlayer();
             //     return 1;
             case Card.SHUFFLE:
                 shuffleCards();
-                whosePlaying = nextPlayer();
                 return 1;
             case Card.BEARD_CAT:
             case Card.CATTERMELON:
@@ -84,7 +100,6 @@ public class Game {
                 int rand = (int)(hand.size()*Math.random());
                 whosePlaying.addCard(hand.get(rand));
                 nextPlayer().removeCard(hand.get(rand));
-                whosePlaying = nextPlayer();
                 return 2;
         }
         return 3;
@@ -92,8 +107,9 @@ public class Game {
 
     /**
      * 
-     * @return -1 defused ek successfully
-     * @return 0 blew up
+     * @return -2 defused ek successfully
+     * @return -1 blew up
+     * @return 0 if player blew up and game ended
      * @return other = card id
      */
     public int drawCard()
@@ -105,23 +121,58 @@ public class Game {
             {
                 whosePlaying.removeCard(Card.DEFUSE);
                 whosePlaying = nextPlayer();
-                return -1;
+                deck.insertBomb();
+                return -2;
             }
             else
             {
                 whosePlaying.removeFromGame();
-                return 0;
+                if (detectWin() != null)
+                {
+                    return 0;
+                }
+                return -1;
             }
         }
         whosePlaying.addCard(card);
         return card;
     }
 
+    /**
+     * 
+     * @return next player
+     */
+    public Player endTurn()
+    {
+        if (attackPlayed = false)
+        {
+            while (attackCounter > 0)
+            {
+                attackCounter--;
+                return whosePlaying;
+            }
+        }
+        attackPlayed = false;
+        whosePlaying = nextPlayer();
+        return whosePlaying;
+    }
+
+    /**
+     * 
+     * @return id of player currently playing
+     */
     public String getTurnId()
     {
         return whosePlaying.getId();
     }
 
+    /**
+     * 
+     * @param p0 new player 0
+     * @param p1 new player 1
+     * @param p2 new player 2
+     * @param p3 new player 3
+     */
     public void reOrderPlayers(Player p0, Player p1, Player p2, Player p3)
     {
         pList.clear();
@@ -131,13 +182,41 @@ public class Game {
         pList.add(p3);
     }
 
+    public String detectWin()
+    {
+        if (alivePlayerCount() == 1)
+        {
+            for (Player p : pList)
+            {
+                if (p.isInGame())
+                {
+                    return p.getId();
+                }
+            }
+        }
+        return null;
+    }
+
+    public int alivePlayerCount()
+    {
+        int pCount = 0;
+        for (Player p : pList)
+        {
+            if (p.isInGame())
+            {
+                pCount++;
+            }
+        }
+        return pCount;
+    }
+
     // helpers
     private void shuffleCards()
     {
         deck.shuffle();
     }
 
-    private Player nextPlayer()
+    public Player nextPlayer()
     {
         int num = getPlayerNum(whosePlaying.getId());
         if (num == 3)
@@ -156,7 +235,7 @@ public class Game {
             }
             else
             {
-                num = 0;
+                num++;
             }
         }
         return pList.get(num);
@@ -269,20 +348,31 @@ public class Game {
         Player p3 = new Player("333");
 
         Game g1 = new Game(p0, p1, p2, p3, "1234");
-        
-        for (Player p : g1.getPlayers())
-        {
-            p.addCard(Card.DEFUSE);
-            p.addCard(Card.BEARD_CAT);
-            p.addCard(Card.CATTERMELON);
-            p.addCard(Card.FAVOR);
-        }
 
-        System.out.println(g1);
+        p1.removeFromGame();
+        System.out.println(g1.getTurnId());
+        g1.endTurn();
+        System.out.println(g1.getTurnId());
+        g1.endTurn();
+        System.out.println(g1.getTurnId());
+        g1.endTurn();
+        System.out.println(g1.getTurnId());
+        p2.removeFromGame();
+        g1.endTurn();
+        System.out.println(g1.getTurnId());
+        // for (Player p : g1.getPlayers())
+        // {
+        //     p.addCard(Card.DEFUSE);
+        //     p.addCard(Card.BEARD_CAT);
+        //     p.addCard(Card.CATTERMELON);
+        //     p.addCard(Card.FAVOR);
+        // }
 
-        System.out.println("************p0 playing favor");
-        g1.playCard(Card.FAVOR);
-        System.out.println(g1);
+        // System.out.println(g1);
+
+        // System.out.println("************p0 playing favor");
+        // g1.playCard(Card.FAVOR);
+        // System.out.println(g1);
 
         // ArrayList<Player> pList = g1.getPlayers();
         // g1.reOrderPlayers(pList.get(3), pList.get(2), pList.get(1), pList.get(0));

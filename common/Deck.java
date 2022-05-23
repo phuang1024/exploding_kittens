@@ -9,7 +9,7 @@ public class Deck {
      */
     public Deck()
     {
-        this(3, 6, 4, 4, 3, 2, 2, 3);
+        this(3, 6, 0/*4*/, 4, 0/*3*/, 2, 2, 3);
     }
 
     /**
@@ -53,6 +53,12 @@ public class Deck {
         return pile.removeFirst();
     }
 
+    public void insertBomb()
+    {
+        int index = (int)(pile.size()*Math.random());
+        insertBombAt(index);
+    }
+
     /**
      * inserts an exploding kitten into the deck
      * @param index at which bomb is added
@@ -68,6 +74,11 @@ public class Deck {
      */
     public Integer viewCard(int index) {
         return pile.get(index);
+    }
+
+    public int cardCount()
+    {
+        return pile.size();
     }
 
     /**

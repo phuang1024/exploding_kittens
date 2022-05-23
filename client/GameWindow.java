@@ -1,16 +1,22 @@
 import java.awt.*;
 import javax.swing.*;
 import java.io.*;
+// import java.nio.channels.SeekableByteChannel;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.awt.event.*;
 import java.util.ArrayList;
-
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameWindow
 {
     public static final int WINDOW_HEIGHT = 720;
     public static final int WINDOW_WIDTH = 1280;
+
+    private String playerID;
+    private String gameID;
 
     private JFrame frame;
 
@@ -18,15 +24,23 @@ public class GameWindow
     private MyJPanel opponenets;
     private MyJPanel playerCards;
 
-    private int currentDiscCard;
+    private ArrayList<CardButton> hand = new ArrayList<CardButton>();
+    private ArrayList<CardButton> selectedCards = new ArrayList<CardButton>();
 
+    private int currentDiscCard;
+    private boolean gameEnded;
 
     JLabel [] playerCardCounts;
+    JLabel activePlayerTracker;
     int playerNum;
+    
 
 
     public GameWindow(String playerID, String gameID)
     {
+        this.playerID = playerID;
+        this.gameID = gameID;
+        gameEnded = false;
         //Creates a new JFrame for the UI to be on
         frame = new JFrame("Exploding Kittens");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,11 +51,58 @@ public class GameWindow
         addBackground();
 
         
-        addCard();
-        addCard();
+        addCard(1<<5);
+        addCard(1<<7);
 
         frame.setVisible(true);
         frame.setEnabled(true);
+        startUpdating();
+    }
+
+    private void startUpdating()
+    {
+        Timer t = new Timer();
+
+        t.scheduleAtFixedRate(new TimerTask(){
+        public void run()
+        {
+            updateScreen();
+            if (!gameEnded)
+            {
+                t.cancel();
+            }
+        }
+        } ,0 , 250);
+    } 
+
+    private void addPlayCardButton()
+    {
+        JButton btn = new JButton("Play Selected Cards");
+        btn.addActionListener(new PlayCardsListener());
+        btn.setSize(150, 30);
+        btn.setLocation(660, 480);
+        btn.setVisible(true);
+        opponenets.add(btn);
+    }
+
+    private void addEndTurnButton()
+    {
+        JButton btn = new JButton("End Turn");
+        btn.addActionListener(new EndTurnListener());
+        btn.setSize(150, 30);
+        btn.setLocation(455, 480);
+        btn.setVisible(true);
+        opponenets.add(btn);
+    }
+
+    public void updateScreen() //TODO
+    {
+        
+    }
+
+    private void createActivePlayerTracker()
+    {
+
     }
 
     private void updateScreen(int [] playerCardCounts, int centerCard, int [] playerHand)
@@ -62,9 +123,19 @@ public class GameWindow
         boolean handIsSame = true;
         for (int i = 0; i < playerHand.length; i++)
         {
-            
+            if (hand.get(i).getCardNum() != playerHand[i])
+            {
+                handIsSame = false;
+            }
         }
-
+        if (!handIsSame)
+        {
+            playerCards.removeAll();
+            for (int i = 0; i < playerHand.length; i++)
+            {
+                addCard(playerHand[i]);
+            }
+        }
     }
 
     public void updateCardCount(int playerToUpdate, int newNum)
@@ -72,7 +143,7 @@ public class GameWindow
         playerCardCounts[playerToUpdate - 1].setText("" + newNum);
     }
 
-    private void addCard()
+    public void addCard(int cardToAdd)
     {
         if (playerCards == null)
         {
@@ -83,18 +154,20 @@ public class GameWindow
         }
         try 
         {
-            BufferedImage buffImg = ImageIO.read(new File("images/CreditCard.jpg"));
+            BufferedImage buffImg = ImageIO.read(new File(cardNumToPath(cardToAdd)));
             ImageIcon imgIcon = new ImageIcon(buffImg);
             //Resizes image
             Image image = imgIcon.getImage();
-            Image newimg = image.getScaledInstance(100, 100,
+            Image newimg = image.getScaledInstance(100, 140,
                     java.awt.Image.SCALE_SMOOTH);
             imgIcon = new ImageIcon(newimg);
             //Adds image button
-            JButton newButton = new JButton();
+            CardButton newButton = new CardButton(cardToAdd);
             newButton.setIcon(imgIcon);
-            newButton.addActionListener(new CardActionListener());
+            newButton.setBorder(BorderFactory.createLineBorder(Color.BLACK,5));
+            newButton.addActionListener(new CardSelectActionListener());
             playerCards.add(newButton);
+            hand.add(newButton);
         }
         catch (IOException e)
         {
@@ -127,6 +200,9 @@ public class GameWindow
         addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(240, 360)); 
         addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(340, 120)); 
         addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(980, 360));
+
+        addPlayCardButton();
+        addEndTurnButton();
 
         opponenets.setVisible(true);
     }
@@ -167,7 +243,7 @@ public class GameWindow
         }
     }
 
-    public void addBackground()
+    private void addBackground()
     {
         try 
         {
@@ -230,14 +306,67 @@ public class GameWindow
         return path;
     }   
     
-    private class CardActionListener implements ActionListener
+    private class CardSelectActionListener implements ActionListener
     {
         public void actionPerformed(ActionEvent e)
         {
-            JButton card = (JButton) e.getSource();
-            playerCards.remove(card);
-            playerCards.revalidate();
-            playerCards.repaint();
+            CardButton card = (CardButton) e.getSource();
+            if (selectedCards.contains(card))
+            {
+                selectedCards.remove(card);
+                card.setBorder(BorderFactory.createLineBorder(Color.BLACK,5));
+            }
+            else
+            {
+                card.setBorder(BorderFactory.createLineBorder(Color.ORANGE,5));
+                selectedCards.add(card);
+            }
+
+            //playerCards.remove(card);
+            //playerCards.revalidate();
+            //playerCards.repaint();
+        }
+    }
+
+    private class PlayCardsListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            if (selectedCards.isEmpty())
+            {
+                return;
+            }
+            ArrayList<Integer> played = new ArrayList<Integer>();
+            for (CardButton c : selectedCards)
+            {
+                hand.remove(c);
+                playerCards.remove(c);
+                played.add(c.getCardNum());
+            }
+            Conn.playCards(playerID, gameID, played);
+        }
+    }
+
+    private class EndTurnListener implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            Conn.playCards(playerID, gameID, new ArrayList<Integer>());
+        }
+    }
+
+    private class CardButton extends JButton
+    {
+        private int card;
+        public CardButton(int cardNum)
+        {
+            super();
+            card = cardNum;
+        }
+
+        public int getCardNum()
+        {
+            return card;
         }
     }
 
@@ -265,7 +394,6 @@ public class GameWindow
         }
     }
     
-
     public static void main(String [] args) {
         new GameWindow("2","2");
     }

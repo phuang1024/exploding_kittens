@@ -24,7 +24,7 @@ public class Player {
     
     public void setGame(Game game)
     {
-        game = game;
+        this.game = game;
     }
     public void removeFromGame()
     {
