@@ -1,7 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
 import java.io.*;
-// import java.nio.channels.SeekableByteChannel;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.awt.event.*;
@@ -66,7 +65,16 @@ public class GameWindow
         t.scheduleAtFixedRate(new TimerTask(){
         public void run()
         {
-            updateScreen();
+            try
+            {
+                GameInfo info = Conn.getStatus(playerID, gameID);
+                List<Integer> hand = Conn.getHand(playerID, gameID);
+                updateScreen(info, hand);
+            }
+            catch (Exception f)
+            {
+                f.printStackTrace();
+            }
             if (!gameEnded)
             {
                 t.cancel();
@@ -95,9 +103,9 @@ public class GameWindow
         components.add(btn);
     }
 
-    public void updateScreen() //TODO
+    public void updateScreen(GameInfo info, List<Integer> hand) //TODO
     {
-        
+        updateScreen(info.playerCardCount, info.topCard, hand, info.activePlayerNumber, info.deckCardCount);
     }
 
     private void createActivePlayerTracker() //TODO
@@ -109,10 +117,11 @@ public class GameWindow
         count.setFont(new Font("Dialog", Font.PLAIN, 30));
         count.setVisible(true);
         components.add(count);
+        //activePlayerTracker = count;
         return;
     }
 
-    private void updateScreen(int [] playerCardCounts, int centerCard, int [] playerHand, int currentPlayer)
+    private void updateScreen(int [] playerCardCounts, int centerCard, List<Integer> playerHand, int currentPlayer, int deckCardCount)
     {
         //Updates the opponenets' card counts
         for (int i = 0; i < 4; i++)
@@ -121,16 +130,18 @@ public class GameWindow
                 updateCardCount(i, playerCardCounts[i]);
         }
 
+        //Updates middle card
         if (centerCard != currentDiscCard)
         {
             String middleCard = cardNumToPath(centerCard);
             addImage(middleCard, new Dimension(200,282), new Point(540, 219));
         }
 
+        //Updates Hand
         boolean handIsSame = true;
-        for (int i = 0; i < playerHand.length; i++)
+        for (int i = 0; i < playerHand.size(); i++)
         {
-            if (hand.get(i).getCardNum() != playerHand[i])
+            if (hand.get(i).getCardNum() != playerHand.get(i))
             {
                 handIsSame = false;
             }
@@ -138,9 +149,9 @@ public class GameWindow
         if (!handIsSame)
         {
             playerCards.removeAll();
-            for (int i = 0; i < playerHand.length; i++)
+            for (int i = 0; i < playerHand.size(); i++)
             {
-                addCard(playerHand[i]);
+                addCard(playerHand.get(i));
             }
         }
     }
