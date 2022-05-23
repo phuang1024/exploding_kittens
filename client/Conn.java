@@ -130,15 +130,17 @@ public class Conn {
         conn.send();
 
         HTTPResponse resp = conn.recv();
-        GameInfo info;
+        GameInfo info = new GameInfo();
 
         info.deckCardCount = Integer.parseInt(resp.headers.get("deck-cards"));
 
-        String[] parts = resp.headers.get("card-counts").split(" ")
+        String[] parts = resp.headers.get("card-counts").split(" ");
         for (int i = 0; i < 4; i++)
-            info.playerCardCount[i] = parts[i];
+            info.playerCardCount[i] = Integer.parseInt(parts[i]);
 
         info.activePlayerNumber = Integer.parseInt(resp.headers.get("active-player-number"));
         info.topCard = Integer.parseInt(resp.headers.get("top-card"));
+
+        return info;
     }
 }
