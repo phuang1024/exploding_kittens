@@ -11,7 +11,7 @@ public class GameInfo
 
     public GameInfo(Game game)
     {
-         
+        
     }
 
 }
