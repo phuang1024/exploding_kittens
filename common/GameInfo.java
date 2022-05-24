@@ -6,6 +6,7 @@ public class GameInfo
     int[] playerCardCount;
     int activePlayerNumber;
     int topCard;
+    int playerIndex;
 
     public GameInfo() {
        playerCardCount = new int[4];
