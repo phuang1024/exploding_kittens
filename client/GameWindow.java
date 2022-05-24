@@ -169,7 +169,7 @@ public class GameWindow
         }
 
         //Updates middle card
-        if (centerCard != currentDiscCard)
+        if (centerCard != -1 && centerCard != currentDiscCard)
         {
             String middleCard = cardNumToPath(centerCard);
             addImage(middleCard, new Dimension(200,282), new Point(540, 219));
@@ -259,8 +259,8 @@ public class GameWindow
         
         //Adds the deck
         addImage("images/deck.png", new Dimension(135,180), new Point(940, 80)); 
-        addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(840, 137));
         addDeckCounter();
+        addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(840, 137));
 
         //Adds the card counters
         playerCardCounts = new JLabel[4];
@@ -287,7 +287,7 @@ public class GameWindow
     {
         JLabel count = new JLabel("0");
         count.setSize(100,100);
-        count.setLocation(850,137);
+        count.setLocation(850,118);
         count.setForeground(Color.BLACK);
         count.setFont(new Font("Dialog", Font.PLAIN, 12));
         count.setVisible(true);
