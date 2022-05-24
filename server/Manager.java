@@ -49,7 +49,7 @@ import java.util.*;
  *     hand: Space separated string of card int IDs.
  *
  * /play
- *   Play a card.
+ *   Play cards.
  *   In headers:
  *     id: Your client ID.
  *     game-id: Game ID.
