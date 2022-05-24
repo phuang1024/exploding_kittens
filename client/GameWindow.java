@@ -1,6 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 import java.io.*;
+import java.security.cert.PolicyQualifierInfo;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.awt.event.*;
@@ -9,6 +10,10 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * This class serves as the GUI of the game. It has all the necessities that 
+ * one would need while playing exploding kittens.
+ */
 public class GameWindow
 {
     public static final int WINDOW_HEIGHT = 720;
@@ -31,10 +36,18 @@ public class GameWindow
 
     JLabel [] playerCardCounts;
     JLabel activePlayerTracker;
+    JLabel deckCounter;
     int playerNum;
     
 
 
+    /**
+     * Constructor for GameWindow.
+     * Initializes a new window with which sends commands to the server using 
+     * gameID and playerID
+     * @param playerID the ID of this player
+     * @param gameID the ID of the game the player is in
+     */
     public GameWindow(String playerID, String gameID)
     {
         this.playerID = playerID;
@@ -46,6 +59,15 @@ public class GameWindow
         frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         frame.setResizable(false);
 
+        try
+        {
+            GameInfo info = Conn.getStatus(playerID, gameID);
+            playerNum = info.playerIndex;
+        }
+        catch (Exception f)
+        {
+            f.printStackTrace();
+        }
         addComponents();
         addBackground();
 
@@ -103,22 +125,38 @@ public class GameWindow
         components.add(btn);
     }
 
-    public void updateScreen(GameInfo info, List<Integer> hand) //TODO
+    /**
+     * Updates the screen with information given by the user
+     * 
+     * @param info the information to use to update the screen, given in GameInfo, a wrapper class
+     * @param hand The cards in the player's hand
+     */
+    public void updateScreen(GameInfo info, List<Integer> hand) 
     {
         updateScreen(info.playerCardCount, info.topCard, hand, info.activePlayerNumber, info.deckCardCount);
     }
 
-    private void createActivePlayerTracker() //TODO
+    private void createActivePlayerTracker() 
     {
-        JLabel count = new JLabel("0");
-        count.setSize(160,50);
-        //count.setLocation(location);
-        count.setForeground(Color.BLACK);
-        count.setFont(new Font("Dialog", Font.PLAIN, 30));
-        count.setVisible(true);
-        components.add(count);
-        //activePlayerTracker = count;
+        JLabel lb = new JLabel("Player " + playerNum + "'s (your) turn!");
+        lb.setSize(160,50);
+        lb.setLocation(new Point(1130, 0));
+        lb.setForeground(Color.BLACK);
+        lb.setFont(new Font("Dialog", Font.PLAIN, 13));
+        lb.setVisible(true);
+        components.add(lb);
+        activePlayerTracker = lb;
         return;
+    }
+
+    private void updateActivePlayer(int currentPlayer)
+    {
+        if (currentPlayer == playerNum)
+        {
+            activePlayerTracker.setText("Player " + currentPlayer + "'s (your) turn!");
+            return;
+        }
+        activePlayerTracker.setText("Player " + currentPlayer + "'s turn");
     }
 
     private void updateScreen(int [] playerCardCounts, int centerCard, List<Integer> playerHand, int currentPlayer, int deckCardCount)
@@ -154,13 +192,26 @@ public class GameWindow
                 addCard(playerHand.get(i));
             }
         }
+
+        //updates the current player
+        updateActivePlayer(currentPlayer);
+
+        //Updates deck
+        deckCounter.setText("<html>Deck:<br/>" + deckCardCount + " cards</html>");
     }
 
-    public void updateCardCount(int playerToUpdate, int newNum)
+    private void updateCardCount(int playerToUpdate, int newNum)
     {
-        playerCardCounts[playerToUpdate - 1].setText("" + newNum);
+        if (playerToUpdate == playerNum)
+            return;
+        int pl = playerToUpdate + 1;
+        playerCardCounts[playerToUpdate].setText("<html>Player " + pl + ":<br/>" + newNum + " cards</html>");
     }
 
+    /**
+     * Adds a card to the player's hand
+     * @param cardToAdd the integer representation of the card to be added
+     */
     public void addCard(int cardToAdd)
     {
         if (playerCards == null)
@@ -207,17 +258,20 @@ public class GameWindow
         addImage("images/test.png", new Dimension(100,140), new Point(1080, 320));
         
         //Adds the deck
-        addImage("images/test.png", new Dimension(140,140), new Point(940, 80)); 
+        addImage("images/deck.png", new Dimension(135,180), new Point(940, 80)); 
+        addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(840, 137));
+        addDeckCounter();
 
         //Adds the card counters
-        addCardCounter(new Dimension(100,100), new Point(260, 340));
-        addCardCounter(new Dimension(100,100), new Point(360, 100));
-        addCardCounter(new Dimension(100,100), new Point(1000, 340));
+        playerCardCounts = new JLabel[4];
+        addCardCounters();
 
         //Adds the white backgrounds to the card counters
         addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(240, 360)); 
         addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(340, 120)); 
         addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(980, 360));
+
+        
 
         //Adds the white box of the active player tracker
         createActivePlayerTracker(); 
@@ -229,13 +283,57 @@ public class GameWindow
         components.setVisible(true);
     }
 
+    private void addDeckCounter()
+    {
+        JLabel count = new JLabel("0");
+        count.setSize(100,100);
+        count.setLocation(850,137);
+        count.setForeground(Color.BLACK);
+        count.setFont(new Font("Dialog", Font.PLAIN, 12));
+        count.setVisible(true);
+        components.add(count);
+        deckCounter = count;
+    }
+
+    private void addCardCounters()
+    {
+        if (playerNum == 0)
+        {
+            playerCardCounts[1] = addCardCounter(new Dimension(100,100), new Point(250, 340));
+            playerCardCounts[2] = addCardCounter(new Dimension(100,100), new Point(350, 100));
+            playerCardCounts[3] = addCardCounter(new Dimension(100,100), new Point(990, 340));
+        }
+        else if (playerNum == 1)
+        {
+            playerCardCounts[2] = addCardCounter(new Dimension(100,100), new Point(250, 340));
+            playerCardCounts[3] = addCardCounter(new Dimension(100,100), new Point(350, 100));
+            playerCardCounts[0] = addCardCounter(new Dimension(100,100), new Point(990, 340));
+        }
+        else if (playerNum == 2)
+        {
+            playerCardCounts[3] = addCardCounter(new Dimension(100,100), new Point(250, 340));
+            playerCardCounts[0] = addCardCounter(new Dimension(100,100), new Point(350, 100));
+            playerCardCounts[1] = addCardCounter(new Dimension(100,100), new Point(990, 340));
+        }
+        else if (playerNum == 3)
+        {
+            playerCardCounts[0] = addCardCounter(new Dimension(100,100), new Point(250, 340));
+            playerCardCounts[1] = addCardCounter(new Dimension(100,100), new Point(350, 100));
+            playerCardCounts[2] = addCardCounter(new Dimension(100,100), new Point(990, 340));
+        }
+        updateCardCount(0, 0);
+        updateCardCount(1, 0);
+        updateCardCount(2, 0);
+        updateCardCount(3, 0);
+    }
+
     private JLabel addCardCounter(Dimension size, Point location)
     {
         JLabel count = new JLabel("0");
         count.setSize(size);
         count.setLocation(location);
         count.setForeground(Color.BLACK);
-        count.setFont(new Font("Dialog", Font.PLAIN, 30));
+        count.setFont(new Font("Dialog", Font.PLAIN, 12));
         count.setVisible(true);
         components.add(count);
         return count;
@@ -427,9 +525,5 @@ public class GameWindow
         {
             bgImage = img;
         }
-    }
-    
-    public static void main(String [] args) {
-        new GameWindow("2","2");
     }
 }
