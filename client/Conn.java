@@ -85,7 +85,7 @@ public class Conn {
         String gameId;
         while (true) {
             try {
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             } catch (InterruptedException exc) {
             }
 
