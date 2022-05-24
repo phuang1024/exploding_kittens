@@ -117,7 +117,7 @@ public class Conn {
         headers.put("id", id);
         headers.put("game-id", game_id);
         headers.put("cards", cardStr.trim());
-        HTTPRequest req = new HTTPRequest("GET", "/hand", headers, "");
+        HTTPRequest req = new HTTPRequest("GET", "/play", headers, "");
         Conn conn = new Conn(req);
         conn.send();
         conn.recv();
