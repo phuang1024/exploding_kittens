@@ -97,7 +97,7 @@ public class GameWindow
             {
                 f.printStackTrace();
             }
-            if (!gameEnded)
+            if (gameEnded)
             {
                 t.cancel();
             }
