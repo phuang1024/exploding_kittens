@@ -3,10 +3,29 @@
  * Prints to stdout colored text.
  */
 public class Logger {
+    /**
+     * ANSI code for reset.
+     */
     public static final String RESET = "\033[0m";
+    
+    /**
+     * ANSI code for cyan
+     */
     public static final String BLUE = "\033[36m";
+    
+    /**
+     * ANSI code for yellow
+     */
     public static final String YELLOW = "\033[33m";
+    
+    /**
+     * ANSI code for red
+     */
     public static final String RED = "\033[31m";
+    
+    /**
+     * ANSI code for gray
+     */
     public static final String GRAY = "\033[2m\033[37m";
 
     /**

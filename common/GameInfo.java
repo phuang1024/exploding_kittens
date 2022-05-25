@@ -1,17 +1,39 @@
 import java.util.*;
 
-/**
- * Stores information of the game to transfer between client and server
- */
-public class GameInfo
-{
-    int deckCardCount;
-    int[] playerCardCount;
-    int activePlayerNumber;
-    int topCard;
-    int playerIndex;
 
+/**
+ * Used client side to package some information about the game.
+ */
+public class GameInfo {
+    /**
+     * Number of cards in the deck.
+     */
+    public int deckCardCount;
+
+    /**
+     * Number of cards of each player starting from you.
+     */
+    public int[] playerCardCount;
+
+    /**
+     * Active player index.
+     */
+    public int activePlayerNumber;
+
+    /**
+     * Top card of discard pile.
+     */
+    public int topCard;
+
+    /**
+     * Index of you.
+     */
+    public int playerIndex;
+
+    /**
+     * Initializes the array.
+     */
     public GameInfo() {
-       playerCardCount = new int[4];
+        playerCardCount = new int[4];
     }
 }

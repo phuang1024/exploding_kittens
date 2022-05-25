@@ -1,7 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
 import java.io.*;
-import java.security.cert.PolicyQualifierInfo;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.awt.event.*;
@@ -71,10 +70,6 @@ public class GameWindow
         addComponents();
         addBackground();
 
-        
-        addCard(1<<5);
-        addCard(1<<7);
-
         frame.setVisible(true);
         frame.setEnabled(true);
         startUpdating();
@@ -102,7 +97,7 @@ public class GameWindow
                 t.cancel();
             }
         }
-        } ,0 , 250);
+        } ,0 , 500);
     } 
 
     private void addPlayCardButton()
@@ -190,6 +185,7 @@ public class GameWindow
         if (!handIsSame)
         {
             playerCards.removeAll();
+            hand.clear();
             for (int i = 0; i < playerHand.size(); i++)
             {
                 addCard(playerHand.get(i));
@@ -228,6 +224,7 @@ public class GameWindow
         }
         try 
         {
+            System.out.println(cardNumToPath(cardToAdd));
             BufferedImage buffImg = ImageIO.read(new File(cardNumToPath(cardToAdd)));
             ImageIcon imgIcon = new ImageIcon(buffImg);
             //Resizes image
@@ -418,7 +415,7 @@ public class GameWindow
                 path += "WatermelonCat.jpg";
                 break;
             case Card.HAIRY_POTATO_CAT:
-                path += "PoatoCat.jpg";
+                path += "PotatoCat.jpg";
                 break;
             case Card.RAINBOW_RALPHING_CAT:
                 path += "RainbowCat.jpg";

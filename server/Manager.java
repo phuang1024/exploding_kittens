@@ -174,14 +174,22 @@ public class Manager {
             }
             else if (path.equals("/play")) {
                 String id = req.headers.get("id"), game_id = req.headers.get("game-id");
+                String card_str = req.headers.get("cards").trim();
+                Game game = games.get(game_id);
+
+                // Client didn't play any cards, i.e. end turn
+                if (card_str.length() == 0) {
+                    game.drawCard();
+                    game.endTurn();
+                }
+
                 List<Integer> cards = new ArrayList<Integer>();
-                for (String part: req.headers.get("cards").trim().split(" "))
+                for (String part: card_str.split(" "))
                     cards.add(Integer.parseInt(part));
                 int[] cardArray = new int[cards.size()];
                 for (int i = 0; i < cards.size(); i++)
                     cardArray[i] = cards.get(i);
 
-                Game game = games.get(game_id);
                 game.playCard(cardArray);
 
                 headers.put("success", "yes");
