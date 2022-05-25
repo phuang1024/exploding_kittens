@@ -192,6 +192,7 @@ public class GameWindow
             {
                 addCard(playerHand.get(i));
             }
+            deselectCards();
         }
         playerCards.revalidate();
         playerCards.repaint();
@@ -428,6 +429,15 @@ public class GameWindow
 
         return path;
     }   
+
+    private void deselectCards()
+    {
+        for (JButton b : selectedCards)
+        {
+            b.setBorder(BorderFactory.createLineBorder(Color.BLACK,5));
+        }
+        selectedCards.clear();
+    }
     
     private class CardSelectActionListener implements ActionListener
     {
@@ -466,6 +476,7 @@ public class GameWindow
             }
             try{
                 Conn.playCards(playerID, gameID, played);
+                deselectCards();
             }
             catch(Exception ex)
             {
@@ -481,6 +492,7 @@ public class GameWindow
             try
             {
                 Conn.playCards(playerID, gameID, new ArrayList<Integer>());
+                deselectCards();
             }
             catch (Exception f)
             {
