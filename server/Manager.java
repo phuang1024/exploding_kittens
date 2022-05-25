@@ -177,8 +177,13 @@ public class Manager {
                 String card_str = req.headers.get("cards").trim();
                 Game game = games.get(game_id);
 
-                // Client didn't play any cards, i.e. end turn
-                if (card_str.length() == 0) {
+                headers.put("success", "yes");
+                if (!id.equals(game.getWhosePlaying().getId())) {
+                    // Not your turn
+                    headers.put("success", "no");
+                }
+                else if (card_str.length() == 0) {
+                    // Client didn't play any cards, i.e. end turn
                     game.drawCard();
                     game.endTurn();
                 }
@@ -192,8 +197,6 @@ public class Manager {
     
                     game.playCard(cardArray);
                 }
-
-                headers.put("success", "yes");
             }
             else {
                 status = 404;
