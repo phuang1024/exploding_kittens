@@ -15,10 +15,10 @@ public class Player {
      * @param ID of player
      * @param name of player
      */
-    public Player(String id)
+    public Player(String id, ArrayList<Integer> hand)
     {
         this.id = id;
-        hand = new ArrayList<Integer>();
+        this.hand = hand;
         inGame = true;
     }
     

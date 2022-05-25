@@ -31,6 +31,7 @@ public class Game {
         pList.add(p2);
         pList.add(p3);
         deck = new Deck();
+        //TODO: initialize hands
         discardPile = new Stack<Integer>();
         this.id = id;
         whosePlaying = p0;
