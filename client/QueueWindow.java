@@ -8,11 +8,18 @@ import java.io.IOError;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+/**
+ * This is the GUI class for the window to queue up for a new game
+ */
 public class QueueWindow
 {
     private JFrame frame;
     private JPanel panel;
 
+    /**
+     * Creates a window to queue up for a game
+     * If four player queue up, the window will delete itself and create a gameWindow.
+     */
     public QueueWindow()
     {
         //Set up frame
@@ -83,9 +90,5 @@ public class QueueWindow
             }
 
         }
-    }
-
-    public static void main(String [] args) {
-        new QueueWindow();
     }
 }

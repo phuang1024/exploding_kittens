@@ -38,6 +38,7 @@ import java.util.*;
  *     deck-cards: Number of cards in the deck.
  *     active-player-number: Number (0, 1, 2, 3) of active player.
  *     top-card: Top card of discard pile.
+ *     index: Your player index.
  *
  * /hand
  *   Get your current hand.
@@ -48,7 +49,7 @@ import java.util.*;
  *     hand: Space separated string of card int IDs.
  *
  * /play
- *   Play a card.
+ *   Play cards.
  *   In headers:
  *     id: Your client ID.
  *     game-id: Game ID.
@@ -147,6 +148,8 @@ public class Manager {
 
                 Stack pile = game.getDiscardPile();
                 headers.put("top-card", "" + (pile.empty() ? -1 : pile.peek()));
+
+                headers.put("index", "" + game.getPlayerNum(id));
             }
             else if (path.equals("/hand")) {
                 String id = req.headers.get("id"), game_id = req.headers.get("game-id");

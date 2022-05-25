@@ -61,8 +61,10 @@ public class Conn {
         String[] parts = hand.split(" ");
 
         List<Integer> cards = new ArrayList<Integer>();
+        System.out.println("Hand header: " + hand);
         for (String p: parts)
-            cards.add(Integer.parseInt(p));
+            if (p.length() > 0)
+                cards.add(Integer.parseInt(p));
 
         return cards;
     }
@@ -83,7 +85,7 @@ public class Conn {
         String gameId;
         while (true) {
             try {
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             } catch (InterruptedException exc) {
             }
 
@@ -115,7 +117,7 @@ public class Conn {
         headers.put("id", id);
         headers.put("game-id", game_id);
         headers.put("cards", cardStr.trim());
-        HTTPRequest req = new HTTPRequest("GET", "/hand", headers, "");
+        HTTPRequest req = new HTTPRequest("GET", "/play", headers, "");
         Conn conn = new Conn(req);
         conn.send();
         conn.recv();
@@ -140,6 +142,7 @@ public class Conn {
 
         info.activePlayerNumber = Integer.parseInt(resp.headers.get("active-player-number"));
         info.topCard = Integer.parseInt(resp.headers.get("top-card"));
+        info.playerIndex = Integer.parseInt(resp.headers.get("index"));
 
         return info;
     }

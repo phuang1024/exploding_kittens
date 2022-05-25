@@ -1,6 +1,6 @@
 CLASSPATH = ../common:../network:.
 
-.PHONY: help common server client clean docs
+.PHONY: help common server client 4clients clean docs
 
 help:
 	@echo "Makefile help:"
@@ -24,6 +24,12 @@ client: common
 	cd ./client; \
 	javac -cp $(CLASSPATH) *.java; \
 	java -cp $(CLASSPATH) Main
+
+4clients: common
+	make client &
+	make client &
+	make client &
+	make client &
 
 clean:
 	find -name "*.class" -delete

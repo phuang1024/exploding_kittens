@@ -73,6 +73,8 @@ public class Game {
      */
     public int playCard(int cardId)
     {
+        System.out.println("Processing card " + cardId);
+
         discardPile.push(cardId);
         whosePlaying.removeCard(cardId);
 
