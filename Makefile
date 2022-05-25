@@ -2,7 +2,7 @@ CLASSPATH = ../common:../network:.
 
 MANIFEST = "Manifest-version: 1.0\nMain-Class: Main"
 
-.PHONY: help common server client 4clients clean jar docs
+.PHONY: help common server client 4clients clean build docs
 
 help:
 	@echo "Makefile help:"
@@ -36,7 +36,7 @@ client: common
 clean:
 	find -name "*.class" -delete
 
-jar:
+build:
 	mkdir -p ./build-client ./build-server
 	echo $(MANIFEST) | tee ./build-client/manifest.mf ./build-server/manifest.mf
 	cp ./common/*.java ./network/*.java ./build-client
@@ -50,6 +50,8 @@ jar:
 	javac *.java; \
 	jar cfm server.jar manifest.mf *.class
 	rm -f ./build-client/*.java ./build-server/*.java
+	cd ./client; \
+	zip -r ../build-client/images.zip ./images
 
 docs:
 	javadoc -d ./docs-client ./common/*.java ./network/*.java ./client/*.java
