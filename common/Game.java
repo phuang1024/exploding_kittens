@@ -90,17 +90,20 @@ public class Game {
 
         switch (cardId) {
             case Card.ATTACK:
+                System.out.println("Playing Attack Card");
                 attackCounter++;
                 attackPlayed = true;
                 endTurn();
                 return 3;
             case Card.SKIP:
+                System.out.println("Playing Skip Card");
                 endTurn();
                 return 0;
             // case Card.SEE_THE_FUTURE:
             //     nextPlayer();
             //     return 1;
             case Card.SHUFFLE:
+                System.out.println("Playing Shuffle Card");
                 shuffleCards();
                 return 1;
             case Card.BEARD_CAT:
@@ -110,6 +113,7 @@ public class Game {
             case Card.TACOCAT:
                 whosePlaying.removeCard(cardId);
             case Card.FAVOR:
+                System.out.println("Playing Cat or Favor Card");
                 ArrayList<Integer> hand = nextPlayer().getHand();
                 int rand = (int)(hand.size()*Math.random());
                 whosePlaying.addCard(hand.get(rand));
@@ -411,36 +415,18 @@ public class Game {
 
         Game g1 = new Game(p0, p1, p2, p3, "1234");
 
-        p1.removeFromGame();
-        System.out.println(g1.getTurnId());
-        g1.endTurn();
-        System.out.println(g1.getTurnId());
-        g1.endTurn();
-        System.out.println(g1.getTurnId());
-        g1.endTurn();
-        System.out.println(g1.getTurnId());
-        p2.removeFromGame();
-        g1.endTurn();
-        System.out.println(g1.getTurnId());
-        // for (Player p : g1.getPlayers())
-        // {
-        //     p.addCard(Card.DEFUSE);
-        //     p.addCard(Card.BEARD_CAT);
-        //     p.addCard(Card.CATTERMELON);
-        //     p.addCard(Card.FAVOR);
-        // }
+        p0.clearHand();
+        p0.addCard(Card.CATTERMELON);
+        p0.addCard(Card.CATTERMELON);
 
-        // System.out.println(g1);
+        System.out.println(g1);
+        g1.playCard(Card.CATTERMELON);
+        System.out.println(g1);
 
-        // System.out.println("************p0 playing favor");
-        // g1.playCard(Card.FAVOR);
-        // System.out.println(g1);
-
-        // ArrayList<Player> pList = g1.getPlayers();
-        // g1.reOrderPlayers(pList.get(3), pList.get(2), pList.get(1), pList.get(0));
-        // System.out.println("\n" + "\n" + "\n" + "**Reversing player order " + "\n" + g1);
-
-        // g1.shuffleCards();
-        // System.out.println("\n" + "\n" + "\n" + "**Shuffling cards " + "\n" + g1);
+        p0.addCard(Card.TACOCAT);
+        p0.addCard(Card.TACOCAT);
+        System.out.println(g1);
+        g1.playCard(Card.TACOCAT);
+        System.out.println(g1);
     }
 }
