@@ -58,8 +58,16 @@ import java.util.*;
  *     success: "yes" if play successful.
  */
 public class Manager {
+    /**
+     * Length of randomly generated IDs.
+     */
     public static final int ID_LEN = 10;
-    public static final long ID_MAX_TIME = 3000;  // Max time for stale IDs
+
+    /**
+     * Max time for IDs before they delete.
+     * Clients can send "/join" request to refresh IDs.
+     */
+    public static final long ID_MAX_TIME = 3000;
 
     private Server server;
     private Map<String, Long> toJoin;  // IDs de clientes sin juego y tiempo de juntar
@@ -69,6 +77,7 @@ public class Manager {
     /**
      * Initialize.
      * Will pop from the server's request queue.
+     * @param server  Server to read from.
      */
     public Manager(Server server) {
         this.server = server;
@@ -77,6 +86,10 @@ public class Manager {
         games = new HashMap<String, Game>();
     }
 
+    /**
+     * Start receiving requests from server.
+     * Blocks this thread.
+     */
     public void start() {
         while (true) {
             // Sleep 1 millis to reduce CPU load.
