@@ -11,8 +11,17 @@ APCS final project "Exploding Kittens"
 - [Preliminary Specification][prespec]
 - [Status 1][status1]
 - [Status 2][status2]
-- [Status 2][status2]
-- [Status 2][status2]
+- [Status 3][status3]
+- [Status 4][status4]
+
+
+## Todo
+
+- steal from no cards
+- Fix player numbers not working right
+- Find way to choose cards for defuse
+- Show when drawing exploding kitten
+- Highlight your turn box when it is your turn
 
 [pres]: https://docs.google.com/presentation/d/1i9qFDHsO1hf4qcFBTOVqJkuwdQqApKoKJgf6aWsqb6o/edit
 [plan]: https://docs.google.com/document/d/1rDaI5UAvqenxh-LWBQs2AzlWNK6Z7GmnznJzaIbuahk/edit
