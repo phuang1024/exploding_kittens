@@ -12,8 +12,6 @@ public class Game {
     private Player whosePlaying;        //Stores id of who is playing
     private int attackCounter;          //current attackCounter;
     private boolean attackPlayed;       //if current player is the one who played the last attack card
-    private boolean isDrawing;          //if the current player needs to draw a card or not
-
 
     /**
      * constructs a Game object with the following parameters:
@@ -47,7 +45,6 @@ public class Game {
         whosePlaying = p0;
         attackCounter = 0;
         attackPlayed = false;
-        isDrawing = true;
     }
 
     /**
@@ -94,13 +91,11 @@ public class Game {
                 System.out.println("Playing Attack Card");
                 attackCounter++;
                 attackPlayed = true;
-                //endTurn();
-                isDrawing = false;
+                endTurn();
                 return 3;
             case Card.SKIP:
                 System.out.println("Playing Skip Card");
-                //endTurn();
-                isDrawing = false;
+                endTurn();
                 return 0;
             // case Card.SEE_THE_FUTURE:
             //     nextPlayer();
@@ -128,7 +123,6 @@ public class Game {
 
     /**
      * draws a card into the current players hand
-     * @return -3 didn't draw a card because played skip or attack
      * @return -2 defused exploding kitten successfully
      * @return -1 player drew exploding kitten and blew up
      * @return 0 if player blew up and game ended
@@ -136,10 +130,6 @@ public class Game {
      */
     public int drawCard()
     {
-        if (!isDrawing)
-        {
-            return -3;
-        }
         int card = deck.drawCard();
         if (card == Card.EXPLODING_KITTEN)
         {
