@@ -87,7 +87,6 @@ public class Conn {
         String[] parts = hand.split(" ");
 
         List<Integer> cards = new ArrayList<Integer>();
-        System.out.println("Hand header: " + hand);
         for (String p: parts)
             if (p.length() > 0)
                 cards.add(Integer.parseInt(p));
@@ -159,6 +158,7 @@ public class Conn {
         Conn conn = new Conn(req);
         conn.send();
         conn.recv();
+        System.out.println(cards);
     }
 
     /**

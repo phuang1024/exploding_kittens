@@ -226,7 +226,6 @@ public class GameWindow
         }
         try 
         {
-            System.out.println(cardNumToPath(cardToAdd));
             BufferedImage buffImg = ImageIO.read(new File(cardNumToPath(cardToAdd)));
             ImageIcon imgIcon = new ImageIcon(buffImg);
             //Resizes image
