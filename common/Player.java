@@ -69,6 +69,17 @@ public class Player {
         return hand.remove(i);
     }
 
+    /**
+     * clears the players hand
+     * @return arraylist containing players cards before clearing
+     */
+    public ArrayList<Integer> clearHand()
+    {
+        ArrayList<Integer> temp = hand;
+        hand = new ArrayList<Integer>();
+        return temp;
+    }
+
     //Getters
     /**
      * returns player's id
