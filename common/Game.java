@@ -31,7 +31,16 @@ public class Game {
         pList.add(p2);
         pList.add(p3);
         deck = new Deck();
-        //TODO: initialize hands
+
+        initializeHand(p0);
+        initializeHand(p1);
+        initializeHand(p2);
+        initializeHand(p3);
+
+        deck.insertBomb();
+        deck.insertBomb();
+        deck.insertBomb();
+        deck.shuffle();
         discardPile = new Stack<Integer>();
         this.id = id;
         whosePlaying = p0;
@@ -243,6 +252,17 @@ public class Game {
         }
         return pList.get(num);
     }
+
+    
+    private void initializeHand(Player p)
+    {
+        for (int i = 0; i < 7; i++)
+        {
+            p.addCard(deck.drawCard());
+        }
+        p.addCard(Card.DEFUSE);
+    }
+
 
     //Accessors
 
