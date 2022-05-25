@@ -70,6 +70,8 @@ public class GameWindow
         addComponents();
         addBackground();
 
+        addCard(1<<1);
+
         frame.setVisible(true);
         frame.setEnabled(true);
         startUpdating();
