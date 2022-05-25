@@ -108,6 +108,7 @@ public class Game {
             case Card.HAIRY_POTATO_CAT:
             case Card.RAINBOW_RALPHING_CAT:
             case Card.TACOCAT:
+                whosePlaying.removeCard(cardId);
             case Card.FAVOR:
                 ArrayList<Integer> hand = nextPlayer().getHand();
                 int rand = (int)(hand.size()*Math.random());
