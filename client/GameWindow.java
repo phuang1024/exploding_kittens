@@ -33,10 +33,11 @@ public class GameWindow
     private int currentDiscCard;
     private boolean gameEnded;
 
-    JLabel [] playerCardCounts;
-    JLabel activePlayerTracker;
-    JLabel deckCounter;
-    int playerNum;
+    private JLabel [] playerCardCounts;
+    private JLabel activePlayerTracker;
+    private JLabel deckCounter;
+    private JLabel discCard;
+    private int playerNum;
     
 
 
@@ -52,6 +53,7 @@ public class GameWindow
         this.playerID = playerID;
         this.gameID = gameID;
         gameEnded = false;
+        currentDiscCard = -10;
         //Creates a new JFrame for the UI to be on
         frame = new JFrame("Exploding Kittens");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -166,11 +168,18 @@ public class GameWindow
                 updateCardCount(i, playerCardCounts[i]);
         }
 
+        //System.out.println(centerCard + "   " + currentDiscCard);
         //Updates middle card
         if (centerCard != -1 && centerCard != currentDiscCard)
         {
+            System.out.println("got here");
+            currentDiscCard = centerCard;
             String middleCard = cardNumToPath(centerCard);
-            addImage(middleCard, new Dimension(200,282), new Point(540, 219));
+            if (discCard != null)
+                components.remove(discCard);
+            discCard = addImage(middleCard, new Dimension(200,282), new Point(540, 219));
+            frame.revalidate();
+            frame.repaint();
         }
 
         //Updates Hand
@@ -343,7 +352,7 @@ public class GameWindow
         return count;
     }
 
-    private void addImage(String filePath, Dimension size, Point location)
+    private JLabel addImage(String filePath, Dimension size, Point location)
     {
         try 
         {
@@ -360,11 +369,13 @@ public class GameWindow
             labelImg.setLocation(location);
             labelImg.setVisible(true);
             components.add(labelImg);
+            return labelImg;
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
+        return null;
     }
 
     private void addBackground()

@@ -12,12 +12,12 @@ public class Conn {
     /**
      * Localhost
      */
-    public static final String IP = "127.0.0.1";
+    //public static final String IP = "127.0.0.1";
 
     /**
      * Patrick's AWS server.
      */
-    //public static final String IP = "54.176.105.157";  // AWS
+    public static final String IP = "54.176.105.157";  // AWS
 
     /**
      * Port to connect.
@@ -143,8 +143,9 @@ public class Conn {
      * @param id  Your client ID.
      * @param game_id  Game ID.
      * @param cards  Cards to play.
+     * @return  Whether successful.
      */
-    public static void playCards(String id, String game_id, List<Integer> cards)
+    public static boolean playCards(String id, String game_id, List<Integer> cards)
             throws IOException, HTTPParseException {
         String cardStr = "";
         for (Integer card: cards)
@@ -157,8 +158,11 @@ public class Conn {
         HTTPRequest req = new HTTPRequest("GET", "/play", headers, "");
         Conn conn = new Conn(req);
         conn.send();
-        conn.recv();
+
+        HTTPResponse resp = conn.recv();
+        boolean success = resp.headers.get("success").equals("yes");
         System.out.println(cards);
+        return success;
     }
 
     /**
@@ -187,6 +191,8 @@ public class Conn {
         info.activePlayerNumber = Integer.parseInt(resp.headers.get("active-player-number"));
         info.topCard = Integer.parseInt(resp.headers.get("top-card"));
         info.playerIndex = Integer.parseInt(resp.headers.get("index"));
+
+        //System.out.println(info.topCard);
 
         return info;
     }
