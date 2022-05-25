@@ -54,11 +54,6 @@ public class GameWindow
         this.gameID = gameID;
         gameEnded = false;
         currentDiscCard = -10;
-        //Creates a new JFrame for the UI to be on
-        frame = new JFrame("Exploding Kittens");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        frame.setResizable(false);
 
         try
         {
@@ -69,6 +64,13 @@ public class GameWindow
         {
             f.printStackTrace();
         }
+
+        int pl = playerNum + 1;
+        frame = new JFrame("Exploding Kittens - Player " + pl);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        frame.setResizable(false);
+
         addComponents();
         addBackground();
 
