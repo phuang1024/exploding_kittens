@@ -3,11 +3,19 @@ import java.util.*;
 
 
 /**
+ * Server main entry point.
  * Run this class to start the server.
  */
 public class Main {
+    /**
+     * Port the server binds to.
+     */
     public static final int PORT = 8016;
 
+    /**
+     * Main entry point.
+     * @param args  CLI args.
+     */
     public static void main(String[] args) {
         Logger.info("Starting server.");
 

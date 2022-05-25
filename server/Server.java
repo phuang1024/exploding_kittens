@@ -10,8 +10,16 @@ public class Server extends Thread {
     private ServerSocket server;
     private int port;
 
+    /**
+     * Queue of requests from clients.
+     * Class Manager pops from this.
+     */
     public Queue<Client> requests;
 
+    /**
+     * Initialize the server.
+     * @param port  Port to bind to.
+     */
     public Server(int port) throws IOException {
         this.port = port;
         server = new ServerSocket(port);

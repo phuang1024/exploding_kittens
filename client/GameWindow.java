@@ -178,7 +178,9 @@ public class GameWindow
 
         //Updates Hand
         boolean handIsSame = true;
-        for (int i = 0; i < playerHand.size(); i++)
+        if (hand.size() != playerHand.size())
+            handIsSame = false;
+        for (int i = 0; handIsSame && i < hand.size(); i++)
         {
             if (hand.get(i).getCardNum() != playerHand.get(i))
             {
@@ -391,37 +393,37 @@ public class GameWindow
 
         switch (cardNum)
         {
-            case 1 << 1:
+            case Card.DEFUSE:
+                path += "Defuse.jpg";
+                break;
+            case Card.EXPLODING_KITTEN:
                 path += "ExplodingKitten.jpg";
                 break;
-            case 1 << 2:
+            case Card.ATTACK:
                 path += "Attack.jpg";
                 break;
-            case 1 << 3:
+            case Card.SKIP:
                 path += "Skip.jpg";
                 break;
-            case 1 << 4:
-                path += "SeeFuture.jpg";
-                break;
-            case 1 << 5:
+            case Card.SHUFFLE:
                 path += "Shuffle.jpg";
                 break;
-            case 1 << 6:
+            case Card.FAVOR:
                 path += "Favor.jpg";
                 break;
-            case 1 << 7:
+            case Card.BEARD_CAT:
                 path += "BeardCat.jpg";
                 break;
-            case 1 << 8:
+            case Card.CATTERMELON:
                 path += "WatermelonCat.jpg";
                 break;
-            case 1 << 9:
+            case Card.HAIRY_POTATO_CAT:
                 path += "PoatoCat.jpg";
                 break;
-            case 1 << 10:
+            case Card.RAINBOW_RALPHING_CAT:
                 path += "RainbowCat.jpg";
                 break;
-            case 1 << 11:
+            case Card.TACOCAT:
                 path += "TacoCat.jpg";
                 break;
         }

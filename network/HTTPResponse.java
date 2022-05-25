@@ -21,7 +21,7 @@ public class HTTPResponse extends HTTPConv {
     /**
      * Initialize HTTPResponse.
      * @param status  Status code.
-     * @param String  Reason of status.
+     * @param reason  Reason of status.
      * @param headers  Headers.
      * @param body  Body.
      */
