@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class Player {
     private String id; //for backend reference
     private ArrayList<Integer> hand;
-    private Game game;
     private boolean inGame;
 
     //Constructors
@@ -21,11 +20,7 @@ public class Player {
         hand = new ArrayList<Integer>();
         inGame = true;
     }
-    
-    public void setGame(Game game)
-    {
-        this.game = game;
-    }
+
     public void removeFromGame()
     {
         inGame = false;

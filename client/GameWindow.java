@@ -151,12 +151,13 @@ public class GameWindow
 
     private void updateActivePlayer(int currentPlayer)
     {
+        int plNum = currentPlayer + 1;
         if (currentPlayer == playerNum)
         {
-            activePlayerTracker.setText("Player " + currentPlayer + "'s (your) turn!");
+            activePlayerTracker.setText("Player " + plNum + "'s (your) turn!");
             return;
         }
-        activePlayerTracker.setText("Player " + currentPlayer + "'s turn");
+        activePlayerTracker.setText("Player " + plNum + "'s turn");
     }
 
     private void updateScreen(int [] playerCardCounts, int centerCard, List<Integer> playerHand, int currentPlayer, int deckCardCount)
@@ -192,6 +193,8 @@ public class GameWindow
                 addCard(playerHand.get(i));
             }
         }
+        playerCards.revalidate();
+        playerCards.repaint();
 
         //updates the current player
         updateActivePlayer(currentPlayer);
@@ -443,8 +446,6 @@ public class GameWindow
             }
 
             //playerCards.remove(card);
-            //playerCards.revalidate();
-            //playerCards.repaint();
         }
     }
 
