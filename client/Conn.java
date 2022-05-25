@@ -143,8 +143,9 @@ public class Conn {
      * @param id  Your client ID.
      * @param game_id  Game ID.
      * @param cards  Cards to play.
+     * @return  Whether successful.
      */
-    public static void playCards(String id, String game_id, List<Integer> cards)
+    public static boolean playCards(String id, String game_id, List<Integer> cards)
             throws IOException, HTTPParseException {
         String cardStr = "";
         for (Integer card: cards)
@@ -157,8 +158,11 @@ public class Conn {
         HTTPRequest req = new HTTPRequest("GET", "/play", headers, "");
         Conn conn = new Conn(req);
         conn.send();
-        conn.recv();
-        //System.out.println(cards);
+
+        HTTPResponse resp = conn.recv();
+        boolean success = resp.headers.get("success").equals("yes");
+        System.out.println(cards);
+        return success;
     }
 
     /**
