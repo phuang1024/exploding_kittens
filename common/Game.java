@@ -170,7 +170,6 @@ public class Game {
         }
         attackPlayed = false;
         whosePlaying = nextPlayer();
-        isDrawing = true;
         return whosePlaying;
     }
 
