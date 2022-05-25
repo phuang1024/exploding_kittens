@@ -161,7 +161,6 @@ public class Conn {
 
         HTTPResponse resp = conn.recv();
         boolean success = resp.headers.get("success").equals("yes");
-        System.out.println(cards);
         return success;
     }
 
@@ -191,8 +190,6 @@ public class Conn {
         info.activePlayerNumber = Integer.parseInt(resp.headers.get("active-player-number"));
         info.topCard = Integer.parseInt(resp.headers.get("top-card"));
         info.playerIndex = Integer.parseInt(resp.headers.get("index"));
-
-        //System.out.println(info.topCard);
 
         return info;
     }

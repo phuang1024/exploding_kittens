@@ -170,11 +170,9 @@ public class GameWindow
                 updateCardCount(i, playerCardCounts[i]);
         }
 
-        //System.out.println(centerCard + "   " + currentDiscCard);
         //Updates middle card
         if (centerCard != -1 && centerCard != currentDiscCard)
         {
-            System.out.println("got here");
             currentDiscCard = centerCard;
             String middleCard = cardNumToPath(centerCard);
             if (discCard != null)
