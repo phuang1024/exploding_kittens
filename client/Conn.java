@@ -158,7 +158,7 @@ public class Conn {
         Conn conn = new Conn(req);
         conn.send();
         conn.recv();
-        System.out.println(cards);
+        //System.out.println(cards);
     }
 
     /**
@@ -187,6 +187,8 @@ public class Conn {
         info.activePlayerNumber = Integer.parseInt(resp.headers.get("active-player-number"));
         info.topCard = Integer.parseInt(resp.headers.get("top-card"));
         info.playerIndex = Integer.parseInt(resp.headers.get("index"));
+
+        //System.out.println(info.topCard);
 
         return info;
     }
