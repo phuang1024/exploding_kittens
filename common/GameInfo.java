@@ -1,5 +1,8 @@
 import java.util.*;
 
+/**
+ * Stores information of the game to transfer between client and server
+ */
 public class GameInfo
 {
     int deckCardCount;

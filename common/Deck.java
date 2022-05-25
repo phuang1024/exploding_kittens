@@ -9,7 +9,7 @@ public class Deck {
     //Constructors
 
     /**
-     * constructs a 4 player game deck
+     * constructs a 4 player game deck with custom card counts
      */
     public Deck()
     {
@@ -50,8 +50,8 @@ public class Deck {
 
     //Methods
     /**
-     * 
-     * @return the top card of the deck and removes it from the deck
+     * returns the top card of the deck and removes it from the deck
+     * @return top card of the deck
      */
     public Integer drawCard() {
         return pile.removeFirst();
@@ -75,14 +75,18 @@ public class Deck {
     }
 
     /**
-     * 
+     * view card at specified index
      * @param index of the card to be returned
-     * @return card of given index
+     * @return card at given index
      */
     public Integer viewCard(int index) {
         return pile.get(index);
     }
 
+    /**
+     * returns amount of cards in the deck
+     * @return amount of cards in the deck
+     */
     public int cardCount()
     {
         return pile.size();
@@ -105,6 +109,7 @@ public class Deck {
 
     /**
      * returns a visual string representation of deck
+     * @return String containing deck information
      */
     public String toString()
     {
@@ -114,7 +119,7 @@ public class Deck {
     //Constructor Helpers
 
     /**
-     * 
+     * adds specified quantity of a specific card to the deck
      * @param cardID        card to be added
      * @param cardCount     amount of cards (type cardID) to be added
      */
@@ -160,6 +165,11 @@ public class Deck {
     }
     
     //Testers
+
+    /**
+     * Used to test deck.java
+     * @param args
+     */
     public static void main(String[] args)
     {
         Deck deck = new Deck();

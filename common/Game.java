@@ -40,7 +40,7 @@ public class Game {
 
         deck.addCards(Card.EXPLODING_KITTEN, 3);
         deck.addCards(Card.DEFUSE, 6);
-        
+
         deck.shuffle();
         discardPile = new Stack<Integer>();
         this.id = id;
@@ -73,7 +73,7 @@ public class Game {
     }
 
     /**
-     * 
+     * plays card from hand of current player
      * @param cardId card being played
      * @return 0 skipped
      * @return 1 shuffled
@@ -119,11 +119,11 @@ public class Game {
     }
 
     /**
-     * 
-     * @return -2 defused ek successfully
-     * @return -1 blew up
+     * draws a card into the current players hand
+     * @return -2 defused exploding kitten successfully
+     * @return -1 player drew exploding kitten and blew up
      * @return 0 if player blew up and game ended
-     * @return other = card id
+     * @return other = card id of card drawn
      */
     public int drawCard()
     {
@@ -152,7 +152,7 @@ public class Game {
     }
 
     /**
-     * 
+     * ends the current players turn
      * @return next player
      */
     public Player endTurn()
@@ -171,7 +171,7 @@ public class Game {
     }
 
     /**
-     * 
+     * Id of player currently playing
      * @return id of player currently playing
      */
     public String getTurnId()
@@ -180,7 +180,7 @@ public class Game {
     }
 
     /**
-     * 
+     * reorders the players in the game
      * @param p0 new player 0
      * @param p1 new player 1
      * @param p2 new player 2
@@ -195,6 +195,11 @@ public class Game {
         pList.add(p3);
     }
 
+    /**
+     * Checks the game for a win by one of the players
+     * @return the Id of the winning player if there is a win detected
+     * @return null if there is no win detected
+     */
     public String detectWin()
     {
         if (alivePlayerCount() == 1)
@@ -210,6 +215,10 @@ public class Game {
         return null;
     }
 
+    /**
+     * 
+     * @return number of players currently in the game
+     */
     public int alivePlayerCount()
     {
         int pCount = 0;
@@ -229,6 +238,10 @@ public class Game {
         deck.shuffle();
     }
 
+    /**
+     * Returns the next player in turn order
+     * @return next player
+     */
     public Player nextPlayer()
     {
         int num = getPlayerNum(whosePlaying.getId());
@@ -268,7 +281,7 @@ public class Game {
     //Accessors
 
     /**
-     * 
+     * returns a specific player specified by its ID
      * @param playerId of player to be returned
      * @return player with given id
      */
@@ -285,7 +298,7 @@ public class Game {
     }
 
     /**
-     * 
+     * return this game's id
      * @return game id
      */
     public String getId()
@@ -294,7 +307,7 @@ public class Game {
     }
 
     /**
-     * 
+     * returns the discard pile
      * @return the discard pile
      */
     public Stack<Integer> getDiscardPile()
@@ -303,7 +316,7 @@ public class Game {
     }
 
     /**
-     * 
+     * returns the deck
      * @return the deck
      */
     public Deck getDeck()
@@ -312,7 +325,7 @@ public class Game {
     }
 
     /**
-     * 
+     * returns an arraylist of players
      * @return an arraylist of players in the game
      */
     public ArrayList<Player> getPlayers()
@@ -320,6 +333,12 @@ public class Game {
         return pList;
     }
 
+    /**
+     * returns the player number of specified player
+     * @param Id ID of player
+     * @return number of specified player
+     * @return -1 if playter not found
+     */
     public int getPlayerNum(String Id)
     {
         for (int i = 0; i < pList.size(); i++)
@@ -332,6 +351,12 @@ public class Game {
         return -1;
     }
 
+    /**
+     * Returns hand of specified player
+     * @param playerId ID of player
+     * @return hand of player with ID playerID
+     * @return null if player not found
+     */
     public ArrayList<Integer> getHand(String playerId)
     {
         try
@@ -350,6 +375,10 @@ public class Game {
 
     //Testing
 
+    /**
+     * Returns a text block showing all the games information
+     * @return String representation of the game
+     */
     public String toString()
     {
         String gameInfo = "Game ID: " + id + "\n" + "\n";
@@ -368,6 +397,10 @@ public class Game {
 
         return gameInfo;
     }
+    /**
+     * Used to test Game.java
+     * @param args
+     */
     public static void main(String[] args)
     {
         Player p0 = new Player("000");
