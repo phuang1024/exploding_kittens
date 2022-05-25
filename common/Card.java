@@ -23,6 +23,8 @@ public class Card {
      * Check if a given card is one of the given types.
      * Use bitwise or to use multiple types.
      * e.g. Card.is(myCard, Card.DEFUSE | Card.ATTACK);
+     * @param card checks if card is within types
+     * @param types cards checked against
      */
     public static boolean is(int card, int types) {
         return (card & types) > 0;
