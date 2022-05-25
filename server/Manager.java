@@ -182,15 +182,16 @@ public class Manager {
                     game.drawCard();
                     game.endTurn();
                 }
-
-                List<Integer> cards = new ArrayList<Integer>();
-                for (String part: card_str.split(" "))
-                    cards.add(Integer.parseInt(part));
-                int[] cardArray = new int[cards.size()];
-                for (int i = 0; i < cards.size(); i++)
-                    cardArray[i] = cards.get(i);
-
-                game.playCard(cardArray);
+                else {
+                    List<Integer> cards = new ArrayList<Integer>();
+                    for (String part: card_str.split(" "))
+                        cards.add(Integer.parseInt(part));
+                    int[] cardArray = new int[cards.size()];
+                    for (int i = 0; i < cards.size(); i++)
+                        cardArray[i] = cards.get(i);
+    
+                    game.playCard(cardArray);
+                }
 
                 headers.put("success", "yes");
             }
