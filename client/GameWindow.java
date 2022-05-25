@@ -193,6 +193,8 @@ public class GameWindow
                 addCard(playerHand.get(i));
             }
         }
+        playerCards.revalidate();
+        playerCards.repaint();
 
         //updates the current player
         updateActivePlayer(currentPlayer);
@@ -444,8 +446,6 @@ public class GameWindow
             }
 
             //playerCards.remove(card);
-            //playerCards.revalidate();
-            //playerCards.repaint();
         }
     }
 
