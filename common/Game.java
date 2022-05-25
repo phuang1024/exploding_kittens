@@ -89,7 +89,7 @@ public class Game {
         switch (cardId) {
             case Card.ATTACK:
                 System.out.println("Playing Attack Card");
-                attackCounter++;
+                attackCounter += 2;
                 attackPlayed = true;
                 endTurn();
                 return 3;
