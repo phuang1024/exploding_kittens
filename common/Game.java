@@ -1,6 +1,5 @@
 import java.util.*;
 
-
 /**
  * Processes game logic
  */
@@ -275,7 +274,7 @@ public class Game {
     
     private void initializeHand(Player p)
     {
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < 6; i++)
         {
             p.addCard(deck.drawCard());
         }
