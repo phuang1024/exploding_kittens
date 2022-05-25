@@ -10,7 +10,7 @@ public class Card {
         DEFUSE = 1 << 1,
         ATTACK = 1 << 2,
         SKIP = 1 << 3,
-        SEE_THE_FUTURE = 1 << 4,
+        SEE_THE_FUTURE = 1 << 4, // unused
         SHUFFLE = 1 << 5,
         FAVOR = 1 << 6,
         BEARD_CAT = 1 << 7,

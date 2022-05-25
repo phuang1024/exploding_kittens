@@ -31,15 +31,16 @@ public class Game {
         pList.add(p2);
         pList.add(p3);
         deck = new Deck();
+        deck.shuffle();
 
         initializeHand(p0);
         initializeHand(p1);
         initializeHand(p2);
         initializeHand(p3);
 
-        deck.insertBomb();
-        deck.insertBomb();
-        deck.insertBomb();
+        deck.addCards(Card.EXPLODING_KITTEN, 3);
+        deck.addCards(Card.DEFUSE, 6);
+        
         deck.shuffle();
         discardPile = new Stack<Integer>();
         this.id = id;

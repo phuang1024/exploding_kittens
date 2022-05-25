@@ -1,15 +1,19 @@
 import java.util.LinkedList;
 
+/**
+ * Manages the game deck
+ */
 public class Deck {
     private LinkedList<Integer> pile;
 
     //Constructors
+
     /**
-     * constructs a standard 4 player game deck
+     * constructs a 4 player game deck
      */
     public Deck()
     {
-        this(0 /*3*/, 6, 0/*4*/, 4, 0/*3*/, 2, 2, 3);
+        this(0 /*3*/, 0, 8, 8, 0/*3*/, 4, 4, 6);
     }
 
     /**
@@ -47,12 +51,15 @@ public class Deck {
     //Methods
     /**
      * 
-     * @return returns the top card of the deck and removes it
+     * @return the top card of the deck and removes it from the deck
      */
     public Integer drawCard() {
         return pile.removeFirst();
     }
 
+    /**
+     * inserts an exploding kitten card at a random index within the deck
+     */
     public void insertBomb()
     {
         int index = (int)(pile.size()*Math.random());
@@ -60,7 +67,7 @@ public class Deck {
     }
 
     /**
-     * inserts an exploding kitten into the deck
+     * inserts an exploding kitten into the deck at a specific index
      * @param index at which bomb is added
      */
     public void insertBombAt(int index) {
@@ -111,7 +118,7 @@ public class Deck {
      * @param cardID        card to be added
      * @param cardCount     amount of cards (type cardID) to be added
      */
-    private void addCards(Integer cardID, int cardCount)
+    public void addCards(Integer cardID, int cardCount)
     {
         for (int i = 0 ; i < cardCount; i++)
             pile.add(cardID);
