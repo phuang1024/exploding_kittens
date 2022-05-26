@@ -7,7 +7,7 @@ public class Game {
 
     private ArrayList<Player> pList;    //holds references to each player in the game
     private Deck deck;                  //deck
-    private Stack<Integer> discardPile; //Cards already played
+    private List<Integer> discardPile; //Cards already played
     private String id;                  //Game id
     private Player whosePlaying;        //Stores id of who is playing
     private int attackCounter;          //current attackCounter;
@@ -38,7 +38,7 @@ public class Game {
         deck.addCards(Card.DEFUSE, 3/*6*/);
 
         deck.shuffle();
-        discardPile = new Stack<Integer>();
+        discardPile = new ArrayList<Integer>();
         this.id = id;
         whosePlaying = p0;
         attackCounter = 0;
