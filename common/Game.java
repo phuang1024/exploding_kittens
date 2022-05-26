@@ -79,7 +79,7 @@ public class Game {
     public int playCard(int cardId) {
         System.out.println("Processing card " + cardId);
 
-        discardPile.push(cardId);
+        discardPile.add(cardId);
         whosePlaying.removeCard(cardId);
 
         switch (cardId) {
@@ -105,7 +105,7 @@ public class Game {
             case Card.RAINBOW_RALPHING_CAT:
             case Card.TACOCAT:
                 whosePlaying.removeCard(cardId);
-                discardPile.push(cardId);
+                discardPile.add(cardId);
             case Card.FAVOR:
                 System.out.println("Playing Cat or Favor Card");
                 Player next = nextPlayer();
@@ -144,7 +144,7 @@ public class Game {
                 return -2;
             } else {
                 whosePlaying.removeFromGame();
-                discardPile.push(card);
+                discardPile.add(card);
                 endTurn();
                 return -1;
             }
