@@ -7,6 +7,11 @@ import java.util.*;
  * Handles networking and accepting clients.
  */
 public class Server extends Thread {
+    /**
+     * Interval in ms of log stats.
+     */
+    public static final long LOG_INTERVAL = 10000;
+
     private ServerSocket server;
     private int port;
 
@@ -35,11 +40,24 @@ public class Server extends Thread {
         Logger.info("Started socket on port " + server.getLocalPort()
             + ", ip " + server.getInetAddress());
 
+        long last_log = System.currentTimeMillis();
+        int req_count = 0;
+
         while (true) {
             Socket conn;
             String addr = "";
             HTTPRequest req;
             Client client;
+
+            long t = System.currentTimeMillis();
+            if (t - last_log > LOG_INTERVAL) {
+                double interval = (double)(t-last_log) / 1000.0;
+                double rps = (double)req_count / interval;
+                Logger.debug("Stats: " + req_count + " requests, " + rps + " requests per second.");
+
+                last_log = t;
+                req_count = 0;
+            }
 
             try {
                 conn = server.accept();
@@ -52,6 +70,7 @@ public class Server extends Thread {
                 requests.add(client);
 
                 //Logger.debug(addr + " sent request, path=" + req.path);
+                req_count++;
             }
             catch (IOException exc) {
                 Logger.warn(addr + " " + exc);
