@@ -31,6 +31,11 @@ public class GameInfo {
     public int playerIndex;
 
     /**
+     * Number of attacks piled on next player.
+     */
+    public int attackCounter;
+
+    /**
      * Initializes the array.
      */
     public GameInfo() {

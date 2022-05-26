@@ -341,6 +341,10 @@ public class Game {
         return whosePlaying;
     }
 
+    public int getAttackCounter() {
+        return attackCounter;
+    }
+
     //Testing
 
     /**
