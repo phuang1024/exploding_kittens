@@ -140,12 +140,14 @@ public class Game {
         if (card == Card.EXPLODING_KITTEN) {
             if (whosePlaying.hasDefuse()) {
                 whosePlaying.removeCard(Card.DEFUSE);
+                discardPile.add(Card.DEFUSE);
                 endTurn();
                 deck.insertBomb();
                 return -2;
             } else {
                 whosePlaying.removeFromGame();
                 discardPile.add(card);
+                attackCounter = 0;
                 endTurn();
                 return -1;
             }
