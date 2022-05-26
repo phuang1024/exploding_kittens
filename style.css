@@ -1,6 +1,7 @@
 body {
     background-color: black;
     background-image: url(background.jpg);
+    background-repeat: no-repeat;
     font-family: Ubuntu, Arial;
     margin: 0em;
     min-height: 100%;
