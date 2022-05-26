@@ -11,8 +11,6 @@ public class Game {
     private String id;                  //Game id
     private Player whosePlaying;        //Stores id of who is playing
     private int attackCounter;          //current attackCounter;
-    private boolean attackPlayed;       //if current player is the one who played the last attack card
-
     /**
      * constructs a Game object with the following parameters:
      * @param p1 player 1 
@@ -88,7 +86,6 @@ public class Game {
             case Card.ATTACK:
                 System.out.println("Playing Attack Card");
                 attackCounter += 2;
-                attackPlayed = true;
                 endTurn();
                 return 3;
             case Card.SKIP:
@@ -118,7 +115,7 @@ public class Game {
                     next = nextPlayer(next.getId());
                     hand = next.getHand();
                 }
-                
+
                 if (next.equals(whosePlaying)) {
                     return 3;
                 }
@@ -132,46 +129,34 @@ public class Game {
     }
 
     /**
-     * draws a card into the current players hand
-     * @return -2 defused exploding kitten successfully
-     * @return -1 player drew exploding kitten and blew up
-     * @return 0 if player blew up and game ended
-     * @return other = card id of card drawn
+     * draws a card into the current players hand and ends turn
+     * @return Player whose turni s next
      */
-    public int drawCard() {
+    public Player drawCard() {
         int card = deck.drawCard();
-        if (card == Card.EXPLODING_KITTEN)
-        {
+        if (card == Card.EXPLODING_KITTEN) {
             if (whosePlaying.hasDefuse()) {
                 whosePlaying.removeCard(Card.DEFUSE);
-                whosePlaying = nextPlayer();
                 deck.insertBomb();
-                return -2;
             } else {
                 whosePlaying.removeFromGame();
-                if (detectWin() != null)
-                {
-                    return 0;
-                }
-                return -1;
+                discardPile.push(card);
+                return endTurn();
             }
         }
         whosePlaying.addCard(card);
-        return card;
+        if (attackCounter > 0) {
+            attackCounter--;
+            return whosePlaying;
+        }
+        return endTurn();
     }
 
     /**
      * ends the current players turn
      * @return next player
      */
-    public Player endTurn() {
-        if (attackPlayed = false) {
-            while (attackCounter > 0) {
-                attackCounter--;
-                return whosePlaying;
-            }
-        }
-        attackPlayed = false;
+    private Player endTurn() {
         whosePlaying = nextPlayer();
         return whosePlaying;
     }
