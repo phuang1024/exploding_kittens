@@ -98,115 +98,121 @@ public class Manager {
             } catch (InterruptedException exc) {
             }
 
-            process();
-
-            // ...
-            if (server.requests.isEmpty())
-                continue;
-
-            // Handle request
-            Client client = server.requests.remove();
-            HTTPRequest req = client.request;
-            String path = req.path.trim();
-
-            int status = 200;
-            Map<String, String> headers = new HashMap<String, String>();
-
-            if (path.equals("/")) {
-                // Testing path.
-            }
-            else if (path.equals("/new-id")) {
-                // Get new ID.
-                String id = Random.randstr(ID_LEN);
-                headers.put("id", id);
-
-                toJoin.put(id, System.currentTimeMillis());
-            }
-            else if (path.equals("/join-game")) {
-                String id = req.headers.get("id");
-                if (joined.containsKey(id)) {
-                    headers.put("join-success", "yes");
-                    headers.put("game-id", joined.get(id));
-                    joined.remove(id);
-                } else {
-                    headers.put("join-success", "no");
+            try {
+                process();
+    
+                // ...
+                if (server.requests.isEmpty())
+                    continue;
+    
+                // Handle request
+                Client client = server.requests.remove();
+                HTTPRequest req = client.request;
+                String path = req.path.trim();
+    
+                int status = 200;
+                Map<String, String> headers = new HashMap<String, String>();
+    
+                if (path.equals("/")) {
+                    // Testing path.
+                }
+                else if (path.equals("/new-id")) {
+                    // Get new ID.
+                    String id = Random.randstr(ID_LEN);
+                    headers.put("id", id);
+    
                     toJoin.put(id, System.currentTimeMillis());
                 }
-            }
-            else if (path.equals("/status")) {
-                String id = req.headers.get("id"), game_id = req.headers.get("game-id");
-                Game game = games.get(game_id);
-
-                boolean turn = id.equals(game.getTurnId());
-                headers.put("your-turn", turn ? "yes" : "no");
-
-                List<Player> players = game.getPlayers();
-                int i = 0;
-                for (; i < 4; i++) {
-                    if (players.get(i).getId().equals(id))
-                        break;
+                else if (path.equals("/join-game")) {
+                    String id = req.headers.get("id");
+                    if (joined.containsKey(id)) {
+                        headers.put("join-success", "yes");
+                        headers.put("game-id", joined.get(id));
+                        joined.remove(id);
+                    } else {
+                        headers.put("join-success", "no");
+                        toJoin.put(id, System.currentTimeMillis());
+                    }
                 }
-                String card_counts = "";
-                for (int fuck = 0; fuck < 4; fuck++) {
-                    int count = players.get(i).getHand().size();
-                    card_counts += count + " ";
-                    i = (i+1) % 4;
+                else if (path.equals("/status")) {
+                    String id = req.headers.get("id"), game_id = req.headers.get("game-id");
+                    Game game = games.get(game_id);
+    
+                    boolean turn = id.equals(game.getTurnId());
+                    headers.put("your-turn", turn ? "yes" : "no");
+    
+                    List<Player> players = game.getPlayers();
+                    int i = 0;
+                    for (; i < 4; i++) {
+                        if (players.get(i).getId().equals(id))
+                            break;
+                    }
+                    String card_counts = "";
+                    for (int fuck = 0; fuck < 4; fuck++) {
+                        int count = players.get(i).getHand().size();
+                        card_counts += count + " ";
+                        i = (i+1) % 4;
+                    }
+                    headers.put("card-counts", card_counts.trim());
+    
+                    headers.put("deck-cards", ""+game.getDeck().cardCount());
+    
+                    int playing = game.getPlayerNum(game.getWhosePlaying().getId());
+                    headers.put("active-player-number", ""+playing);
+    
+                    Stack pile = game.getDiscardPile();
+                    headers.put("top-card", "" + (pile.empty() ? -1 : pile.peek()));
+    
+                    headers.put("index", "" + game.getPlayerNum(id));
                 }
-                headers.put("card-counts", card_counts.trim());
-
-                headers.put("deck-cards", ""+game.getDeck().cardCount());
-
-                int playing = game.getPlayerNum(game.getWhosePlaying().getId());
-                headers.put("active-player-number", ""+playing);
-
-                Stack pile = game.getDiscardPile();
-                headers.put("top-card", "" + (pile.empty() ? -1 : pile.peek()));
-
-                headers.put("index", "" + game.getPlayerNum(id));
-            }
-            else if (path.equals("/hand")) {
-                String id = req.headers.get("id"), game_id = req.headers.get("game-id");
-                List<Integer> hand = games.get(game_id).getHand(id);
-                String ret = "";
-                for (Integer card: hand)
-                    ret += card + " ";
-                headers.put("hand", ret.trim());
-            }
-            else if (path.equals("/play")) {
-                String id = req.headers.get("id"), game_id = req.headers.get("game-id");
-                String card_str = req.headers.get("cards").trim();
-                Game game = games.get(game_id);
-
-                headers.put("success", "yes");
-                if (!id.equals(game.getWhosePlaying().getId())) {
-                    // Not your turn
-                    headers.put("success", "no");
+                else if (path.equals("/hand")) {
+                    String id = req.headers.get("id"), game_id = req.headers.get("game-id");
+                    List<Integer> hand = games.get(game_id).getHand(id);
+                    String ret = "";
+                    for (Integer card: hand)
+                        ret += card + " ";
+                    headers.put("hand", ret.trim());
                 }
-                else if (card_str.length() == 0) {
-                    // Client didn't play any cards, i.e. end turn
-                    game.drawCard();
-                    game.endTurn();
+                else if (path.equals("/play")) {
+                    String id = req.headers.get("id"), game_id = req.headers.get("game-id");
+                    String card_str = req.headers.get("cards").trim();
+                    Game game = games.get(game_id);
+    
+                    headers.put("success", "yes");
+                    if (!id.equals(game.getWhosePlaying().getId())) {
+                        // Not your turn
+                        headers.put("success", "no");
+                    }
+                    else if (card_str.length() == 0) {
+                        // Client didn't play any cards, i.e. end turn
+                        game.drawCard();
+                        game.endTurn();
+                    }
+                    else {
+                        List<Integer> cards = new ArrayList<Integer>();
+                        for (String part: card_str.split(" "))
+                            cards.add(Integer.parseInt(part));
+                        int[] cardArray = new int[cards.size()];
+                        for (int i = 0; i < cards.size(); i++)
+                            cardArray[i] = cards.get(i);
+        
+                        game.playCard(cardArray);
+                    }
                 }
                 else {
-                    List<Integer> cards = new ArrayList<Integer>();
-                    for (String part: card_str.split(" "))
-                        cards.add(Integer.parseInt(part));
-                    int[] cardArray = new int[cards.size()];
-                    for (int i = 0; i < cards.size(); i++)
-                        cardArray[i] = cards.get(i);
+                    status = 404;
+                }
     
-                    game.playCard(cardArray);
+                try {
+                    HTTPResponse resp = new HTTPResponse(status, "A", headers, "");
+                    client.send(resp);
+                } catch (IOException exc) {
+                    Logger.warn(exc.toString());
                 }
             }
-            else {
-                status = 404;
-            }
-
-            try {
-                HTTPResponse resp = new HTTPResponse(status, "A", headers, "");
-                client.send(resp);
-            } catch (IOException exc) {
-                Logger.warn(exc.toString());
+            catch (Exception e) {
+                Logger.error("Exception:");
+                e.printStackTrace();
             }
         }
     }

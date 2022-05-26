@@ -51,7 +51,7 @@ public class Server extends Thread {
                 client = new Client(req, out);
                 requests.add(client);
 
-                Logger.debug(addr + " sent request, path=" + req.path);
+                //Logger.debug(addr + " sent request, path=" + req.path);
             }
             catch (IOException exc) {
                 Logger.warn(addr + " " + exc);
