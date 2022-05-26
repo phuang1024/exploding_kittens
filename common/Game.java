@@ -142,11 +142,14 @@ public class Game {
                 discardPile.push(card);
                 return endTurn();
             }
-        }
+        } else {
         whosePlaying.addCard(card);
-        if (attackCounter > 0) {
+        }
+        if (attackCounter > 1) {
             attackCounter--;
             return whosePlaying;
+        } else  {
+            attackCounter = 0;
         }
         return endTurn();
     }

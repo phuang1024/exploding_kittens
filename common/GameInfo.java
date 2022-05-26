@@ -1,6 +1,3 @@
-import java.util.*;
-
-
 /**
  * Used client side to package some information about the game.
  */
