@@ -112,10 +112,15 @@ public class Game {
                 whosePlaying.removeCard(cardId);
             case Card.FAVOR:
                 System.out.println("Playing Cat or Favor Card");
-                ArrayList<Integer> hand = nextPlayer().getHand();
+                Player next = nextPlayer();
+                ArrayList<Integer> hand = next.getHand();
+                while (hand.size() == 0 && !next.equals(whosePlaying))
+                {
+                    hand = nextPlayer(next.getId()).getHand();
+                }
                 int rand = (int)(hand.size()*Math.random());
                 whosePlaying.addCard(hand.get(rand));
-                nextPlayer().removeCard(hand.get(rand));
+                next.removeCard(hand.get(rand));
                 return 2;
         }
         return 3;
@@ -247,7 +252,33 @@ public class Game {
      */
     public Player nextPlayer()
     {
-        int num = getPlayerNum(whosePlaying.getId());
+        // int num = getPlayerNum(whosePlaying.getId());
+        // if (num == 3)
+        // {
+        //     num = 0;
+        // }
+        // else
+        // {
+        //     num++;
+        // }
+        // while (!pList.get(num).isInGame())
+        // {
+        //     if (num == 3)
+        //     {
+        //         num = 0;
+        //     }
+        //     else
+        //     {
+        //         num++;
+        //     }
+        // }
+        // return pList.get(num);
+        return nextPlayer(whosePlaying.getId());
+    }
+
+    public Player nextPlayer(String prevPlayerID)
+    {
+        int num = getPlayerNum(prevPlayerID);
         if (num == 3)
         {
             num = 0;
