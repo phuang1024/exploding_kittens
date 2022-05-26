@@ -39,6 +39,7 @@ import java.util.*;
  *     active-player-number: Number (0, 1, 2, 3) of active player.
  *     top-card: Top card of discard pile.
  *     index: Your player index.
+ *     attack-count: Current attack counter.
  *
  * /hand
  *   Get your current hand.
@@ -158,6 +159,8 @@ public class Manager {
                     headers.put("top-card", "" + (pile.empty() ? -1 : pile.peek()));
     
                     headers.put("index", "" + game.getPlayerNum(id));
+
+                    headers.put("attack-count", "" + game.getAttackCounter());
                 }
                 else if (path.equals("/hand")) {
                     String id = req.headers.get("id"), game_id = req.headers.get("game-id");
@@ -180,7 +183,6 @@ public class Manager {
                     else if (card_str.length() == 0) {
                         // Client didn't play any cards, i.e. end turn
                         game.drawCard();
-                        game.endTurn();
                     }
                     else {
                         List<Integer> cards = new ArrayList<Integer>();

@@ -190,6 +190,7 @@ public class Conn {
         info.activePlayerNumber = Integer.parseInt(resp.headers.get("active-player-number"));
         info.topCard = Integer.parseInt(resp.headers.get("top-card"));
         info.playerIndex = Integer.parseInt(resp.headers.get("index"));
+        info.attackCounter = Integer.parseInt(resp.headers.get("attack-count"));
 
         return info;
     }
