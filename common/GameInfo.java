@@ -43,6 +43,6 @@ public class GameInfo {
     public GameInfo() {
         playerCardCount = new int[4];
         topCards = new int[3];
-        alive = new int[4];
+        alive = new boolean[4];
     }
 }
