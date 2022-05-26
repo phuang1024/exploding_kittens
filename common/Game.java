@@ -41,7 +41,6 @@ public class Game {
         this.id = id;
         whosePlaying = p0;
         attackCounter = 0;
-        attackPlayed = false;
     }
 
     /**
