@@ -31,14 +31,13 @@ public class GameWindow
     private ArrayList<CardButton> hand = new ArrayList<CardButton>();
     private ArrayList<CardButton> selectedCards = new ArrayList<CardButton>();
 
-    private int currentDiscCard;
     private int[] currentDiscCards;
     private boolean gameEnded;
 
     private JLabel [] playerCardCounts;
     private JLabel activePlayerTracker;
+    private JLabel activePlayerTrackerBox;
     private JLabel deckCounter;
-    private JLabel discCard; // TODO delete
     private JLabel [] discCards;
     private int playerNum;
     
@@ -58,7 +57,6 @@ public class GameWindow
         currentDiscCards = new int[3];
         discCards = new JLabel[3];
         gameEnded = false;
-        currentDiscCard = -10;
 
         try
         {
@@ -183,7 +181,7 @@ public class GameWindow
         } ,0 , 500);
     } 
 
-    public void explodingKittenDrawn(boolean hasDefuse, int playerWhoDrew)
+    private void explodingKittenDrawn(boolean hasDefuse, int playerWhoDrew)
     {
         JLabel explodeImg = addImage("images/Explosion.png", new Dimension(660,552), new Point(310, 84));
         JLabel explodeTxtBox = addImage("images/WhiteSquare.png", new Dimension(330,276), new Point(475, 222));
@@ -290,8 +288,10 @@ public class GameWindow
         if (currentPlayer == playerNum)
         {
             activePlayerTracker.setText("Player " + plNum + "'s (your) turn!");
+            activePlayerTrackerBox.setBorder(BorderFactory.createLineBorder(Color.ORANGE,5));
             return;
         }
+        activePlayerTrackerBox.setBorder(BorderFactory.createEmptyBorder());
         activePlayerTracker.setText("Player " + plNum + "'s turn");
     }
 
@@ -372,7 +372,7 @@ public class GameWindow
 
         //Adds the white box of the active player tracker
         createActivePlayerTracker(); 
-        addImage("images/WhiteSquare.png", new Dimension(160,60), new Point(1120, 0));
+        activePlayerTrackerBox = addImage("images/WhiteSquare.png", new Dimension(160,60), new Point(1120, 0));
 
         addPlayCardButton();
         addEndTurnButton();
