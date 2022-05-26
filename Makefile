@@ -50,8 +50,12 @@ build:
 	javac *.java; \
 	jar cfm server.jar manifest.mf *.class
 	rm -f ./build-client/*.java ./build-server/*.java
-	cd ./client; \
-	zip -r ../build-client/images.zip ./images
+	cp -r ./client/images ./build-client
+	cd ./build-client; \
+	find -name "*.xcf" -delete; \
+	mkdir -p ./ExplodingKittensClient; \
+	mv client.jar images ExplodingKittensClient; \
+	zip -r client.zip ./ExplodingKittensClient
 
 docs:
 	javadoc -d ./docs-client ./common/*.java ./network/*.java ./client/*.java
