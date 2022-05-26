@@ -12,12 +12,12 @@ public class Conn {
     /**
      * Localhost
      */
-    public static final String IP = "127.0.0.1";
+    // public static final String IP = "127.0.0.1";
 
     /**
      * Patrick's AWS server.
      */
-    //public static final String IP = "54.176.105.157";  // AWS
+    public static final String IP = "54.176.105.157";  // AWS
 
     /**
      * Port to connect.
