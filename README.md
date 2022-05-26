@@ -17,16 +17,10 @@ APCS final project "Exploding Kittens"
 
 ## Todo
 
-Game Logic
-
-GUI/server
 - Highlight your turn box when it is your turn
-- indicate dead players on others screens ie: player 3 (dead)
-- attack counter above discard pile
-- you won screen
-- show top 4 cards of discard pile
-- Find way to choose cards for defuse
-- Show when drawing exploding kitten
+- Indicate dead players on others screens ie: player 3 (dead)
+- Attack counter above discard pile
+- You won screen. No lose screen, enters spectator mode when lose.
 
 [pres]: https://docs.google.com/presentation/d/1i9qFDHsO1hf4qcFBTOVqJkuwdQqApKoKJgf6aWsqb6o/edit
 [plan]: https://docs.google.com/document/d/1rDaI5UAvqenxh-LWBQs2AzlWNK6Z7GmnznJzaIbuahk/edit
