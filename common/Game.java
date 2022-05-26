@@ -48,7 +48,7 @@ public class Game {
      * @return the last card played
      */
     public int lastPlayed() {
-        return (int)discardPile.peek();
+        return (int)discardPile.get(discardPile.size()-1);
     }
 
     //Game Logic methods
@@ -301,7 +301,7 @@ public class Game {
      * returns the discard pile
      * @return the discard pile
      */
-    public Stack<Integer> getDiscardPile() {
+    public List<Integer> getDiscardPile() {
         return discardPile;
     }
 

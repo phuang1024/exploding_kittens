@@ -156,8 +156,8 @@ public class Manager {
                     headers.put("active-player-number", ""+playing);
     
                     List<Integer> pile = game.getDiscardPile();
-                    int i = pile.length() - 1;
-                    String top_cards = ""
+                    int i = pile.size() - 1;
+                    String top_cards = "";
                     for (int a = 0; a < 3; a++) {
                         int card = (i >= 0) ? pile.get(i) : -1;
                         top_cards += card + " ";
