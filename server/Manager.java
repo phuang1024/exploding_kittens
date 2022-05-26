@@ -170,9 +170,8 @@ public class Manager {
 
                     headers.put("attack-count", "" + game.getAttackCounter());
 
-                    List<Player> players = game.getPlayers();
                     String alive_str = "";
-                    for (int i = 0; i < 4; i++)
+                    for (i = 0; i < 4; i++)
                         alive_str += players.get(i).isInGame() ? "1 " : "0 ";
                     headers.put("alive", alive_str.trim());
                 }
