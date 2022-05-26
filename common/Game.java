@@ -130,7 +130,7 @@ public class Game {
 
     /**
      * draws a card into the current players hand and ends turn
-     * @return Player whose turni s next
+     * @return Player whose turn is next
      */
     public Player drawCard() {
         int card = deck.drawCard();
