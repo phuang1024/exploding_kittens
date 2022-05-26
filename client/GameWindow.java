@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -31,12 +32,14 @@ public class GameWindow
     private ArrayList<CardButton> selectedCards = new ArrayList<CardButton>();
 
     private int currentDiscCard;
+    private int[] currentDiscCards;
     private boolean gameEnded;
 
     private JLabel [] playerCardCounts;
     private JLabel activePlayerTracker;
     private JLabel deckCounter;
-    private JLabel discCard;
+    private JLabel discCard; // TODO delete
+    private JLabel [] discCards;
     private int playerNum;
     
 
@@ -52,6 +55,8 @@ public class GameWindow
     {
         this.playerID = playerID;
         this.gameID = gameID;
+        currentDiscCards = new int[3];
+        discCards = new JLabel[3];
         gameEnded = false;
         currentDiscCard = -10;
 
@@ -81,90 +86,9 @@ public class GameWindow
         startUpdating();
     }
 
-    private void startUpdating()
+    private void updateScreen(int [] playerCardCounts, int [] centerCards, List<Integer> playerHand, int currentPlayer, int deckCardCount)
     {
-        Timer t = new Timer();
 
-        t.scheduleAtFixedRate(new TimerTask(){
-        public void run()
-        {
-            try
-            {
-                GameInfo info = Conn.getStatus(playerID, gameID);
-                List<Integer> hand = Conn.getHand(playerID, gameID);
-                updateScreen(info, hand);
-            }
-            catch (Exception f)
-            {
-                f.printStackTrace();
-            }
-            if (gameEnded)
-            {
-                t.cancel();
-            }
-        }
-        } ,0 , 500);
-    } 
-
-    
-
-    private void addPlayCardButton()
-    {
-        JButton btn = new JButton("Play Selected Cards");
-        btn.addActionListener(new PlayCardsListener());
-        btn.setSize(150, 30);
-        btn.setLocation(660, 480);
-        btn.setVisible(true);
-        components.add(btn);
-    }
-
-    private void addEndTurnButton()
-    {
-        JButton btn = new JButton("End Turn");
-        btn.addActionListener(new EndTurnListener());
-        btn.setSize(150, 30);
-        btn.setLocation(455, 480);
-        btn.setVisible(true);
-        components.add(btn);
-    }
-
-    /**
-     * Updates the screen with information given by the user
-     * 
-     * @param info the information to use to update the screen, given in GameInfo, a wrapper class
-     * @param hand The cards in the player's hand
-     */
-    public void updateScreen(GameInfo info, List<Integer> hand) 
-    {
-        updateScreen(info.playerCardCount, info.topCard, hand, info.activePlayerNumber, info.deckCardCount);
-    }
-
-    private void createActivePlayerTracker() 
-    {
-        JLabel lb = new JLabel("Player " + playerNum + "'s (your) turn!");
-        lb.setSize(160,50);
-        lb.setLocation(new Point(1130, 0));
-        lb.setForeground(Color.BLACK);
-        lb.setFont(new Font("Dialog", Font.PLAIN, 13));
-        lb.setVisible(true);
-        components.add(lb);
-        activePlayerTracker = lb;
-        return;
-    }
-
-    private void updateActivePlayer(int currentPlayer)
-    {
-        int plNum = currentPlayer + 1;
-        if (currentPlayer == playerNum)
-        {
-            activePlayerTracker.setText("Player " + plNum + "'s (your) turn!");
-            return;
-        }
-        activePlayerTracker.setText("Player " + plNum + "'s turn");
-    }
-
-    private void updateScreen(int [] playerCardCounts, int centerCard, List<Integer> playerHand, int currentPlayer, int deckCardCount)
-    {
         //Updates the opponenets' card counts
         for (int i = 0; i < 4; i++)
         {
@@ -173,16 +97,35 @@ public class GameWindow
         }
 
         //Updates middle card
-        if (centerCard != -1 && centerCard != currentDiscCard)
+        boolean same = true;
+        for (int i = 0; i < 3; i++)
         {
-            currentDiscCard = centerCard;
-            String middleCard = cardNumToPath(centerCard);
-            if (discCard != null)
-                components.remove(discCard);
-            discCard = addImage(middleCard, new Dimension(200,282), new Point(540, 219));
+            if (centerCards[i] != currentDiscCards[i])
+            {
+                same = false;
+                break;
+            }
+        }
+
+        if (same == false)
+        {
+            if (discCards[0] != null)
+                components.remove(discCards[0]);
+            if (discCards[1] != null)
+                components.remove(discCards[1]);
+            if (discCards[2] != null)
+                components.remove(discCards[2]);
+            currentDiscCards = Arrays.copyOf(centerCards, 3);
+            if (currentDiscCards[0] != -1)
+                discCards[0] = addImage(cardNumToPath(currentDiscCards[0]), new Dimension(200,282), new Point(500, 185));
+            if (currentDiscCards[1] != -1)
+                discCards[1] = addImage(cardNumToPath(currentDiscCards[1]), new Dimension(200,282), new Point(540, 140));
+            if (currentDiscCards[2] != -1)  
+                discCards[2] = addImage(cardNumToPath(currentDiscCards[2]), new Dimension(200,282), new Point(580, 95));
             frame.revalidate();
             frame.repaint();
         }
+        
 
         //Updates Hand
         boolean handIsSame = true;
@@ -214,6 +157,145 @@ public class GameWindow
         //Updates deck
         deckCounter.setText("<html>Deck:<br/>" + deckCardCount + " cards</html>");
     }
+
+    private void startUpdating()
+    {
+        Timer t = new Timer();
+
+        t.scheduleAtFixedRate(new TimerTask(){
+        public void run()
+        {
+            try
+            {
+                GameInfo info = Conn.getStatus(playerID, gameID);
+                List<Integer> hand = Conn.getHand(playerID, gameID);
+                updateScreen(info, hand);
+            }
+            catch (Exception f)
+            {
+                f.printStackTrace();
+            }
+            if (gameEnded)
+            {
+                t.cancel();
+            }
+        }
+        } ,0 , 500);
+    } 
+
+    public void explodingKittenDrawn(boolean hasDefuse, int playerWhoDrew)
+    {
+        JLabel explodeImg = addImage("images/Explosion.png", new Dimension(660,552), new Point(310, 84));
+        JLabel explodeTxtBox = addImage("images/WhiteSquare.png", new Dimension(330,276), new Point(475, 222));
+        JLabel explodeTxt = new JLabel("", SwingConstants.CENTER);
+        String txt;
+        if (playerWhoDrew == playerNum)
+        {
+            if (hasDefuse)
+            {
+                txt = "You drew an exploding kitten but luckily, you had a defuse!";
+            }
+            else
+            {
+                txt = "You drew an exploding kitten but didn't have a defuse! You are eliminated!";
+            }
+        }
+        else
+        {
+            int pl = playerWhoDrew + 1;
+            if (hasDefuse)
+            {
+                txt = "Player " + pl + " drew an exploding kitten but had a defuse!";
+            }
+            else
+            {
+                txt = "Player " + pl + " drew an exploding kitten and didn't have a defuse! They are out of the game!";
+            }
+        }
+
+        explodeTxt.setText(txt);
+        explodeTxt.setSize(new Dimension(330,276));
+        explodeTxt.setLocation(new Point(475, 222));
+        explodeTxt.setForeground(Color.BLACK);
+        explodeTxt.setFont(new Font("Dialog", Font.PLAIN, 12));
+        explodeTxt.setVisible(true);
+        components.add(explodeTxt);
+        components.add(explodeTxtBox);
+        components.add(explodeImg);
+
+        if (playerWhoDrew == playerNum && !hasDefuse)
+            return;
+
+        try
+        {
+            wait(5000);
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+
+        components.remove(explodeTxt);
+        components.remove(explodeTxtBox);
+        components.remove(explodeImg);
+    }
+
+    private void addPlayCardButton()
+    {
+        JButton btn = new JButton("Play Selected Cards");
+        btn.addActionListener(new PlayCardsListener());
+        btn.setSize(150, 30);
+        btn.setLocation(660, 480);
+        btn.setVisible(true);
+        components.add(btn);
+    }
+
+    private void addEndTurnButton()
+    {
+        JButton btn = new JButton("End Turn");
+        btn.addActionListener(new EndTurnListener());
+        btn.setSize(150, 30);
+        btn.setLocation(455, 480);
+        btn.setVisible(true);
+        components.add(btn);
+    }
+
+    /**
+     * Updates the screen with information given by the user
+     * 
+     * @param info the information to use to update the screen, given in GameInfo, a wrapper class
+     * @param hand The cards in the player's hand
+     */
+    public void updateScreen(GameInfo info, List<Integer> hand) 
+    {
+        updateScreen(info.playerCardCount, info.topCards, hand, info.activePlayerNumber, info.deckCardCount);
+    }
+
+    private void createActivePlayerTracker() 
+    {
+        JLabel lb = new JLabel("Player " + playerNum + "'s (your) turn!");
+        lb.setSize(160,50);
+        lb.setLocation(new Point(1130, 0));
+        lb.setForeground(Color.BLACK);
+        lb.setFont(new Font("Dialog", Font.PLAIN, 13));
+        lb.setVisible(true);
+        components.add(lb);
+        activePlayerTracker = lb;
+        return;
+    }
+
+    private void updateActivePlayer(int currentPlayer)
+    {
+        int plNum = currentPlayer + 1;
+        if (currentPlayer == playerNum)
+        {
+            activePlayerTracker.setText("Player " + plNum + "'s (your) turn!");
+            return;
+        }
+        activePlayerTracker.setText("Player " + plNum + "'s turn");
+    }
+
+    
 
     private void updateCardCount(int playerToUpdate, int newNum)
     {

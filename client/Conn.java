@@ -12,12 +12,12 @@ public class Conn {
     /**
      * Localhost
      */
-    public static final String IP = "127.0.0.1";
+    //public static final String IP = "127.0.0.1";
 
     /**
      * Patrick's AWS server.
      */
-    //public static final String IP = "54.176.105.157";  // AWS
+    public static final String IP = "54.176.105.157";  // AWS
 
     /**
      * Port to connect.
@@ -187,7 +187,7 @@ public class Conn {
         for (int i = 0; i < 4; i++)
             info.playerCardCount[i] = Integer.parseInt(parts[i]);
 
-        parts = resp.headers.get("top-card").split(" ");
+        parts = resp.headers.get("top-cards").split(" ");
         for (int i = 0; i < 3; i++)
             info.topCards[i] = Integer.parseInt(parts[i]);
 
