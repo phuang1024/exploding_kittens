@@ -12,7 +12,7 @@ public class Conn {
     /**
      * Localhost
      */
-    // public static final String IP = "127.0.0.1";
+    //public static final String IP = "127.0.0.1";
 
     /**
      * Patrick's AWS server.
