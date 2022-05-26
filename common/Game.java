@@ -156,7 +156,7 @@ public class Game {
         if (attackCounter > 1) {
             attackCounter--;
             return whosePlaying;
-        } else  {
+        } else {
             attackCounter = 0;
         }
         whosePlaying = nextPlayer();
