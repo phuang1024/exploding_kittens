@@ -195,8 +195,25 @@ public class Manager {
                         int[] cardArray = new int[cards.size()];
                         for (int i = 0; i < cards.size(); i++)
                             cardArray[i] = cards.get(i);
+
+                        // Simple play validation
+                        boolean good = true;
+                        int card1 = cardArray[0];
+                        if (Card.is(card1, Card.BEARD_CAT | Card.CATTERMELON | Card.HAIRY_POTATO_CAT |
+                                Card.RAINBOW_RALPHING_CAT | Card.TACOCAT)) {
+                            if (cardArray.length != 2 || cardArray[1] != card1)
+                                good = false;
+                        } else {
+                            if (cardArray.length != 1)
+                                good = false;
+                        }
         
-                        game.playCard(cardArray);
+                        if (good) {
+                            game.playCard(cardArray);
+                        } else {
+                            headers.put("success", "no");
+                            Logger.warn("Invalid move: " + cardArray);
+                        }
                     }
                 }
                 else {
