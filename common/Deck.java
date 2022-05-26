@@ -12,7 +12,7 @@ public class Deck {
      * constructs a 4 player game deck with custom card counts
      */
     public Deck() {
-        this(0 /*3*/, 0, 6, 6, 0/*3*/, 3, 3, 4);
+        this(0 /*3*/, 0, 5, 5, 0/*3*/, 3, 4, 5);
     }
 
     /**

@@ -35,7 +35,7 @@ public class Game {
         initializeHand(p3);
 
         deck.addCards(Card.EXPLODING_KITTEN, 3);
-        deck.addCards(Card.DEFUSE, 3/*6*/);
+        deck.addCards(Card.DEFUSE, 2/*6*/);
 
         deck.shuffle();
         discardPile = new ArrayList<Integer>();
@@ -141,6 +141,7 @@ public class Game {
             if (whosePlaying.hasDefuse()) {
                 whosePlaying.removeCard(Card.DEFUSE);
                 endTurn();
+                deck.insertBomb();
                 return -2;
             } else {
                 whosePlaying.removeFromGame();
