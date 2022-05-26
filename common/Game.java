@@ -21,8 +21,7 @@ public class Game {
      * @param p4 player 4
      * @param id game id
      */
-    public Game(Player p0, Player p1, Player p2, Player p3, String id)
-    {
+    public Game(Player p0, Player p1, Player p2, Player p3, String id) {
         pList = new ArrayList<Player>(4);
         pList.add(p0);
         pList.add(p1);
@@ -37,7 +36,7 @@ public class Game {
         initializeHand(p3);
 
         deck.addCards(Card.EXPLODING_KITTEN, 3);
-        deck.addCards(Card.DEFUSE, 6);
+        deck.addCards(Card.DEFUSE, 3/*6*/);
 
         deck.shuffle();
         discardPile = new Stack<Integer>();
@@ -64,8 +63,7 @@ public class Game {
      * @return 2 favor/cat card was played
      * @return failed to call any card
      */
-    public int playCard(int[] cards)
-    {
+    public int playCard(int[] cards) {
         int cardId = cards[0];
         return playCard(cardId);
     }
@@ -76,11 +74,11 @@ public class Game {
      * @return 0 skipped
      * @return 1 shuffled
      * @return 2 favor/cat card
-     * @return 3 attack card played
+     * @return 3 favor/cat card played  but all other player hands were empty so no cards stolen
+     * @return 4 attack card played
      * @return failed to call any card
      */
-    public int playCard(int cardId)
-    {
+    public int playCard(int cardId) {
         System.out.println("Processing card " + cardId);
 
         discardPile.push(cardId);
@@ -110,14 +108,19 @@ public class Game {
             case Card.RAINBOW_RALPHING_CAT:
             case Card.TACOCAT:
                 whosePlaying.removeCard(cardId);
+                discardPile.push(cardId);
             case Card.FAVOR:
                 System.out.println("Playing Cat or Favor Card");
                 Player next = nextPlayer();
                 ArrayList<Integer> hand = next.getHand();
 
-                while (hand.size() == 0 && !next.equals(whosePlaying))
-                {
-                    hand = nextPlayer(next.getId()).getHand();
+                while (hand.size() == 0 && !next.equals(whosePlaying)) {
+                    next = nextPlayer(next.getId());
+                    hand = next.getHand();
+                }
+                
+                if (next.equals(whosePlaying)) {
+                    return 3;
                 }
 
                 int rand = (int)(hand.size()*Math.random());
@@ -125,7 +128,7 @@ public class Game {
                 next.removeCard(hand.get(rand));
                 return 2;
         }
-        return 3;
+        return 4;
     }
 
     /**
@@ -135,20 +138,16 @@ public class Game {
      * @return 0 if player blew up and game ended
      * @return other = card id of card drawn
      */
-    public int drawCard()
-    {
+    public int drawCard() {
         int card = deck.drawCard();
         if (card == Card.EXPLODING_KITTEN)
         {
-            if (whosePlaying.hasDefuse())
-            {
+            if (whosePlaying.hasDefuse()) {
                 whosePlaying.removeCard(Card.DEFUSE);
                 whosePlaying = nextPlayer();
                 deck.insertBomb();
                 return -2;
-            }
-            else
-            {
+            } else {
                 whosePlaying.removeFromGame();
                 if (detectWin() != null)
                 {
@@ -165,12 +164,9 @@ public class Game {
      * ends the current players turn
      * @return next player
      */
-    public Player endTurn()
-    {
-        if (attackPlayed = false)
-        {
-            while (attackCounter > 0)
-            {
+    public Player endTurn() {
+        if (attackPlayed = false) {
+            while (attackCounter > 0) {
                 attackCounter--;
                 return whosePlaying;
             }
@@ -184,8 +180,7 @@ public class Game {
      * Id of player currently playing
      * @return id of player currently playing
      */
-    public String getTurnId()
-    {
+    public String getTurnId() {
         return whosePlaying.getId();
     }
 
@@ -196,8 +191,7 @@ public class Game {
      * @param p2 new player 2
      * @param p3 new player 3
      */
-    public void reOrderPlayers(Player p0, Player p1, Player p2, Player p3)
-    {
+    public void reOrderPlayers(Player p0, Player p1, Player p2, Player p3) {
         pList.clear();
         pList.add(p0);
         pList.add(p1);
@@ -210,14 +204,10 @@ public class Game {
      * @return the Id of the winning player if there is a win detected
      * @return null if there is no win detected
      */
-    public String detectWin()
-    {
-        if (alivePlayerCount() == 1)
-        {
-            for (Player p : pList)
-            {
-                if (p.isInGame())
-                {
+    public String detectWin() {
+        if (alivePlayerCount() == 1) {
+            for (Player p : pList) {
+                if (p.isInGame()) {
                     return p.getId();
                 }
             }
@@ -229,13 +219,10 @@ public class Game {
      * 
      * @return number of players currently in the game
      */
-    public int alivePlayerCount()
-    {
+    public int alivePlayerCount() {
         int pCount = 0;
-        for (Player p : pList)
-        {
-            if (p.isInGame())
-            {
+        for (Player p : pList) {
+            if (p.isInGame()) {
                 pCount++;
             }
         }
@@ -243,8 +230,7 @@ public class Game {
     }
 
     // helpers
-    private void shuffleCards()
-    {
+    private void shuffleCards() {
         deck.shuffle();
     }
 
@@ -252,8 +238,7 @@ public class Game {
      * Returns the next player in turn order, skipping over eliminated players
      * @return next player
      */
-    public Player nextPlayer()
-    {
+    public Player nextPlayer() {
         return nextPlayer(whosePlaying.getId());
     }
 
@@ -262,25 +247,18 @@ public class Game {
      * @param prevPlayerID ID of specified player. Player after this player's ID will be returned
      * @return ID of player after specified player in turn order
      */
-    public Player nextPlayer(String prevPlayerID)
-    {
+    public Player nextPlayer(String prevPlayerID) {
         int num = getPlayerNum(prevPlayerID);
-        if (num == 3)
-        {
+        if (num == 3) {
             num = 0;
         }
-        else
-        {
+        else {
             num++;
         }
-        while (!pList.get(num).isInGame())
-        {
-            if (num == 3)
-            {
+        while (!pList.get(num).isInGame()) {
+            if (num == 3) {
                 num = 0;
-            }
-            else
-            {
+            } else {
                 num++;
             }
         }
@@ -288,10 +266,8 @@ public class Game {
     }
 
     
-    private void initializeHand(Player p)
-    {
-        for (int i = 0; i < 6; i++)
-        {
+    private void initializeHand(Player p) {
+        for (int i = 0; i < 6; i++) {
             p.addCard(deck.drawCard());
         }
         p.addCard(Card.DEFUSE);
@@ -305,12 +281,9 @@ public class Game {
      * @param playerId of player to be returned
      * @return player with given id
      */
-    public Player getPlayer(String playerId)
-    {
-        for (int i = 0; i < pList.size(); i++)
-        {
-            if (pList.get(i).getId().equals(playerId))
-            {
+    public Player getPlayer(String playerId) {
+        for (int i = 0; i < pList.size(); i++) {
+            if (pList.get(i).getId().equals(playerId)) {
                 return pList.get(i);
             }
         }
@@ -321,8 +294,7 @@ public class Game {
      * return this game's id
      * @return game id
      */
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
@@ -330,8 +302,7 @@ public class Game {
      * returns the discard pile
      * @return the discard pile
      */
-    public Stack<Integer> getDiscardPile()
-    {
+    public Stack<Integer> getDiscardPile() {
         return discardPile;
     }
 
@@ -339,8 +310,7 @@ public class Game {
      * returns the deck
      * @return the deck
      */
-    public Deck getDeck()
-    {
+    public Deck getDeck() {
         return deck;
     }
 
@@ -348,8 +318,7 @@ public class Game {
      * returns an arraylist of players
      * @return an arraylist of players in the game
      */
-    public ArrayList<Player> getPlayers()
-    {
+    public ArrayList<Player> getPlayers() {
         return pList;
     }
 
@@ -359,12 +328,9 @@ public class Game {
      * @return number of specified player
      * @return -1 if playter not found
      */
-    public int getPlayerNum(String Id)
-    {
-        for (int i = 0; i < pList.size(); i++)
-        {
-            if (pList.get(i).getId().equals(Id))
-            {
+    public int getPlayerNum(String Id) {
+        for (int i = 0; i < pList.size(); i++) {
+            if (pList.get(i).getId().equals(Id)) {
                 return i;
             }
         }
@@ -377,14 +343,11 @@ public class Game {
      * @return hand of player with ID playerID
      * @return null if player not found
      */
-    public ArrayList<Integer> getHand(String playerId)
-    {
-        try
-        {
+    public ArrayList<Integer> getHand(String playerId) {
+        try {
             return getPlayer(playerId).getHand();
         }
-        catch (NullPointerException ex)
-        {
+        catch (NullPointerException ex) {
             return null;
         }
     }
@@ -399,14 +362,11 @@ public class Game {
      * Returns a text block showing all the games information
      * @return String representation of the game
      */
-    public String toString()
-    {
+    public String toString() {
         String gameInfo = "Game ID: " + id + "\n" + "\n";
 
-        for (int i = 0; i < pList.size(); i++)
-        {
-            if (pList.get(i).equals(whosePlaying))
-            {
+        for (int i = 0; i < pList.size(); i++) {
+            if (pList.get(i).equals(whosePlaying)) {
                 gameInfo+= "**Current Player**";
             }
             gameInfo += "p" + i + ": " + pList.get(i).toString() + "\n";
@@ -421,8 +381,7 @@ public class Game {
      * Used to test Game.java
      * @param args
      */
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         Player p0 = new Player("000");
         Player p1 = new Player("111");
         Player p2 = new Player("222");
