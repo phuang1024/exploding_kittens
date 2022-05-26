@@ -142,16 +142,10 @@ public class Manager {
                     headers.put("your-turn", turn ? "yes" : "no");
     
                     List<Player> players = game.getPlayers();
-                    int i = 0;
-                    for (; i < 4; i++) {
-                        if (players.get(i).getId().equals(id))
-                            break;
-                    }
                     String card_counts = "";
-                    for (int fuck = 0; fuck < 4; fuck++) {
+                    for (int i = 0; i < 4; i++) {
                         int count = players.get(i).getHand().size();
                         card_counts += count + " ";
-                        i = (i+1) % 4;
                     }
                     headers.put("card-counts", card_counts.trim());
     

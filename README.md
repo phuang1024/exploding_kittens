@@ -18,7 +18,6 @@ APCS final project "Exploding Kittens"
 ## Todo
 
 - steal from no cards
-- Fix player numbers not working right
 - Find way to choose cards for defuse
 - Show when drawing exploding kitten
 - Highlight your turn box when it is your turn
