@@ -11,6 +11,7 @@ public class Game {
     private String id;                  //Game id
     private Player whosePlaying;        //Stores id of who is playing
     private int attackCounter;          //current attackCounter;
+    
     /**
      * constructs a Game object with the following parameters:
      * @param p1 player 1 
@@ -85,7 +86,7 @@ public class Game {
             case Card.ATTACK:
                 System.out.println("Playing Attack Card");
                 attackCounter += 2;
-                endTurn();
+                endTurn(true);
                 return 3;
             case Card.SKIP:
                 System.out.println("Playing Skip Card");
@@ -130,22 +131,28 @@ public class Game {
     /**
      * draws a card into the current players hand and ends turn
      * @return Player whose turn is next
+     * @return -2 drew exploding kitten and defused successfully
+     * @return -1 drew exploding kitten and were eliminated
+     * @return Id of card drawn
      */
-    public Player drawCard() {
+    public int drawCard() {
         int card = deck.drawCard();
         if (card == Card.EXPLODING_KITTEN) {
             if (whosePlaying.hasDefuse()) {
                 whosePlaying.removeCard(Card.DEFUSE);
-                deck.insertBomb();
+                endTurn();
+                return -2;
             } else {
                 whosePlaying.removeFromGame();
                 discardPile.push(card);
-                return endTurn();
+                endTurn();
+                return -1;
             }
         } else {
         whosePlaying.addCard(card);
         }
-        return endTurn();
+        endTurn();
+        return card;
     }
 
     /**
@@ -153,11 +160,17 @@ public class Game {
      * @return next player
      */
     private Player endTurn() {
-        if (attackCounter > 1) {
-            attackCounter--;
-            return whosePlaying;
-        } else {
-            attackCounter = 0;
+        return endTurn(false);
+    }
+
+    private Player endTurn(boolean attackPlayed) {
+        if (!attackPlayed) {
+            if (attackCounter > 1) {
+                attackCounter--;
+                return whosePlaying;
+            } else {
+                attackCounter = 0;
+            }
         }
         whosePlaying = nextPlayer();
         return whosePlaying;
@@ -238,8 +251,7 @@ public class Game {
         int num = getPlayerNum(prevPlayerID);
         if (num == 3) {
             num = 0;
-        }
-        else {
+        } else {
             num++;
         }
         while (!pList.get(num).isInGame()) {
@@ -333,8 +345,7 @@ public class Game {
     public ArrayList<Integer> getHand(String playerId) {
         try {
             return getPlayer(playerId).getHand();
-        }
-        catch (NullPointerException ex) {
+        } catch (NullPointerException ex) {
             return null;
         }
     }
