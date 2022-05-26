@@ -7,7 +7,7 @@ public class Game {
 
     private ArrayList<Player> pList;    //holds references to each player in the game
     private Deck deck;                  //deck
-    private Stack<Integer> discardPile; //Cards already played
+    private List<Integer> discardPile; //Cards already played
     private String id;                  //Game id
     private Player whosePlaying;        //Stores id of who is playing
     private int attackCounter;          //current attackCounter;
@@ -38,7 +38,7 @@ public class Game {
         deck.addCards(Card.DEFUSE, 3/*6*/);
 
         deck.shuffle();
-        discardPile = new Stack<Integer>();
+        discardPile = new ArrayList<Integer>();
         this.id = id;
         whosePlaying = p0;
         attackCounter = 0;
@@ -48,7 +48,7 @@ public class Game {
      * @return the last card played
      */
     public int lastPlayed() {
-        return (int)discardPile.peek();
+        return (int)discardPile.get(discardPile.size()-1);
     }
 
     //Game Logic methods
@@ -313,7 +313,7 @@ public class Game {
      * returns the discard pile
      * @return the discard pile
      */
-    public Stack<Integer> getDiscardPile() {
+    public List<Integer> getDiscardPile() {
         return discardPile;
     }
 

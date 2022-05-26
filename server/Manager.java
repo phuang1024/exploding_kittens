@@ -37,7 +37,7 @@ import java.util.*;
  *       Starts from you and goes clockwise.
  *     deck-cards: Number of cards in the deck.
  *     active-player-number: Number (0, 1, 2, 3) of active player.
- *     top-card: Top card of discard pile.
+ *     top-cards: Space separated 3 top cards of pile.
  *     index: Your player index.
  *     attack-count: Current attack counter.
  *
@@ -155,8 +155,15 @@ public class Manager {
                     int playing = game.getPlayerNum(game.getWhosePlaying().getId());
                     headers.put("active-player-number", ""+playing);
     
-                    Stack pile = game.getDiscardPile();
-                    headers.put("top-card", "" + (pile.empty() ? -1 : pile.peek()));
+                    List<Integer> pile = game.getDiscardPile();
+                    int i = pile.size() - 1;
+                    String top_cards = "";
+                    for (int a = 0; a < 3; a++) {
+                        int card = (i >= 0) ? pile.get(i) : -1;
+                        top_cards += card + " ";
+                        i--;
+                    }
+                    headers.put("top-cards", top_cards.trim());
     
                     headers.put("index", "" + game.getPlayerNum(id));
 

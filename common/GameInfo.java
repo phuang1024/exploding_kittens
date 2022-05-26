@@ -18,11 +18,6 @@ public class GameInfo {
     public int activePlayerNumber;
 
     /**
-     * Top card of discard pile.
-     */
-    public int topCard;
-
-    /**
      * Top 4 cards of discard pile.
      */
     public int[] topCards;
@@ -38,9 +33,10 @@ public class GameInfo {
     public int attackCounter;
 
     /**
-     * Initializes the array.
+     * Initializes the arrays.
      */
     public GameInfo() {
         playerCardCount = new int[4];
+        topCards = new int[3];
     }
 }
