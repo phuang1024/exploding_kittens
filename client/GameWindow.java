@@ -84,7 +84,7 @@ public class GameWindow
         startUpdating();
     }
 
-    private void updateScreen(int [] playerCardCounts, int [] centerCards, List<Integer> playerHand, int currentPlayer, int deckCardCount)
+    private void updateScreen(int [] playerCardCounts, int [] centerCards, List<Integer> playerHand, int currentPlayer, int deckCardCount, int attackCounter)
     {
 
         //Updates the opponenets' card counts
@@ -150,7 +150,7 @@ public class GameWindow
         playerCards.repaint();
 
         //updates the current player
-        updateActivePlayer(currentPlayer);
+        updateActivePlayer(currentPlayer, attackCounter);
 
         //Updates deck
         deckCounter.setText("<html>Deck:<br/>" + deckCardCount + " cards</html>");
@@ -181,48 +181,27 @@ public class GameWindow
         } ,0 , 500);
     } 
 
-    private void explodingKittenDrawn(boolean hasDefuse, int playerWhoDrew)
+    private void youDiedScreen()
     {
-        JLabel explodeImg = addImage("images/Explosion.png", new Dimension(660,552), new Point(310, 84));
-        JLabel explodeTxtBox = addImage("images/WhiteSquare.png", new Dimension(330,276), new Point(475, 222));
-        JLabel explodeTxt = new JLabel("", SwingConstants.CENTER);
-        String txt;
-        if (playerWhoDrew == playerNum)
-        {
-            if (hasDefuse)
-            {
-                txt = "You drew an exploding kitten but luckily, you had a defuse!";
-            }
-            else
-            {
-                txt = "You drew an exploding kitten but didn't have a defuse! You are eliminated!";
-            }
-        }
-        else
-        {
-            int pl = playerWhoDrew + 1;
-            if (hasDefuse)
-            {
-                txt = "Player " + pl + " drew an exploding kitten but had a defuse!";
-            }
-            else
-            {
-                txt = "Player " + pl + " drew an exploding kitten and didn't have a defuse! They are out of the game!";
-            }
-        }
 
-        explodeTxt.setText(txt);
-        explodeTxt.setSize(new Dimension(330,276));
-        explodeTxt.setLocation(new Point(475, 222));
-        explodeTxt.setForeground(Color.BLACK);
-        explodeTxt.setFont(new Font("Dialog", Font.PLAIN, 12));
-        explodeTxt.setVisible(true);
-        components.add(explodeTxt);
-        components.add(explodeTxtBox);
-        components.add(explodeImg);
+    }
 
-        if (playerWhoDrew == playerNum && !hasDefuse)
-            return;
+    private void youWinScreen()
+    {
+        JLabel winImg = addImage("images/ExplosionCat.png", new Dimension(837,608), new Point(310, 84));//TODO change path
+        JLabel winTxtBox = addImage("images/WhiteSquare.png", new Dimension(330,276), new Point(475, 222));
+        JLabel winTxt = new JLabel("", SwingConstants.CENTER);
+        String txt = "";
+
+        winTxt.setText(txt);
+        winTxt.setSize(new Dimension(330,276));
+        winTxt.setLocation(new Point(475, 222));
+        winTxt.setForeground(Color.BLACK);
+        winTxt.setFont(new Font("Dialog", Font.PLAIN, 12));
+        winTxt.setVisible(true);
+        components.add(winTxt);
+        components.add(winTxtBox);
+        components.add(winImg);
 
         try
         {
@@ -233,9 +212,9 @@ public class GameWindow
             e.printStackTrace();
         }
 
-        components.remove(explodeTxt);
-        components.remove(explodeTxtBox);
-        components.remove(explodeImg);
+        components.remove(winTxt);
+        components.remove(winTxtBox);
+        components.remove(winImg);
     }
 
     private void addPlayCardButton()
@@ -266,14 +245,14 @@ public class GameWindow
      */
     public void updateScreen(GameInfo info, List<Integer> hand) 
     {
-        updateScreen(info.playerCardCount, info.topCards, hand, info.activePlayerNumber, info.deckCardCount);
+        updateScreen(info.playerCardCount, info.topCards, hand, info.activePlayerNumber, info.deckCardCount, info.attackCounter);
     }
 
     private void createActivePlayerTracker() 
     {
         JLabel lb = new JLabel("Player " + playerNum + "'s (your) turn!");
         lb.setSize(160,50);
-        lb.setLocation(new Point(1130, 0));
+        lb.setLocation(new Point(1130, 10));
         lb.setForeground(Color.BLACK);
         lb.setFont(new Font("Dialog", Font.PLAIN, 13));
         lb.setVisible(true);
@@ -282,12 +261,21 @@ public class GameWindow
         return;
     }
 
-    private void updateActivePlayer(int currentPlayer)
+    private void updateActivePlayer(int currentPlayer, int howManyTurns)
     {
         int plNum = currentPlayer + 1;
         if (currentPlayer == playerNum)
         {
-            activePlayerTracker.setText("Player " + plNum + "'s (your) turn!");
+            String str;
+            if (howManyTurns != 0)
+            {
+                str = "<html>Player " + plNum + "'s (your) turn!<br/>Due to previous attacks, you must take " + howManyTurns + " turns.</html>";
+            }
+            else
+            {
+                str = "Player " + plNum + "'s (your) turn!";
+            }
+            activePlayerTracker.setText(str);
             activePlayerTrackerBox.setBorder(BorderFactory.createLineBorder(Color.ORANGE,5));
             return;
         }
@@ -372,7 +360,7 @@ public class GameWindow
 
         //Adds the white box of the active player tracker
         createActivePlayerTracker(); 
-        activePlayerTrackerBox = addImage("images/WhiteSquare.png", new Dimension(160,60), new Point(1120, 0));
+        activePlayerTrackerBox = addImage("images/WhiteSquare.png", new Dimension(160,75), new Point(1120, 0));
 
         addPlayCardButton();
         addEndTurnButton();
