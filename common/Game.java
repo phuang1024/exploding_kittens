@@ -145,12 +145,6 @@ public class Game {
         } else {
         whosePlaying.addCard(card);
         }
-        if (attackCounter > 1) {
-            attackCounter--;
-            return whosePlaying;
-        } else  {
-            attackCounter = 0;
-        }
         return endTurn();
     }
 
@@ -159,6 +153,12 @@ public class Game {
      * @return next player
      */
     private Player endTurn() {
+        if (attackCounter > 1) {
+            attackCounter--;
+            return whosePlaying;
+        } else  {
+            attackCounter = 0;
+        }
         whosePlaying = nextPlayer();
         return whosePlaying;
     }
