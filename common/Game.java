@@ -290,6 +290,18 @@ public class Game {
     }
 
     /**
+     * Returns an boolean array representing players in game
+     * @return boolean array where if player i is in the game is stored by boolean at index i - 1
+     */
+    public boolean[] playersinGame(){
+        boolean[] arr = new boolean[4];
+        for (int i = 0; i < pList.size(); i++) {
+            arr[i] = pList.get(i).isInGame();
+        }
+        return arr;
+    }
+
+    /**
      * return this game's id
      * @return game id
      */
