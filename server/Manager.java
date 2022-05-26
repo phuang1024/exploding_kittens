@@ -40,6 +40,7 @@ import java.util.*;
  *     top-cards: Space separated 3 top cards of pile.
  *     index: Your player index.
  *     attack-count: Current attack counter.
+ *     alive: Space separated "0" or "1" for alive for each player.
  *
  * /hand
  *   Get your current hand.
@@ -168,6 +169,12 @@ public class Manager {
                     headers.put("index", "" + game.getPlayerNum(id));
 
                     headers.put("attack-count", "" + game.getAttackCounter());
+
+                    List<Player> players = game.getPlayers();
+                    String alive_str = "";
+                    for (int i = 0; i < 4; i++)
+                        alive_str += players.get(i).isInGame() ? "1 " : "0 ";
+                    headers.put("alive", alive_str.trim());
                 }
                 else if (path.equals("/hand")) {
                     String id = req.headers.get("id"), game_id = req.headers.get("game-id");

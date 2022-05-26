@@ -191,6 +191,10 @@ public class Conn {
         for (int i = 0; i < 3; i++)
             info.topCards[i] = Integer.parseInt(parts[i]);
 
+        parts = resp.headers.get("alive").split(" ");
+        for (int i = 0; i < 4; i++)
+            info.alive[i] = parts[i].equals("1");
+
         info.activePlayerNumber = Integer.parseInt(resp.headers.get("active-player-number"));
         info.playerIndex = Integer.parseInt(resp.headers.get("index"));
         info.attackCounter = Integer.parseInt(resp.headers.get("attack-count"));

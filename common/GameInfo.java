@@ -33,10 +33,16 @@ public class GameInfo {
     public int attackCounter;
 
     /**
+     * Whether each player is alive.
+     */
+    public boolean[] alive;
+
+    /**
      * Initializes the arrays.
      */
     public GameInfo() {
         playerCardCount = new int[4];
         topCards = new int[3];
+        alive = new int[4];
     }
 }
