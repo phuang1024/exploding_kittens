@@ -23,6 +23,11 @@ public class GameInfo {
     public int topCard;
 
     /**
+     * Top 4 cards of discard pile.
+     */
+    public int[] topCards;
+
+    /**
      * Index of you.
      */
     public int playerIndex;

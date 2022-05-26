@@ -21,6 +21,7 @@ APCS final project "Exploding Kittens"
 - Find way to choose cards for defuse
 - Show when drawing exploding kitten
 - Highlight your turn box when it is your turn
+- indicate dead players on others screens 
 
 [pres]: https://docs.google.com/presentation/d/1i9qFDHsO1hf4qcFBTOVqJkuwdQqApKoKJgf6aWsqb6o/edit
 [plan]: https://docs.google.com/document/d/1rDaI5UAvqenxh-LWBQs2AzlWNK6Z7GmnznJzaIbuahk/edit
