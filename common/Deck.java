@@ -11,9 +11,8 @@ public class Deck {
     /**
      * constructs a 4 player game deck with custom card counts
      */
-    public Deck()
-    {
-        this(0 /*3*/, 0, 8, 8, 0/*3*/, 4, 4, 6);
+    public Deck() {
+        this(0 /*3*/, 0, 6, 6, 0/*3*/, 3, 3, 4);
     }
 
     /**
@@ -35,8 +34,7 @@ public class Deck {
         int numSeeTheFuture, 
         int numShuffle, 
         int numFavor, 
-        int numCat)
-    {
+        int numCat) {
         pile = new LinkedList<Integer>();
         addCards(numExplodingKitten,
             numDefuse,
@@ -60,8 +58,7 @@ public class Deck {
     /**
      * inserts an exploding kitten card at a random index within the deck
      */
-    public void insertBomb()
-    {
+    public void insertBomb() {
         int index = (int)(pile.size()*Math.random());
         insertBombAt(index);
     }
@@ -87,8 +84,7 @@ public class Deck {
      * returns amount of cards in the deck
      * @return amount of cards in the deck
      */
-    public int cardCount()
-    {
+    public int cardCount() {
         return pile.size();
     }
 
@@ -99,8 +95,7 @@ public class Deck {
         LinkedList<Integer> copy = new LinkedList<Integer>(pile);
         pile.clear();
 
-        while (copy.size() > 0)
-        {
+        while (copy.size() > 0) {
             int index = (int)(Math.random()*copy.size());
             pile.add(copy.get(index));
             copy.remove(index);
@@ -111,8 +106,7 @@ public class Deck {
      * returns a visual string representation of deck
      * @return String containing deck information
      */
-    public String toString()
-    {
+    public String toString() {
         return pile.toString();
     }
     
@@ -123,8 +117,7 @@ public class Deck {
      * @param cardID        card to be added
      * @param cardCount     amount of cards (type cardID) to be added
      */
-    public void addCards(Integer cardID, int cardCount)
-    {
+    public void addCards(Integer cardID, int cardCount) {
         for (int i = 0 ; i < cardCount; i++)
             pile.add(cardID);
     }
@@ -148,8 +141,7 @@ public class Deck {
         int numSeeTheFuture, 
         int numShuffle, 
         int numFavor, 
-        int numCat)
-    {
+        int numCat) {
         addCards(Card.EXPLODING_KITTEN, numExplodingKitten);
         addCards(Card.DEFUSE, numDefuse);
         addCards(Card.ATTACK, numAttack);
@@ -170,8 +162,7 @@ public class Deck {
      * Used to test deck.java
      * @param args
      */
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         Deck deck = new Deck();
         System.out.println(deck.toString());
 

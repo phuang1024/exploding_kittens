@@ -14,8 +14,7 @@ public class Player {
      * @param ID of player
      * @param name of player
      */
-    public Player(String id)
-    {
+    public Player(String id) {
         this.id = id;
         hand = new ArrayList<Integer>();
         inGame = true;
@@ -24,16 +23,14 @@ public class Player {
     /**
      * removes itself from the game
      */
-    public void removeFromGame()
-    {
+    public void removeFromGame() {
         inGame = false;
     }
     /**
      * updates the players ID
      * @param id being set as player's id
      */
-    public void setId(String id)
-    {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -41,10 +38,8 @@ public class Player {
      * adds cards to this player's hands specified by an arraylist of cards to be added
      * @param cardList cards to be added
      */
-    public void addCards(ArrayList<Integer> cardList)
-    {
-        for (Integer i : cardList)
-        {
+    public void addCards(ArrayList<Integer> cardList) {
+        for (Integer i : cardList) {
             addCard(i);
         }
     }
@@ -53,8 +48,7 @@ public class Player {
      * adds a card to this player's hands specified by an integer
      * @param i card to be added
      */
-    public void addCard(Integer i)
-    {
+    public void addCard(Integer i) {
         hand.add(i);
     }
 
@@ -64,8 +58,7 @@ public class Player {
      * @return true if player's hand contained this card
      * @return false if player's hand did not contain this card
      */
-    public boolean removeCard(Integer i)
-    {
+    public boolean removeCard(Integer i) {
         return hand.remove(i);
     }
 
@@ -73,8 +66,7 @@ public class Player {
      * clears the players hand
      * @return arraylist containing players cards before clearing
      */
-    public ArrayList<Integer> clearHand()
-    {
+    public ArrayList<Integer> clearHand() {
         ArrayList<Integer> temp = hand;
         hand = new ArrayList<Integer>();
         return temp;
@@ -85,8 +77,7 @@ public class Player {
      * returns player's id
      * @return player id
      */
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
@@ -95,8 +86,7 @@ public class Player {
      * @return true if player is in game
      * @return false if player is not in game
      */
-    public boolean isInGame()
-    {
+    public boolean isInGame() {
         return inGame;
     }
 
@@ -104,8 +94,7 @@ public class Player {
      * returns this players hand
      * @return arrayList of this player's hand
      */
-    public ArrayList<Integer> getHand()
-    {
+    public ArrayList<Integer> getHand() {
         return hand;
     }
 
@@ -147,12 +136,9 @@ public class Player {
      * @return true if this player has a defuse
      * @return false if this player does not have a defuse
      */
-    public boolean hasDefuse()
-    {
-        for (int i : hand)
-        {
-            if (i == Card.DEFUSE)
-            {
+    public boolean hasDefuse() {
+        for (int i : hand) {
+            if (i == Card.DEFUSE) {
                 return true;
             }
         }
@@ -164,8 +150,7 @@ public class Player {
      * returns a string representation of this player
      * @return String containing player information
      */
-    public String toString()
-    {
+    public String toString() {
         return "id: " + id + "  hand: " + hand.toString();
     }
 
@@ -173,8 +158,7 @@ public class Player {
      * Used to test player.java
      * @param args
      */
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         Player p1 = new Player("1234");
         p1.addCard(Card.DEFUSE);
         p1.addCard(Card.BEARD_CAT);
