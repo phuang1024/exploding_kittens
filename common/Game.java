@@ -114,10 +114,12 @@ public class Game {
                 System.out.println("Playing Cat or Favor Card");
                 Player next = nextPlayer();
                 ArrayList<Integer> hand = next.getHand();
+
                 while (hand.size() == 0 && !next.equals(whosePlaying))
                 {
                     hand = nextPlayer(next.getId()).getHand();
                 }
+
                 int rand = (int)(hand.size()*Math.random());
                 whosePlaying.addCard(hand.get(rand));
                 next.removeCard(hand.get(rand));
@@ -247,35 +249,19 @@ public class Game {
     }
 
     /**
-     * Returns the next player in turn order
+     * Returns the next player in turn order, skipping over eliminated players
      * @return next player
      */
     public Player nextPlayer()
     {
-        // int num = getPlayerNum(whosePlaying.getId());
-        // if (num == 3)
-        // {
-        //     num = 0;
-        // }
-        // else
-        // {
-        //     num++;
-        // }
-        // while (!pList.get(num).isInGame())
-        // {
-        //     if (num == 3)
-        //     {
-        //         num = 0;
-        //     }
-        //     else
-        //     {
-        //         num++;
-        //     }
-        // }
-        // return pList.get(num);
         return nextPlayer(whosePlaying.getId());
     }
 
+    /**
+     * Returns the player after specified player in turn order, skipping over eliminated players
+     * @param prevPlayerID ID of specified player. Player after this player's ID will be returned
+     * @return ID of player after specified player in turn order
+     */
     public Player nextPlayer(String prevPlayerID)
     {
         int num = getPlayerNum(prevPlayerID);
