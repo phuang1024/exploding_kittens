@@ -18,8 +18,7 @@ public class Player {
     //Constructors
     /**
      * constructs a player with attributes
-     * @param ID of player
-     * @param name of player
+     * @param id of player
      */
     public Player(String id) {
         this.id = id;
@@ -64,7 +63,7 @@ public class Player {
      * removes a specified card from this player's hand
      * @param i card to be removed
      * @return true if player's hand contained this card
-     * @return false if player's hand did not contain this card
+     *  false if player's hand did not contain this card
      */
     public boolean removeCard(Integer i) {
         return hand.remove(i);
@@ -99,7 +98,7 @@ public class Player {
     /**
      * returns if this player is in the game or not
      * @return true if player is in game
-     * @return false if player is not in game
+     *  false if player is not in game
      */
     public boolean isInGame() {
         return inGame;
@@ -115,6 +114,7 @@ public class Player {
 
     /**
      * Return this.defuseCount
+     * @return  Defuse counter.
      */
     public int getDefuseCount() {
         return defuseCount;
@@ -125,7 +125,7 @@ public class Player {
     /**
      * checks if this player has a defuse or not
      * @return true if this player has a defuse
-     * @return false if this player does not have a defuse
+     *  false if this player does not have a defuse
      */
     public boolean hasDefuse() {
         for (int i : hand) {
@@ -147,7 +147,7 @@ public class Player {
 
     /**
      * Used to test player.java
-     * @param args
+     * @param args cli args.
      */
     public static void main(String[] args) {
         Player p1 = new Player("1234");

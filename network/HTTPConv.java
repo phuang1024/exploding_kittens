@@ -55,6 +55,7 @@ public class HTTPConv {
      * Parse from raw data and store internally.
      * Please give data starting from the headers.
      * @param in  Input scanner.
+     * @throws HTTPParseException
      */
     public void parse(Scanner in) throws HTTPParseException
     {
@@ -87,6 +88,7 @@ public class HTTPConv {
     /**
      * Parse raw header and store internally.
      * @param data  Raw header data. e.g. "Host: asdf"
+     * @throws HTTPParseException
      */
     public void parseHeader(String data) throws HTTPParseException
     {
