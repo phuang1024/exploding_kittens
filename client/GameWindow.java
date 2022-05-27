@@ -107,7 +107,7 @@ public class GameWindow
                 updateCardCount(i, playerCardCounts[i]);
         }
 
-        //TODO: Updates if players are alive or not
+        //Updates if players are alive or not
         int numDead = 0;
         for (int i = 0; i < 4; i++)
         {
@@ -121,13 +121,14 @@ public class GameWindow
                 {
                     newFrameImg("images/exploded.jpg", 810, 456);
                 }
-
+                
                 alive[i] = false;
+
+                if (numDead >= 3 && alive[playerNum])
+                {
+                    newFrameImg("images/youWin.jpg", 681, 383);
+                }
             }
-        }
-        if (numDead >= 3 && alive[playerNum])
-        {
-            newFrameImg("images/youWin.jpg", 681, 383);
         }
 
         //Checks for defuses
@@ -199,7 +200,7 @@ public class GameWindow
         deckCounter.setText("<html>Deck:<br/>" + deckCardCount + " cards</html>");
     }
 
-    private void newFrameImg(String path, int width, int height)//TODO
+    private void newFrameImg(String path, int width, int height)
     {
         JFrame newFrame = new JFrame();
         //newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
