@@ -41,6 +41,7 @@ import java.util.*;
  *     index: Your player index.
  *     attack-count: Current attack counter.
  *     alive: Space separated "0" or "1" for alive for each player.
+ *     defuse-count: The player.defuseCount
  *
  * /hand
  *   Get your current hand.
@@ -169,6 +170,8 @@ public class Manager {
                     headers.put("index", "" + game.getPlayerNum(id));
 
                     headers.put("attack-count", "" + game.getAttackCounter());
+
+                    headers.put("defuse-count", "" + game.getPlayer(id).getDefuseCount());
 
                     String alive_str = "";
                     for (i = 0; i < 4; i++)
