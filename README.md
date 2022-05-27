@@ -2,6 +2,8 @@
 
 APCS final project, [Exploding Kittens][website].
 
+Made by [Krish Agarwal][krish], [Sohan Alleshwaram][sohan], and [Patrick Huang][patrick].
+
 Based off of the card game Exploding Kittens.
 
 ![](https://github.com/phuang1024/exploding_kittens/blob/master/game.jpg?raw=true)
@@ -26,6 +28,9 @@ Based off of the card game Exploding Kittens.
 - [Status 3][status3]
 - [Status 4][status4]
 
+[krish]: https://github.com/PeaceOfPi
+[sohan]: https://github.com/The-Senate-I-Am
+[patrick]: https://github.com/phuang1024
 [website]: https://phuang1024.github.io/exploding_kittens
 
 [pres]: https://docs.google.com/presentation/d/1i9qFDHsO1hf4qcFBTOVqJkuwdQqApKoKJgf6aWsqb6o/edit
