@@ -27,12 +27,15 @@ public class GameWindow
     //The componenets of the frame
     private MyJPanel components;
     private MyJPanel playerCards;
+    private MyJPanel topPanel;
 
     private ArrayList<CardButton> hand = new ArrayList<CardButton>();
     private ArrayList<CardButton> selectedCards = new ArrayList<CardButton>();
 
     private int[] currentDiscCards;
     private boolean gameEnded;
+    private boolean[] alive;
+
 
     private JLabel [] playerCardCounts;
     private JLabel activePlayerTracker;
@@ -40,6 +43,7 @@ public class GameWindow
     private JLabel deckCounter;
     private JLabel [] discCards;
     private int playerNum;
+    private int defuseCt;
     
 
 
@@ -54,6 +58,10 @@ public class GameWindow
     {
         this.playerID = playerID;
         this.gameID = gameID;
+        defuseCt = 0;
+        alive = new boolean[4];
+        for (int i = 0; i < 4; i++)
+            alive[i] = true;
         currentDiscCards = new int[3];
         discCards = new JLabel[3];
         gameEnded = false;
@@ -74,6 +82,10 @@ public class GameWindow
         frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         frame.setResizable(false);
 
+        topPanel = new MyJPanel();
+        frame.add(topPanel);
+        
+
         addComponents();
         addBackground();
 
@@ -81,17 +93,48 @@ public class GameWindow
 
         frame.setVisible(true);
         frame.setEnabled(true);
+        topPanel.setVisible(true);
         startUpdating();
     }
 
-    private void updateScreen(int [] playerCardCounts, int [] centerCards, List<Integer> playerHand, int currentPlayer, int deckCardCount, int attackCounter)
+    private void updateScreen(int [] playerCardCounts, int [] centerCards, List<Integer> playerHand, int currentPlayer, 
+                                int deckCardCount, int attackCounter, boolean [] alivePlayers, int numDefuses)
     {
-
         //Updates the opponenets' card counts
         for (int i = 0; i < 4; i++)
         {
             if (i != playerNum)
                 updateCardCount(i, playerCardCounts[i]);
+        }
+
+        //TODO: Updates if players are alive or not
+        int numDead = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            if (alivePlayers[i] == false)
+            {
+                numDead++;
+            }
+            if (alivePlayers[i] != alive[i])
+            {
+                if (i == playerNum)
+                {
+                    newFrameImg("images/exploded.jpg", 810, 456);
+                }
+
+                alive[i] = false;
+            }
+        }
+        if (numDead >= 3 && alive[playerNum])
+        {
+            newFrameImg("images/youWin.jpg", 681, 383);
+        }
+
+        //Checks for defuses
+        if (defuseCt < numDefuses)
+        {
+            defuseCt++;
+            newFrameImg("images/defused.png", 512, 512);
         }
 
         //Updates middle card
@@ -115,11 +158,11 @@ public class GameWindow
                 components.remove(discCards[2]);
             currentDiscCards = Arrays.copyOf(centerCards, 3);
             if (currentDiscCards[0] != -1)
-                discCards[0] = addImage(cardNumToPath(currentDiscCards[0]), new Dimension(200,282), new Point(500, 185));
+                discCards[0] = addImage(cardNumToPath(currentDiscCards[0]), new Dimension(200,282), new Point(500, 185), components);
             if (currentDiscCards[1] != -1)
-                discCards[1] = addImage(cardNumToPath(currentDiscCards[1]), new Dimension(200,282), new Point(540, 140));
+                discCards[1] = addImage(cardNumToPath(currentDiscCards[1]), new Dimension(200,282), new Point(540, 140), components);
             if (currentDiscCards[2] != -1)  
-                discCards[2] = addImage(cardNumToPath(currentDiscCards[2]), new Dimension(200,282), new Point(580, 95));
+                discCards[2] = addImage(cardNumToPath(currentDiscCards[2]), new Dimension(200,282), new Point(580, 95), components);
             frame.revalidate();
             frame.repaint();
         }
@@ -156,6 +199,32 @@ public class GameWindow
         deckCounter.setText("<html>Deck:<br/>" + deckCardCount + " cards</html>");
     }
 
+    private void newFrameImg(String path, int width, int height)//TODO
+    {
+        JFrame newFrame = new JFrame();
+        //newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        newFrame.setSize(width + 5, height + 25);
+        newFrame.setResizable(false);
+        MyJPanel newPanel = new MyJPanel();
+        newFrame.add(newPanel);
+
+        try
+        {
+            BufferedImage buffImg = ImageIO.read(new File(path));
+            ImageIcon imgIcon = new ImageIcon(buffImg);
+            //Resizes image
+            Image image = imgIcon.getImage();
+            newPanel.setBackgroundImg(image);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        newFrame.setVisible(true);
+        newPanel.setVisible(true);
+    }
+
+
     private void startUpdating()
     {
         Timer t = new Timer();
@@ -180,42 +249,6 @@ public class GameWindow
         }
         } ,0 , 500);
     } 
-
-    private void youDiedScreen()
-    {
-
-    }
-
-    private void youWinScreen()
-    {
-        JLabel winImg = addImage("images/ExplosionCat.png", new Dimension(837,608), new Point(310, 84));//TODO change path
-        JLabel winTxtBox = addImage("images/WhiteSquare.png", new Dimension(330,276), new Point(475, 222));
-        JLabel winTxt = new JLabel("", SwingConstants.CENTER);
-        String txt = "";
-
-        winTxt.setText(txt);
-        winTxt.setSize(new Dimension(330,276));
-        winTxt.setLocation(new Point(475, 222));
-        winTxt.setForeground(Color.BLACK);
-        winTxt.setFont(new Font("Dialog", Font.PLAIN, 12));
-        winTxt.setVisible(true);
-        components.add(winTxt);
-        components.add(winTxtBox);
-        components.add(winImg);
-
-        try
-        {
-            wait(5000);
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
-
-        components.remove(winTxt);
-        components.remove(winTxtBox);
-        components.remove(winImg);
-    }
 
     private void addPlayCardButton()
     {
@@ -245,7 +278,7 @@ public class GameWindow
      */
     public void updateScreen(GameInfo info, List<Integer> hand) 
     {
-        updateScreen(info.playerCardCount, info.topCards, hand, info.activePlayerNumber, info.deckCardCount, info.attackCounter);
+        updateScreen(info.playerCardCount, info.topCards, hand, info.activePlayerNumber, info.deckCardCount, info.attackCounter, info.alive, info.defuseCount);
     }
 
     private void createActivePlayerTracker() 
@@ -338,29 +371,29 @@ public class GameWindow
             frame.add(components);
         }
         // Adds the opponents' card images to the field
-        addImage("images/test.png", new Dimension(100,140), new Point(100, 320)); 
-        addImage("images/test.png", new Dimension(100,140), new Point(200, 80)); 
-        addImage("images/test.png", new Dimension(100,140), new Point(1080, 320));
+        addImage("images/test.png", new Dimension(100,140), new Point(100, 320), components); 
+        addImage("images/test.png", new Dimension(100,140), new Point(200, 80), components); 
+        addImage("images/test.png", new Dimension(100,140), new Point(1080, 320), components);
         
         //Adds the deck
-        addImage("images/deck.png", new Dimension(135,180), new Point(940, 80)); 
+        addImage("images/deck.png", new Dimension(135,180), new Point(940, 80), components); 
         addDeckCounter();
-        addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(840, 137));
+        addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(840, 137), components);
 
         //Adds the card counters
         playerCardCounts = new JLabel[4];
         addCardCounters();
 
         //Adds the white backgrounds to the card counters
-        addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(240, 360)); 
-        addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(340, 120)); 
-        addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(980, 360));
+        addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(240, 360), components); 
+        addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(340, 120), components); 
+        addImage("images/WhiteSquare.png", new Dimension(60,60), new Point(980, 360), components);
 
         
 
         //Adds the white box of the active player tracker
         createActivePlayerTracker(); 
-        activePlayerTrackerBox = addImage("images/WhiteSquare.png", new Dimension(160,75), new Point(1120, 0));
+        activePlayerTrackerBox = addImage("images/WhiteSquare.png", new Dimension(160,75), new Point(1120, 0), components);
 
         addPlayCardButton();
         addEndTurnButton();
@@ -424,7 +457,7 @@ public class GameWindow
         return count;
     }
 
-    private JLabel addImage(String filePath, Dimension size, Point location)
+    private JLabel addImage(String filePath, Dimension size, Point location, JPanel panel)
     {
         try 
         {
@@ -440,7 +473,7 @@ public class GameWindow
             labelImg.setSize(size);
             labelImg.setLocation(location);
             labelImg.setVisible(true);
-            components.add(labelImg);
+            panel.add(labelImg);
             return labelImg;
         }
         catch (IOException e)
