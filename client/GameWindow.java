@@ -45,7 +45,7 @@ public class GameWindow
     private int playerNum;
     private int defuseCt;
     
-
+    private boolean thisAlive;
 
     /**
      * Constructor for GameWindow.
@@ -58,6 +58,7 @@ public class GameWindow
     {
         this.playerID = playerID;
         this.gameID = gameID;
+        thisAlive = true;
         defuseCt = 0;
         alive = new boolean[4];
         for (int i = 0; i < 4; i++)
@@ -119,16 +120,17 @@ public class GameWindow
             {
                 if (i == playerNum)
                 {
+                    thisAlive = false;
                     newFrameImg("images/exploded.jpg", 810, 456);
                 }
                 
                 alive[i] = false;
-
-                if (numDead >= 3 && alive[playerNum])
-                {
-                    newFrameImg("images/youWin.png", 681, 383);
-                }
             }
+        }
+        if (numDead >= 3 && thisAlive)
+        {
+            newFrameImg("images/youWin.png", 681, 383);
+            thisAlive = false;
         }
 
         //Checks for defuses
