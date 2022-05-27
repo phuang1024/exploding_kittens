@@ -126,7 +126,7 @@ public class GameWindow
 
                 if (numDead >= 3 && alive[playerNum])
                 {
-                    newFrameImg("images/youWin.jpg", 681, 383);
+                    newFrameImg("images/youWin.png", 681, 383);
                 }
             }
         }
@@ -331,7 +331,7 @@ public class GameWindow
         }
         else
         {
-            str += "eliminated";
+            str += "Eliminated";
         }
 
         str += "</html>";
