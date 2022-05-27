@@ -20,6 +20,7 @@ Based off of the card game Exploding Kittens.
 - [Project Plan 2][plan2]
 - [Development Log][log]
 - [Preliminary Specification][prespec]
+- [Functional Specification][funcspec]
 - [Status 1][status1]
 - [Status 2][status2]
 - [Status 3][status3]
@@ -32,6 +33,7 @@ Based off of the card game Exploding Kittens.
 [plan2]: https://docs.google.com/document/d/18BwTRArXQWbsAFNUk7qnnAUCDr6Mzr7VFK0VlpZ6GKI/edit
 [log]: https://docs.google.com/spreadsheets/d/1VXx8HSI8Y5XnvEY8kNBSwnqh1oGYHA-f_DhMGOo9ZBw/edit
 [prespec]: https://docs.google.com/document/d/14mqB1wJuGPGG3EtkzMkzz--yU32WSN3K9Q9yJ2cViCw/edit
+[funcspec]: https://docs.google.com/document/d/1zwGd_B4Nhe_ovYMjJYzFe44GBfl3zPYpfVOcQJgStZg/edit
 [status1]: https://docs.google.com/document/d/1RXlwJdIKyoog3nET3ZA4zZ_YZPVo4bSFNghOlZKJino/edit
 [status2]: https://docs.google.com/document/d/1r5E206kdzHZfNPTFOFWWfcb5BlS2sQur1PVCSk-Db7c/edit
 [status3]: https://docs.google.com/document/d/10SUC6dgwwgNeH7EaX-mSlnpvz8Gh4nYGYz3Uvylbydg/edit
