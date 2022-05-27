@@ -1,6 +1,10 @@
 # Exploding Kittens
 
-APCS final project "Exploding Kittens"
+APCS final project, [Exploding Kittens][website].
+
+Based off of the card game Exploding Kittens.
+
+![](https://github.com/phuang1024/exploding_kittens/blob/master/game.jpg?raw=true)
 
 ## Documents
 
@@ -14,11 +18,7 @@ APCS final project "Exploding Kittens"
 - [Status 3][status3]
 - [Status 4][status4]
 
-
-## Todo
-
-- Indicate dead players on others screens ie: player 3 (dead)
-- You won screen. No lose screen, enters spectator mode when lose.
+[website]: https://phuang1024.github.io/exploding_kittens
 
 [pres]: https://docs.google.com/presentation/d/1i9qFDHsO1hf4qcFBTOVqJkuwdQqApKoKJgf6aWsqb6o/edit
 [plan]: https://docs.google.com/document/d/1rDaI5UAvqenxh-LWBQs2AzlWNK6Z7GmnznJzaIbuahk/edit
