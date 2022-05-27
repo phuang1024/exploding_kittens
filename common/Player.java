@@ -98,39 +98,6 @@ public class Player {
         return hand;
     }
 
-    //Methods
-    // public boolean playCard(Integer i)
-    // {
-    //     //TODO: finish
-    //     return true; //TODO: fix
-    // }
-    // /**
-    //  * 
-    //  * @return -1 if blew up
-    //  * @return 0 if defused exploding kitten
-    //  * @return card
-    //  */
-    // public int drawCard()
-    // {
-    //     int card = Game.drawCard();
-    //     if (card == Card.EXPLODING_KITTEN)
-    //     {
-    //         if (hand.contains(Card.DEFUSE))
-    //         {
-    //             this.playCard(Card.DEFUSE);
-    //             return 0;
-    //         }
-    //         else
-    //         {
-    //             Game.removeFromGame(id); 
-    //             return -1;   
-    //         }
-    //     }
-    //     hand.add(card);
-    //     return card;
-    // }
-
-
     /**
      * checks if this player has a defuse or not
      * @return true if this player has a defuse
