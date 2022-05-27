@@ -12,12 +12,12 @@ public class Conn {
     /**
      * Localhost
      */
-    //public static final String IP = "127.0.0.1";
+    public static final String IP = "127.0.0.1";
 
     /**
      * Patrick's AWS server.
      */
-    public static final String IP = "54.176.105.157";  // AWS
+    //public static final String IP = "54.176.105.157";  // AWS
 
     /**
      * Port to connect.
@@ -198,6 +198,7 @@ public class Conn {
         info.activePlayerNumber = Integer.parseInt(resp.headers.get("active-player-number"));
         info.playerIndex = Integer.parseInt(resp.headers.get("index"));
         info.attackCounter = Integer.parseInt(resp.headers.get("attack-count"));
+        info.defuseCount = Integer.parseInt(resp.headers.get("defuse-count"));
 
         return info;
     }

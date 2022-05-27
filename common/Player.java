@@ -8,6 +8,13 @@ public class Player {
     private ArrayList<Integer> hand;
     private boolean inGame;
 
+    /**
+     * Number of times player defused an exploding kitten.
+     * NOT number of defuses in hand.
+     * Used to show "You defused" screen.
+     */
+    private int defuseCount;
+
     //Constructors
     /**
      * constructs a player with attributes
@@ -18,6 +25,7 @@ public class Player {
         this.id = id;
         hand = new ArrayList<Integer>();
         inGame = true;
+        defuseCount = 0;
     }
 
     /**
@@ -72,6 +80,13 @@ public class Player {
         return temp;
     }
 
+    /**
+     * Increment this.defuseCount
+     */
+    public void incDefuseCount() {
+        defuseCount++;
+    }
+
     //Getters
     /**
      * returns player's id
@@ -97,6 +112,15 @@ public class Player {
     public ArrayList<Integer> getHand() {
         return hand;
     }
+
+    /**
+     * Return this.defuseCount
+     */
+    public int getDefuseCount() {
+        return defuseCount;
+    }
+
+    //Methods
 
     /**
      * checks if this player has a defuse or not

@@ -38,6 +38,12 @@ public class GameInfo {
     public boolean[] alive;
 
     /**
+     * How many times this player defused.
+     * NOT count of defuse cards.
+     */
+    public int defuseCount;
+
+    /**
      * Initializes the arrays.
      */
     public GameInfo() {
