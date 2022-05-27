@@ -6,6 +6,13 @@ Based off of the card game Exploding Kittens.
 
 ![](https://github.com/phuang1024/exploding_kittens/blob/master/game.jpg?raw=true)
 
+## Setup
+
+- By default, the client connects to the dedicated server. Change the values in
+  `client/Conn.java` to edit the server IP.
+- Server: Run `Server.bat` or `make server` to host on `0.0.0.0`.
+- Client: Run `Client.bat` or `make client` to run a client.
+
 ## Documents
 
 - [Presentation][pres]
