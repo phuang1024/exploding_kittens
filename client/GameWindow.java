@@ -324,7 +324,19 @@ public class GameWindow
         if (playerToUpdate == playerNum)
             return;
         int pl = playerToUpdate + 1;
-        playerCardCounts[playerToUpdate].setText("<html>Player " + pl + ":<br/>" + newNum + " cards</html>");
+        String str = "<html>Player " + pl + ":<br/>";
+        if (alive[playerToUpdate])
+        {
+            str += newNum + " cards";
+        }
+        else
+        {
+            str += "eliminated";
+        }
+
+        str += "</html>";
+        
+        playerCardCounts[playerToUpdate].setText(str);
     }
 
     /**
