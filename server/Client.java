@@ -27,6 +27,7 @@ public class Client {
     /**
      * Send HTTP response to client.
      * @param resp  Response to send.
+     * @throws IOException
      */
     public void send(HTTPResponse resp) throws IOException {
         out.write(resp.toString());

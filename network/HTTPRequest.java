@@ -36,6 +36,7 @@ public class HTTPRequest extends HTTPConv {
     /**
      * Initialize from raw data.
      * @param in  Input data.
+     * @throws HTTPParseException
      */
     public HTTPRequest(Scanner in) throws HTTPParseException
     {

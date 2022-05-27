@@ -31,6 +31,8 @@ public class Logger {
     /**
      * Log message with ANSI code prefix color.
      * Resets color after.
+     * @param msg  Message to log.
+     * @param color  ANSI color code.
      */
     public static void log(String msg, String color) {
         System.out.print(color);
@@ -40,6 +42,7 @@ public class Logger {
 
     /**
      * Log info (blue).
+     * @param msg  Message to log.
      */
     public static void info(String msg) {
         log(msg, BLUE);
@@ -47,6 +50,7 @@ public class Logger {
 
     /**
      * Log warning (yellow).
+     * @param msg  Message to log.
      */
     public static void warn(String msg) {
         log(msg, YELLOW);
@@ -54,6 +58,7 @@ public class Logger {
 
     /**
      * Log error (red).
+     * @param msg  Message to log.
      */
     public static void error(String msg) {
         log(msg, RED);
@@ -61,6 +66,7 @@ public class Logger {
 
     /**
      * Log debug (gray).
+     * @param msg  Message to log.
      */
     public static void debug(String msg) {
         log(msg, GRAY);

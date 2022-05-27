@@ -39,6 +39,7 @@ public class Conn {
      * To send the request, use this.send()
      * To receive the response, use this.recv()
      * @param request  The request to send.
+     * @throws IOException
      */
     public Conn(HTTPRequest request) throws IOException {
         this.request = request;
@@ -50,6 +51,7 @@ public class Conn {
 
     /**
      * Send the request.
+     * @throws IOException
      */
     public void send() throws IOException {
         out.write(request.toString());
@@ -60,6 +62,8 @@ public class Conn {
     /**
      * Receive the response.
      * @return  The response.
+     * @throws IOException
+     * @throws HTTPParseException
      */
     public HTTPResponse recv() throws IOException, HTTPParseException {
         HTTPResponse resp = new HTTPResponse(in);
@@ -72,6 +76,8 @@ public class Conn {
      * @param id  Your client ID.
      * @param game_id  Game ID.
      * @return  Your hand.
+     * @throws IOException
+     * @throws HTTPParseException
      */
     public static List<Integer> getHand(String id, String game_id)
             throws IOException, HTTPParseException {
@@ -97,6 +103,8 @@ public class Conn {
     /**
      * Requests new id from the server.
      * @return  Your client ID.
+     * @throws IOException
+     * @throws HTTPParseException
      */
     public static String getId() throws IOException, HTTPParseException {
         HTTPRequest req = new HTTPRequest("GET", "/new-id", null, "");
@@ -111,6 +119,8 @@ public class Conn {
      * Joins a game. Will hold the thread until a success response is received.
      * @param id  Your client ID.
      * @return  Game ID.
+     * @throws IOException
+     * @throws HTTPParseException
      */
     public static String joinGame(String id) throws IOException, HTTPParseException {
         String gameId;
@@ -144,6 +154,8 @@ public class Conn {
      * @param game_id  Game ID.
      * @param cards  Cards to play.
      * @return  Whether successful.
+     * @throws IOException
+     * @throws HTTPParseException
      */
     public static boolean playCards(String id, String game_id, List<Integer> cards)
             throws IOException, HTTPParseException {
@@ -169,6 +181,8 @@ public class Conn {
      * @param id  Your client ID.
      * @param game_id  Game ID.
      * @return  Status in a GameInfo class.
+     * @throws IOException
+     * @throws HTTPParseException
      */
     public static GameInfo getStatus(String id, String game_id) 
             throws IOException, HTTPParseException {

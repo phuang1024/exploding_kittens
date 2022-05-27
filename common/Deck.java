@@ -160,7 +160,7 @@ public class Deck {
 
     /**
      * Used to test deck.java
-     * @param args
+     * @param args  CLI args.
      */
     public static void main(String[] args) {
         Deck deck = new Deck();

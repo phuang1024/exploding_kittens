@@ -14,10 +14,10 @@ public class Game {
     
     /**
      * constructs a Game object with the following parameters:
-     * @param p1 player 1 
-     * @param p2 player 2
-     * @param p3 player 3
-     * @param p4 player 4
+     * @param p0 player 1 
+     * @param p1 player 2
+     * @param p2 player 3
+     * @param p3 player 4
      * @param id game id
      */
     public Game(Player p0, Player p1, Player p2, Player p3, String id) {
@@ -57,9 +57,9 @@ public class Game {
      * 
      * @param cards being played
      * @return 0 skip card was executed
-     * @return 1 deck was shuffled
-     * @return 2 favor/cat card was played
-     * @return failed to call any card
+     *  1 deck was shuffled
+     *  2 favor/cat card was played
+     *  failed to call any card
      */
     public int playCard(int[] cards) {
         int cardId = cards[0];
@@ -70,11 +70,11 @@ public class Game {
      * plays card from hand of current player
      * @param cardId card being played
      * @return 0 skipped
-     * @return 1 shuffled
-     * @return 2 favor/cat card
-     * @return 3 favor/cat card played  but all other player hands were empty so no cards stolen
-     * @return 4 attack card played
-     * @return failed to call any card
+     *  1 shuffled
+     *  2 favor/cat card
+     *  3 favor/cat card played  but all other player hands were empty so no cards stolen
+     *  4 attack card played
+     *  failed to call any card
      */
     public int playCard(int cardId) {
         System.out.println("Processing card " + cardId);
@@ -131,9 +131,9 @@ public class Game {
     /**
      * draws a card into the current players hand and ends turn
      * @return Player whose turn is next
-     * @return -2 drew exploding kitten and defused successfully
-     * @return -1 drew exploding kitten and were eliminated
-     * @return Id of card drawn
+     *  -2 drew exploding kitten and defused successfully
+     *  -1 drew exploding kitten and were eliminated
+     *  Id of card drawn
      */
     public int drawCard() {
         int card = deck.drawCard();
@@ -206,7 +206,7 @@ public class Game {
     /**
      * Checks the game for a win by one of the players
      * @return the Id of the winning player if there is a win detected
-     * @return null if there is no win detected
+     *  null if there is no win detected
      */
     public String detectWin() {
         if (alivePlayerCount() == 1) {
@@ -341,7 +341,7 @@ public class Game {
      * returns the player number of specified player
      * @param Id ID of player
      * @return number of specified player
-     * @return -1 if playter not found
+     *  -1 if playter not found
      */
     public int getPlayerNum(String Id) {
         for (int i = 0; i < pList.size(); i++) {
@@ -356,7 +356,7 @@ public class Game {
      * Returns hand of specified player
      * @param playerId ID of player
      * @return hand of player with ID playerID
-     * @return null if player not found
+     *  null if player not found
      */
     public ArrayList<Integer> getHand(String playerId) {
         try {
@@ -397,7 +397,7 @@ public class Game {
     }
     /**
      * Used to test Game.java
-     * @param args
+     * @param args CLI args.
      */
     public static void main(String[] args) {
         Player p0 = new Player("000");
