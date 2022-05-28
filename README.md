@@ -13,7 +13,8 @@ Based off of the card game Exploding Kittens.
 - By default, the client connects to the dedicated server. Change the values in
   `client/Conn.java` to edit the server IP.
 - Server: Run `Server.bat` or `make server` to host on `0.0.0.0`.
-- Client: Run `Client.bat` or `make client` to run a client.
+- Client: Run `Client.bat` or `make client` to run a client. Four clients are needed per
+  game, so you may need to run four processes to test locally.
 
 ## Documents
 
